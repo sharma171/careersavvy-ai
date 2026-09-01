@@ -1,0 +1,128 @@
+.StartInterviewForm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 999;
+  .InterviewFormInner {
+    background: #fff;
+    padding: 30px 24px;
+    overflow: auto;
+    scrollbar-width: none;
+    border-radius: 0;
+    width: 500px;
+    max-width: 90%;
+    height: 100%;
+    position: relative;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    
+      .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-size: 22px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .modal-title {
+        font-size: 22px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+
+      .modal-subtitle {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 24px;
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .radio-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .radio-label {
+        position: relative;
+        padding-left: 26px;
+        cursor: pointer;
+        font-size: 15px;
+        color: #0f172a;
+      }
+
+      .radio-label input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .radio-custom {
+        position: absolute;
+        top: 3px;
+        left: 0;
+        height: 16px;
+        width: 16px;
+        background-color: #fff;
+        border: 2px solid #8b5cf6;
+        border-radius: 50%;
+      }
+
+      .radio-label input:checked ~ .radio-custom {
+        background-color: #8b5cf6;
+        box-shadow: inset 0 0 0 4px #fff;
+      }
+
+      textarea {
+        width: 100%;
+        height: 90px;
+        padding: 10px;
+        font-size: 14px;
+        border: 2px solid #8b5cf6;
+        border-radius: 6px;
+        resize: none;
+      }
+
+      .note {
+        font-size: 12px;
+        color: #64748b;
+        margin-top: 6px;
+      }
+
+      .start-btn {
+        margin-top: 16px;
+        background-color: #7c3aed;
+        color: white;
+        padding: 10px 20px;
+        font-weight: 600;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        float: right;
+      }
+
+      .start-btn:hover {
+        background-color: #6d28d9;
+      }
+  }
+}
+

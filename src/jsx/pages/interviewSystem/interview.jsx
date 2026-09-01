@@ -10,14 +10,12 @@ import { FiCalendar } from "react-icons/fi";
 import { RiQuestionAnswerLine } from "react-icons/ri";
 import SystemCheckPopup from "./sytemCheck/systemCheckPopup";
 import { setDocId, setLinkInterviewQuestions } from "../../../store/actions/actions";
-import { MessageSquare } from "lucide-react";
 const Interview = () => {
     const location = useLocation();
   const [token, setToken] = useState('');
   const [showPopup, setShowPopup] = useState(false);
   const [loader, setLoader] = useState("");
   const [isValid, setIsValid] = useState(false);
-  const [textInterviewReady, setTextInterviewReady] = useState(false);
   const navigate = useNavigate();
   const [interviewDetails, setInterviewDetails] = useState([]);
   const [interviewType, setInterviewType] = useState("audio");
@@ -68,7 +66,6 @@ const Interview = () => {
   },[interviewType, interviewDetails, interviewStartData, docId, token])
 const generateInterviewToken = async (token) => {
   setLoader("Initalizing Interview");
-  setTextInterviewReady(false);
     try {
       const listQuery = 
       {
@@ -89,9 +86,6 @@ const generateInterviewToken = async (token) => {
       dispatch(setLinkInterviewQuestions(data.first_question));
       setInterviewStartData(data);
       setLoader("");
-      setTimeout(()=>{
-        setTextInterviewReady(true);
-      },700)
     } catch (error) {
       console.error('Error validating token:', error);
       setLoader(error);
@@ -170,16 +164,11 @@ const generateInterviewToken = async (token) => {
             <div className="interview-container">
                 <div className="interview-card">
                     <div className="icon-wrapper">
-                    {interviewDetails?.interview_config?.interview_type=="video"?(<>
                     <BsCameraVideo size={40} color="#3b82f6" />
-                    </>):(<>
-                    <MessageSquare size={40} color="#3b82f6" />
-                    </>)}
-                    
                     </div>
                     {console.log("Interview Details", interviewDetails)}
 
-                    <h2 className="interview-title">Welcome to Your {interviewDetails?.interview_config?.interview_type=="video"?"Video":"Text"} Interview</h2>
+                    <h2 className="interview-title">Welcome to Your {interviewDetails?.interview_config?.interview_type} Interview</h2>
                     {/* <p className="interview-subtitle">
                     Senior Frontend Developer at TechCorp Inc.
                     </p> */}
@@ -190,7 +179,7 @@ const generateInterviewToken = async (token) => {
                     </div>
 
                     <p className="interview-desc">
-                    Thank you for your interest in this position. You're about to start your {interviewDetails?.interview_config?.interview_type=="video"?"video":"text"} interview.
+                    Thank you for your interest in this position. You're about to start your {`${interviewDetails?.interview_config?.interview_type}`} interview.
                     </p>
 
                     <div className="info-boxes">
@@ -206,7 +195,7 @@ const generateInterviewToken = async (token) => {
                         <BiTimeFive className="info-icon" />
                         <div>
                         <p className="info-label">Est. Duration</p>
-                        <p className="info-value">15–30 min</p>
+                        <p className="info-value">15–20 min</p>
                         </div>
                     </div>
 
@@ -225,26 +214,13 @@ const generateInterviewToken = async (token) => {
                         <strong>Important Instructions:</strong>
                     </p>
                     <ul className="instruction-list">
-                      {interviewDetails?.interview_config?.interview_type=="video"?(
-                        <>
-                          <li>Each question has a time limit - please answer within the allotted time.</li>
-                          <li>Once you move to the next question, you cannot go back.</li>
-                          <li>The interview will auto-submit once all questions are answered.</li>
-                          <li className="highlight">
-                          This link can be used only once and will expire after submission.
-                          </li>
-                        </>
-                        ):(
-                        <>
-                        <li>Each question has a time limit - please answer within the allotted time.</li>
-                          <li>You can type your responses in the provided text area.</li>
-                          <li>The interview will auto-submit once all questions are answered.</li>
-                          <li className="highlight">
-                          This link can be used only once and will expire after submission.
-                          </li>
-                        </>
-                      )}
-                        
+                        <li>Each question has a time limit - answer within the given time</li>
+                        <li>You can type your responses in the text area provided</li>
+                        <li>Once you move to the next question, you cannot go back</li>
+                        <li>The interview will auto-submit when all questions are answered</li>
+                        <li className="highlight">
+                        This link can only be used once and will expire after submission
+                        </li>
                     </ul>
                     </div>
 
@@ -257,7 +233,7 @@ const generateInterviewToken = async (token) => {
                     </>)}
                 </div>
             </div>
-             <SystemCheckPopup visible={showPopup} setShowPopup={setShowPopup} interviewType={interviewType} setInterviewType={setInterviewType} interviewDetails={interviewDetails} textInterviewReady={textInterviewReady} setTextInterviewReady={setTextInterviewReady} token={token} onClose={() => setShowPopup(false)} />
+             <SystemCheckPopup visible={showPopup} setShowPopup={setShowPopup} interviewType={interviewType} setInterviewType={setInterviewType} interviewDetails={interviewDetails} token={token} onClose={() => setShowPopup(false)} />
         </div>
     </>
   )

@@ -1,6 +1,19 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import "./css/login.css";
+import FullSPopup from "../components/fScreenPopup/FullSPopup";
+import { ReactComponent as TopRightSvg } from "../../images/Login/TopRight.svg";
+import { ReactComponent as BotLeftSvg } from "../../images/Login/BotLeft.svg";
+import { ReactComponent as TopEclipse } from "../../images/Login/topEclipse.svg";
+import { ReactComponent as BotEclipse } from "../../images/Login/botEclipse.svg";
+import { ReactComponent as LogoIcon } from "../../images/Login/logoIcon.svg";
+import { ReactComponent as CloseIcon } from "../../images/Login/close.svg";
+import { ReactComponent as MailIcon } from "../../images/Login/mailIcon.svg";
+import { ReactComponent as PasswordIcon } from "../../images/Login/passwordIcon.svg";
+import { ReactComponent as BrandBottom } from "../../images/Login/BrandBottom.svg";
+import { ReactComponent as CountryIcon } from "../../images/Login/country.svg";
 import { connect, useDispatch } from 'react-redux';
+import CareerSavvyLogo from "../../images/site_logo.svg";
 import SuccesIcon from "../../images/succesIcon.svg";
 
 import LoaderIcon from "../components/Dashboard/Home/loading-gif.gif";
@@ -15,27 +28,78 @@ function Register(props) {
   const [lastName, setLastName] = useState(' ');
   const [country, setCountry] = useState('');
   const [username, setUsername] = useState('');
+  const [popupActive, setPopupActive] = useState(false);
+  const [popupData, setPopupData] = useState({});
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showLoader, setShowLoader ] = useState(false);
-  
+  // NEW: confirm password state
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
+
+  useEffect(() => {
+    if (props.errorMessage) {
+      // Handle different types of messages with appropriate popups
+      if (props.errorMessage === "User registered successfully") {
+        setPopupActive(true);
+        setPopupData({
+          MainHeading: "Registration Successful",
+          Description: "Please check your email for the activation link and follow the instructions to activate your account.",
+          strokeBtn: "Okay, Got It"
+        });
+      } else if (props.errorMessage === "An error occurred") {
+        setPopupActive(true);
+        setPopupData({
+          MainHeading: "Registration Failed",
+          Description: "Oops! It looks like this email is already registered.",
+          strokeBtn: "Try Again"
+        });
+      } else if (props.errorMessage.includes("incorrect") ||
+        props.errorMessage.includes("invalid") ||
+        props.errorMessage === "Invalid credentials") {
+        setPopupActive(true);
+        setPopupData({
+          MainHeading: "Incorrect Password – Please Try Again",
+          Description: "The password you entered is incorrect. Please double-check and enter the correct password to continue.",
+          strokeBtn: "Okay, Got It"
+        });
+      }
+    }
+
+    // Handle success messages separately if needed
+    if (props.successMessage) {
+      setPopupActive(true);
+      setPopupData({
+        MainHeading: "Success",
+        Description: props.successMessage,
+        strokeBtn: "Continue"
+      });
+    }
+  }, [props.errorMessage, props.successMessage]);
+
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-  // Toggle function for showing/hiding password
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
-  // Extended errors object to include all fields
-  let errorsObj = { firstName: '', lastName: '', country: '', username: '', email: '', password: '' };
-  const [errors, setErrors] = useState(errorsObj);
+  // Extended errors object now includes confirmPassword
+  const initialErrors = {
+    firstName: '',
+    lastName: '',
+    country: '',
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  };
+  const [errors, setErrors] = useState(initialErrors);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   function openLoader() {
     setShowLoader(true);
-    setTimeout(()=> {
+    setTimeout(() => {
       setShowLoader(false);
-    },10000)
+    }, 10000)
   }
   useEffect(() => {
     if (props.errorMessage === "User registered successfully") {
@@ -48,30 +112,18 @@ function Register(props) {
       // Cleanup the timer in case the component unmounts before 5 seconds
       return () => clearTimeout(timer);
     }
-    
+
   }, [props.errorMessage, navigate]);
 
   // Validate form inputs
   function validateInputs() {
     let error = false;
-    const errorObj = { ...errorsObj };
+    const errorObj = { ...initialErrors };
 
-    // if (firstName === '') {
-    //   errorObj.firstName = 'First name is required';
-    //   error = true;
-    // }
-    // if (lastName === '') {
-    //   errorObj.lastName = 'Last name is required';
-    //   error = true;
-    // }
     if (country === '') {
       errorObj.country = 'Country is required';
       error = true;
     }
-    // if (username === '') {
-    //   errorObj.username = 'Username is required';
-    //   error = true;
-    // }
     if (email === '') {
       errorObj.email = 'Email is required';
       error = true;
@@ -80,11 +132,20 @@ function Register(props) {
       errorObj.password = 'Password is required';
       error = true;
     }
+    if (confirmPassword === '') {
+      errorObj.confirmPassword = 'Confirm Password is required';
+      error = true;
+    }
+
+    // New: check password match only if both provided
+    if (password && confirmPassword && password !== confirmPassword) {
+      errorObj.confirmPassword = 'Passwords do not match';
+      error = true;
+    }
 
     setErrors(errorObj);
     return error;
   }
-
 
   function onSignUp(e) {
     e.preventDefault();
@@ -107,76 +168,83 @@ function Register(props) {
       )
     );
   }
-  
+  const passwordsMatch = password && confirmPassword && password === confirmPassword;
+  useEffect(() => {
+    // update confirmPassword error live
+    setErrors(prev => ({
+      ...prev,
+      confirmPassword:
+        confirmPassword && password !== confirmPassword ? "Passwords do not match" : ""
+    }));
+  }, [password, confirmPassword]);
 
   return (
     <>
-      <div className="login-form-bx">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-6 col-md-7 box-skew d-flex">
-              <div className="authincation-content">
-                <div className="mb-4">
-                  <h3 className="mb-1 font-w600">Welcome to job portal</h3>
-                  <p>Sign up by entering information below</p>
+      {popupActive && (
+        <FullSPopup popupActive={popupActive} setPopupActive={setPopupActive} popupData={popupData} setPopupData={setPopupData} />
+      )}
+      <div className='CSavvyLogin'>
+        <div className="loginCard">
+          <div className="topRightBg">
+            <TopRightSvg />
+          </div>
+          <div className="botLeftBg">
+            <BotLeftSvg />
+          </div>
+          <div className="topEclipse">
+            <TopEclipse />
+          </div>
+          <div className="botEclipse">
+            <BotEclipse />
+          </div>
+          <div className="loginRow">
+            <div className="brand-col">
+              <div className="BrandTop">
+                <h3 className="TopHead">
+                  Welcome to CareerSavvy
+                </h3>
+                <p className="para">Where Al Meets Ambition</p>
+                <div className="social">
+                  <ul>
+                    <li>
+                      <Link to={"https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe"} target='blank'>
+                        <i className="fab fa-facebook-f icon"></i>    </Link>
+                    </li>
+                    <li>
+                      <Link to={"https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0"} target='blank'><i className="fab fa-instagram icon"></i></Link>
+                    </li>
+                    <li>
+                      <Link to={"https://www.linkedin.com/company/career-savvy-ai/"} target='blank'><i className="fab fa-linkedin-in icon"></i></Link></li>
+                    <li>
+                      <Link to={"https://www.youtube.com/watch?v=Nkl5TiWo6Bs"} target='blank'><i className="fab fa-youtube icon"></i></Link></li>
+                  </ul>
                 </div>
-                {props.errorMessage && (
-                  <div className={`bg-red-300 text-red-900 border border-red-900 p-1 my-2 ${props.errorMessage==="User registered successfully"?"popup":""}`} style={{zIndex:"1000"}}>
-                    {/* {props.errorMessage==="User registered successfully"?(<div className="close-button">+</div>):(<></>)} */}
-                    {props.errorMessage==="User registered successfully"?(<img src={SuccesIcon} alt="succesIcon" />):(<></>)}
-                    {props.errorMessage==="User registered successfully"?(<span style={{maxWidth:'250px',textAlign:'center'}}>Please check your email for the activation link and follow the instructions to activate your account.</span>):(<></>)}
-                    {props.errorMessage==="An error occurred"?(<span style={{maxWidth:'250px',textAlign:'center'}}>Oops! It looks like this email is already registered.</span>):(<></>)}
-                  </div>
-                )}
-                {props.successMessage && (
-                  <div className="bg-green-300 text-green-900 border border-green-900 p-1 my-2">
-                    <img src={SuccesIcon} alt="succesIcon" />
-                    {props.successMessage}
-                  </div>
-                )}
-                <form onSubmit={onSignUp}>
-                  {/* <div className="row">
-                    <div className="col-md-6 form-group">
-                      <label className="mb-2">
-                        <strong>First name</strong>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={firstName}
-                        name="firstName"
-                        placeholder="First name"
-                        onChange={(e) => setFirstName(e.target.value)}
-                      />
-                      {errors.firstName && (
-                        <div className="text-danger fs-12">{errors.firstName}</div>
-                      )}
-                    </div>
-                    <div className="col-md-6 form-group">
-                      <label className="mb-2">
-                        <strong>Last Name</strong>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={lastName}
-                        name="lastName"
-                        placeholder="Last Name"
-                        onChange={(e) => setLastName(e.target.value)}
-                      />
-                      {errors.lastName && (
-                        <div className="text-danger fs-12">{errors.lastName}</div>
-                      )}
-                    </div>
-                  </div> */}
-                  <div className="row">
-                    <div className="col-md-12 form-group">
-                      <label className="mb-2">
-                        <strong>Email</strong>
-                      </label>
+              </div>
+              <div className="BrandBottom">
+                <BrandBottom />
+              </div>
+            </div>
+            <div className="form-col">
+              <div className="logoClose">
+                <div className="logoIcon"><img src={CareerSavvyLogo} alt="icon" className="Icon" /></div>
+                <div className="close" onClick={() => navigate("/")}><CloseIcon /></div>
+              </div>
+              <div className="AuthForm">
+
+                <div className="mb-2">
+                  <h3 className="TopHead" >Welcome to CareerSavvy</h3>
+                  <p className="TopPara">Sign up by entering the information below.</p>
+                </div>
+
+                <form onSubmit={onSignUp} className={`${showLoader ? "hiddenWhileLoad" : ""}`}>
+                  <div className="form-group">
+                    <div className="inputouter mt-3">
+                      <div className="mailIcon">
+                        <MailIcon />
+                      </div>
                       <input
                         type="email"
-                        className="form-control"
+                        className="CSavvyInputs"
                         value={email}
                         placeholder="Email"
                         onChange={(e) => {
@@ -184,50 +252,80 @@ function Register(props) {
                           setUsername(e.target.value);
                         }}
                       />
-                      {errors.email && (
-                        <div className="text-danger fs-12">{errors.email}</div>
-                      )}
                     </div>
+                    {errors.email && (
+                      <div className="text-danger fs-12">{errors.email}</div>
+                    )}
                   </div>
-                  <div className="row">
-                    <div className="col-md-12 form-group" style={{position:"relative"}}>
-                      <label className="mb-2">
-                        <strong>Password</strong>
-                      </label>
-                      <div style={{position:"relative"}}>
+
+                  <div className="form-group" style={{ position: "relative" }}>
+                    <div className="inputouter">
+                      <PasswordIcon />
+                      <div className='passwordDiv' style={{ position: "relative" }}>
                         <input
                           type={showPassword ? "text" : "password"}
-                          className="form-control"
+                          className="CSavvyInputs"
                           value={password}
                           placeholder="Password"
                           onChange={(e) => setPassword(e.target.value)}
                         />
-                        {errors.password && (
-                          <div className="text-danger fs-12">{errors.password}</div>
-                        )}
+
                         <span
-                            onClick={togglePasswordVisibility}
-                            style={{
-                                position: "absolute",
-                                top: "50%",  // Adjust this value based on input padding
-                                right: "18px", // Adjust for placement inside input
-                                cursor: "pointer",
-                                transform: "translate(0, -50%)"
-                            }}
+                          onClick={togglePasswordVisibility}
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            right: "-3px",
+                            cursor: "pointer",
+                            transform: "translate(0, -50%)"
+                          }}
                         >
-                            {showPassword ?  '👁️' : '👁️‍🗨️'}
+                          {showPassword ? '👁️' : '👁️‍🗨️'}
                         </span>
                       </div>
                     </div>
+
+                    {/* Confirm Password */}
+                    <div className="inputouter" style={{ marginTop: "16px" }}>
+                      <PasswordIcon />
+                      <div className='passwordDiv' style={{ position: "relative" }}>
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          className="CSavvyInputs"
+                          value={confirmPassword}
+                          placeholder="Confirm Password"
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+
+                        <span
+                          onClick={togglePasswordVisibility}
+                          style={{
+                            position: "absolute",
+                            top: "50%",
+                            right: "-3px",
+                            cursor: "pointer",
+                            transform: "translate(0, -50%)"
+                          }}
+                        >
+                          {showPassword ? '👁️' : '👁️‍🗨️'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {errors.password && (
+                      <div style={{ marginTop: "8px" }} className="text-danger fs-12">{errors.password}</div>
+                    )}
+                    {errors.confirmPassword && (
+                      <div style={{ marginTop: "8px" }} className="text-danger fs-12">{errors.confirmPassword}</div>
+                    )}
                   </div>
-                  <div className="row">
-                    <div className="col-md-12 form-group">
-                      <label className="mb-2">
-                        <strong>Country</strong>
-                      </label>
+
+                  <div className="form-group">
+                    <div className="inputouter">
+                      <CountryIcon />
                       <select
                         type="text"
-                        className="form-control"
+                        className="CSavvyInputs"
                         value={country}
                         name="country"
                         placeholder="Enter country"
@@ -237,60 +335,53 @@ function Register(props) {
                         <option value="USA">USA</option>
                         <option value="India">India</option>
                       </select>
-                      {errors.country && (
-                        <div className="text-danger fs-12">{errors.country}</div>
-                      )}
                     </div>
+                    {errors.country && (
+                      <div className="text-danger fs-12">{errors.country}</div>
+                    )}
                   </div>
-                  <div className="text-center mt-4">
-                    <button type="submit" className="btn btn-primary btn-block" onClick={openLoader}>
+
+                  <div className="text-center mt-0 mb-2">
+                    <button
+                      type="submit"
+                      className={`LoginButton ${showLoader ? "loaderActive" : ""}`}
+                      onClick={openLoader}
+                      disabled={!passwordsMatch}           // disabled until passwords match
+                      style={{ opacity: !passwordsMatch ? 0.6 : 1, pointerEvents: !passwordsMatch ? "none" : "auto" }}
+                    >
                       Sign Up
                     </button>
+
+
                   </div>
                 </form>
-                <div className="new-account mt-3">
-                  <p>
-                    Already have an account?{" "}
-                    <Link className="text-black" to="/login">
-                      Sign in
-                    </Link>
+
+                {showLoader ? (<>
+                  <div className="preloader container" style={{ marginLeft: "-1px" }}>
+                    <div id="preloader" style={{ marginLeft: "-1px", marginRight: "-1px", width: "calc(100% + 3px)" }}>
+                      <div className="sk-three-bounce">
+                        <div className="sk-child sk-bounce1"></div>
+                        <div className="sk-child sk-bounce2"></div>
+                        <div className="sk-child sk-bounce3"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </>
+                ) : (<></>)}
+
+                <div className="RegisterButton mt-3">
+                  <p className="mb-0">Already have an account?{" "}
+                    <Link className="text-black" to="/login">Log In</Link>
                   </p>
                 </div>
-              </div>
-            </div>
-            <div className="col-lg-6 col-md-5 d-flex box-skew1">
-              <div className="inner-content align-self-center">
-                <Link to="/dashboard" className="login-logo">
-                  {/* Add logos here */}
-                </Link>
-                <h2 className="m-b10 text-white">Sign Up Now</h2>
-                <p className="m-b40 text-white">
-                Where Al Meets Ambition
-                </p>
-                <ul className="social-icons mt-4">
-                  <li><Link to={"https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe"} target='blank'><i className="fab fa-facebook-f"></i></Link></li>
-                                                  {/* <li><Link to={"#"}><i className="fab fa-twitter"></i></Link></li> */}
-                                                  <li><Link to={"https://www.linkedin.com/company/career-savvy-ai/"} target='blank'><i className="fab fa-linkedin-in"></i></Link></li>
-                                                  <li>
-                                                      <Link to={"https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0"} target='blank'>
-                                                          <i className="fab fa-instagram"></i>
-                                                      </Link>
-                                                  </li>
-                                                  <li>
-                                                      <Link to={"https://www.youtube.com/watch?v=Nkl5TiWo6Bs"} target='blank'>
-                                                          <i className="fab fa-youtube"
-                                                              ></i>
-                                                      </Link>
-                                                  </li>
-                </ul>
+                <Link className="backToHome mt-2" to="/">Back to Home</Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {showLoader && (<div className="checkout-loader">
-            <img src={LoaderIcon} alt="loader" />
-         </div>)}
+
     </>
   );
 }

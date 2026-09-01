@@ -1,0 +1,338 @@
+.popup-overlay {
+    background: #000000ab;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    justify-content: center;;
+    align-items: center;
+        .popup-box {
+            width: 700px;
+            background: #efefefcf;
+            padding: 30px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 19px;
+            min-height: 300px;
+        }
+
+        h3 {
+            background: linear-gradient(90deg, #329CFC 0%, #24C7AB 70.5%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0;
+        }
+        button.btn-secondary {
+            color: #fff;
+        }
+        
+}
+.popup-overlay .popup-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    button {
+        padding: 5px 30px;
+        font-size: 14px;
+    }
+}
+
+.card.profile-card.resume-upload .textarea.form-control {
+    max-height: 80px !important;
+}
+
+
+.form-control.file-violet {
+  color: #4c1d95;                 /* violet text */
+  background-color: #f5f3ff;      /* light violet bg */
+  border: 1px solid #e9d5ff;      /* soft violet border */
+  border-radius: 6px;
+  height: 45px;
+}
+
+/* Modern browsers: style the native file button */
+.form-control.file-violet::file-selector-button {
+  background-color: #6d28d9;      /* violet */
+  color: #fff;
+  border: 1px solid #5b21b6;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Hover / focus states */
+.form-control.file-violet::file-selector-button:hover,
+.form-control.file-violet::file-selector-button:focus {
+  background-color: #7c3aed;
+  border-color: #6d28d9;
+  color: #020817;
+}
+
+/* WebKit fallback (Chrome/Safari/Edge) */
+.form-control.file-violet::-webkit-file-upload-button {
+  background-color: #6d28d9;
+  color: #fff;
+  border: 1px solid #5b21b6;
+  padding: 8px 14px;
+  margin-right: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.form-control.file-violet::-webkit-file-upload-button:hover,
+.form-control.file-violet::-webkit-file-upload-button:focus {
+  background-color: #7c3aed;
+  border-color: #6d28d9;
+  color: #020817;
+}
+
+
+
+.popup-overlay .popup-box .animation-box .video {
+    font-weight: 400;
+    text-align: center;
+    line-height: 1.5em;
+    font-size: 14px;
+    width: 80%;
+    margin-bottom: -5px;
+    margin-top: -5px;
+}
+.popup-overlay .popup-box .animation-box button img{
+    width: 20px;
+    height: 17px;
+}
+.popup-overlay .popup-box .animation-box button {
+    background: linear-gradient(45deg, #004f9b, #009b58);
+    color: #fff;
+    display: flex;
+    gap: 7px;
+    border: none;
+    border-radius: 15px;
+    padding: 6px 16px;
+    align-items: center;
+}
+.popup-overlay .popup-box .animation-box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 40px 0 20px 0;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 50px;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .local-animation {
+    padding: 23px;
+    background: #3936490a;
+    border-radius: 1000px;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .local-animation.active {
+    animation: 1s linear backgroundAnimate;
+    background: #39ba80;
+    box-shadow: 0px 0px 20px #34bd80;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .local-animation .local-img {
+    width: 80px;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .ai-animation {
+    padding: 10px;
+    background: #39364936;
+    border-radius: 1000px;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .ai-animation .ai-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 1000px;
+}
+
+.popup-overlay .popup-box .animation-box .resume-upload-animation .ai-server {
+    padding: 23px;
+    background: #e4e4e5;
+    border-radius: 1000px;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .ai-server.active {
+    background: #4C9071;
+    box-shadow: 0px 0px 20px #4C9071;
+    animation: 5s successAnimate;
+}
+.popup-overlay .popup-box .animation-box .resume-upload-animation .ai-server .server-img {
+    width: 80px;
+}
+.popup-overlay .popup-box .animation-box .progress-outer {
+    width: 55%;
+    border: 1px solid #cdcdcd;
+    position: relative;
+    margin-top: 10px;
+}
+.popup-overlay .popup-box .animation-box .progress-outer .left-dot {
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    background: #d9d9d9;
+    border-radius: 100px;
+}
+.popup-overlay .popup-box .animation-box .progress-outer.active .left-dot, .popup-overlay .popup-box .animation-box .progress-outer.active .right-dot {
+    background: #4C9071;
+}
+.popup-overlay .popup-box .animation-box .progress-outer .right-dot {
+    position: absolute;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-right: -10px;
+    background: #d9d9d9;
+    border-radius: 100px;
+}
+.popup-overlay .popup-box .animation-box .progress-outer .progress-inner {
+    position: absolute;
+    left: 0;
+    width: 0%;
+    border: 1px solid #4C9071;
+    visibility: hidden;
+    transition: all 5s;
+}
+.popup-overlay .popup-box .animation-box .progress-outer.active .progress-inner {
+    width: 100%;
+    visibility: visible;
+}
+
+.popup-overlay .popup-box .animation-box .animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popup-overlay .popup-box .animation-box .animation .text-light {
+    font-size: 16px;
+    margin-top: 16px;
+}
+.popup-overlay .popup-box .animation-box .animation .animation-line {
+    width: 30%;
+    border: 1px solid #24B7B5;
+    animation: 1s linear infinite LineAnimate;
+    margin-top: 20px;
+}
+@keyframes backgroundAnimate {
+    0%{
+        background: #e4e4e5;
+        box-shadow: 0 0 0 transparent;
+    }
+    100%{
+        background: #41c68a;
+        box-shadow: 0px 0px 20px #3ecb8c;
+
+    }
+}
+@keyframes LineAnimate {
+    0%{
+        border: 1px solid #24B7B5;
+    }
+    50%{
+        border: 1px solid #24b7b536;
+        
+    }
+    100%{
+        border: 1px solid #24B7B5;
+    }
+}
+@keyframes successAnimate {
+    0%{
+        background: #d2d2d2;
+        box-shadow: 0 0 0 transparent;
+    }
+    99%{
+        background: #d2d2d2;
+        box-shadow: 0 0 0 transparent;
+    }
+    100%{
+        background: #4C9071;
+        box-shadow: 0px 0px 20px #4C9071;
+
+    }
+}
+@keyframes progressAnimate {
+    0% {
+        width: 0;
+        border: 1px solid #4C9071;
+        visibility: visible;
+    }
+    0% {
+        width: 100%;
+        border: 1px solid #4C9071;
+        visibility: visible;
+    }
+}
+
+.popup-overlay .popup-box .animation-box .resume-screen-animation .ai-animation {
+    padding: 5px;
+    background: #d4d4d4;
+    border-radius: 1000px;
+}
+.popup-overlay .popup-box .animation-box .resume-screen-animation .ai-animation .ai-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 1000px;
+}
+.popup-overlay .popup-box .animation-box .resume-line-animation {
+    padding: 15px;
+    background: #d4d4d4bb;
+    border-radius: 1000px;margin-bottom: 10px;
+    position: relative;
+}
+.popup-overlay .popup-box .animation-box .resume-line-animation .resume-line-animate {
+    position: absolute;
+    left: -5%;
+    top: 0;
+    width: 110%;
+    border: 3px solid #69BA3B;
+    box-shadow: 0px 3px 10px #00D707;
+    animation: 1.5s linear infinite topBottomAnimate;
+}
+.popup-overlay .popup-box .animation-box .resume-line-animation .resume-img {
+    width: 100px;
+    height: 100px;
+}
+.popup-overlay .popup-box .animation-box .resume-line-animation .resume-analyze {
+    width: 90px;
+    height: 90px;
+    animation: 4s linear infinite AnalyzeAnimate;
+
+}
+@keyframes topBottomAnimate {
+    0%{
+        top:0%;
+    }
+    50%{
+        top:100%;
+    }
+    100%{
+        top:0%;
+    }
+}
+@keyframes AnalyzeAnimate {
+    0%{
+        rotate: 0deg;
+    }
+    50%{
+        rotate: 180deg;
+    }
+    100%{
+        rotate: 365deg;
+    }
+}

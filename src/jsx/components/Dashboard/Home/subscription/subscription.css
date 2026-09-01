@@ -1,0 +1,216 @@
+* .subscriptionPage.col-flex, * .subscriptionPage .col-flex {
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", sans-serif;
+}
+* .subscriptionPage.row-flex, * .subscriptionPage .row-flex {
+    display: flex;
+    flex-direction: row;
+}
+.subscriptionPage {
+    gap: 20px;
+}
+.subscriptionPage .subscription-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+.subscriptionPage .subscription-header h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers {
+    justify-content: space-between;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers h3 {
+    font-size: 18px;
+    font-weight: 600;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers h3 .subscription-status svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    margin-top: -3px;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers h3 .subscription-status {
+    background: #04ba5f2e;
+    padding: 4px 7px;
+    border-radius: 15px;
+    margin-left: 10px;
+    color: #08ad7b;
+    font-size: 14px;
+    font-weight: 400;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers .subscription-cancel-button:hover {
+    color: #ffffffc9;
+    transition: all 0.6ms;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers .subscription-cancel-button {
+    background: #bb5419fc;
+    padding: 6px 14px;
+    border-radius: 15px;
+    margin-left: 15px;
+    color: #fff;
+    border: none;
+    transition: all 0.6ms;
+    font-size: 14px;
+    font-weight: 400;
+}
+.subscriptionPage .subscription-plan-card .plan-triggers .subscription-renew-button {
+    background: #19bb4ffc;
+    padding: 6px 14px;
+    border-radius: 15px;
+    margin-left: 15px;
+    color: #fff;
+    border: none;
+    transition: all 0.6ms;
+    font-size: 14px;
+    font-weight: 400;
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo {
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard {
+    width: 100%;
+    padding: 16px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0px 0px 20px 0px #62626224;
+}
+.subscriptionPage.subscriptionPage.light-mode .subscription-plan-card .subscriptionInfo .subCard h4 {
+    font-size: 18px;
+    font-weight: 600;
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard h4 {
+    font-size: 18px;
+    font-weight: 500;
+}
+.subscriptionPage.light-mode .subscription-plan-card .subscriptionInfo .subCard h4 svg {
+    filter: invert(1);
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard h4 svg {
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    margin-top: -2px;
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard .subscription-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 15px;
+
+}
+.subscriptionPage.light-mode .subscription-plan-card .subscriptionInfo .subCard .subscription-feature-list .subscription-feature-item {
+    color: #248200;
+}
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard .subscription-feature-list .subscription-feature-item {
+    font-size: 15px;
+    font-weight: 400;
+    color: #c4c4c4;
+    svg {
+            margin-right: 8px;
+            margin-left: 4px;
+            height: 15px;
+            width: 15px;
+            background: #08ad7b28;
+            border-radius: 100px;
+        }
+}
+            .subscriptionPage .subscription-plan-card .subscriptionInfo .subCard p{
+                font-size: 16px;
+                font-weight: 400;
+                margin-bottom: 2px;
+                margin-top: 12px;
+                color: #c4c4c4;
+            }
+            .subscriptionPage .subscription-plan-card .subscriptionInfo .subCard .infoText {
+                justify-content: space-between;
+                gap: 10px;
+            }
+            .subscriptionPage .subscription-plan-card .subscriptionInfo .subCard .infoText span {
+                color: #c4c4c4;
+                font-size: 15px;
+            }
+.subscriptionPage .subscription-plan-card .subscriptionInfo .subCard .billingData {
+    gap: 8px;
+    margin-top: 15px;
+}
+.subscriptionPage.light-mode .subscription-plan-card .subscriptionInfo .subCard p {
+    color: #454545;
+}
+.subscriptionPage.light-mode .subscription-plan-card .subscriptionInfo .subCard .infoText span {
+    color: #454545;
+}
+
+.subscriptionPage .subscription-cancel-popup {
+    width: 400px;
+    height: auto;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #dedede;
+    padding: 0px;
+    border-radius: 16px;
+}
+.subscriptionPage .subscription-cancel-popup .header-wrapper {
+    justify-content: space-between;
+    padding: 16px 18px 9px 18px;
+    background: #c9c9ca;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+    .subscriptionPage .subscription-cancel-popup .header-wrapper h4 {
+        font-size: 16px;
+        line-height: 20px;
+        color: #1F2228;
+        margin: 0;
+    }
+    .subscriptionPage .subscription-cancel-popup .header-wrapper .subscription-close-button {
+        background: transparent;
+        color: #e6e6e6;
+        box-shadow: none;
+        rotate: 45deg;
+        border: none;
+        font-size: 18px;
+        line-height: 23px;       
+    }
+    .subscriptionPage .subscription-cancel-popup .inner {
+        padding: 12px 16px;
+        p{
+            margin: 0;
+            font-size: 15px;
+        }
+    }
+        .subscriptionPage .subscription-cancel-popup .subscription-confirm-button:hover {
+            background: linear-gradient(2deg, #B91C1C, #be1515);
+        }
+        .subscriptionPage .subscription-cancel-popup .subscription-confirm-button {
+            background: linear-gradient(2deg, #B91C1C, #571515);
+            font-size: 16px;
+            line-height: 18px;
+            width: -webkit-fill-available;
+            transition: all 400ms linear;
+            color: #fafafa;
+            margin: 18px;
+            padding: 10px 10px;
+            border-radius: 10px;
+            box-sizing: border-box;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            * .subscriptionPage.row-flex, * .subscriptionPage .row-flex {
+                flex-wrap: wrap;
+            }
+            .subscriptionPage .subscription-plan-card .plan-triggers {
+                gap: 16px;
+            }
+            .subscription-cancel-button {
+                margin-left: 0 !important;
+                margin-right: 10px;
+            }
+        }

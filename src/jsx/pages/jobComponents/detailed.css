@@ -1,0 +1,478 @@
+* .detailed-row .col-flex {
+  flex-direction: column;
+  display: flex;
+}
+* .detailed-row .row-flex {
+  flex-direction: row;
+  display: flex;
+}
+.detailed-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  height: 85vh;
+}
+
+.detailed-Section .detailed-container .title-info .companyIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 11px;
+}
+.detailed-Section .detailed-container .title-info {
+  margin-top: 5px;
+  justify-content: space-between;
+  margin-bottom: 11px;
+}
+.detailed-Section .detailed-container .title-info .companyTitle {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  color: #181818;
+}
+.detailed-Section .detailed-container .title-info .compNameTime {
+  gap: 8px;
+  align-items: center;
+}
+.detailed-Section .detailed-container .d-main-i-row {
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0;
+}
+.detailed-Section .detailed-container .title-info .compNameTime .cName {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 22px;
+  display: flex;
+  align-items: center;
+  color: #010836;
+}
+.detailed-Section .detailed-container .title-info .dot {
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  background: #6f6f6f;
+  border-radius: 9px;
+}
+.detailed-Section .detailed-container .title-info .cTime {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  color: #6e6e6e;
+}
+.detailed-Section .detailed-container {
+  margin-left: 30px;
+  margin-right: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  max-width: 100%;
+  overflow: auto;
+}
+.detailed-Section {
+  height: calc(100vh - 64px);
+  background: #ffffff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 3px;
+}
+.detailed-Section .page-Navigation-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 30px;
+  margin-top: 18px;
+  margin-bottom: 16px;
+  margin-right: 30px;
+}
+.detailed-Section .page-Navigation-row .dashBButton svg {
+  width: 10px;
+  height: 16px;
+}
+.detailed-Section .page-Navigation-row .dashBButton {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.5em;
+  color: #2a4cbc;
+  span {
+    color: #2a4cbc;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.5em;
+  }
+}
+.detailed-Section .page-Navigation-row .applyButton .svg {
+  width: 30px;
+  height: 27px;
+  object-fit: cover;
+  margin-top: -2px;
+}
+.detailed-Section .page-Navigation-row .applyButton {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.5em;
+  color: #09b100;
+  cursor: pointer;
+}
+.detailed-Section .f-w-divider {
+  width: calc(100% - 60px);
+  margin-left: 30px;
+  margin-right: 30px;
+  height: 1.7px;
+  background: #687dc2;
+}
+.detailed-Section .detailed-container .d-main-i-row .item {
+  gap: 6px;
+  width: calc(40% - 15px);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  color: #5c5c5c;
+  align-items: center;
+}
+.detailed-Section .detailed-container .d-main-i-row .item .icons {
+  width: 16px;
+  height: 16px;
+}
+.detailed-Section .detailed-container .aioptions .aitext-row {
+  gap: 12px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  color: #0050c4;
+}
+.detailed-Section .detailed-container .aioptions .aitext-row .icon-bg {
+  padding: 1px 3px 2.4px 3px;
+  background: linear-gradient(45deg, #02a1a3, #321e97);
+  border-radius: 126px;
+}
+.detailed-Section .detailed-container .aioptions .aitext-row .aiGifIcon {
+  width: 25px;
+  height: 25px;
+  border-radius: 100px;
+}
+.detailed-Section .detailed-container .aioptions .aitext-row .rightIcon {
+  width: 19px;
+  height: auto;
+  margin-left: -1px;
+  margin-top: -3px;
+}
+.detailed-Section .detailed-container .aioptions {
+  justify-content: space-between;
+  gap: 10px;
+  margin: 16px 0;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow,
+.detailed-Section .page-Navigation-row .aiButtonRow {
+  gap: 18px;
+  align-items: center;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-ai,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-ai {
+  gap: 10px;
+  cursor: pointer;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-ai .ai,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-ai .ai {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  background: linear-gradient(295deg, #62d5fd 36.27%, #6584f6 52.28%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-ai .icon,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-ai .icon {
+  width: 22px;
+  height: auto;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-divider,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-divider {
+  width: 5px;
+  height: 18px;
+  border: 1px solid rgba(194, 194, 194, 0.7);
+  border-radius: 9px;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-other,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-other {
+  gap: 10px;
+  cursor: pointer;
+}
+.detailed-Section
+  .detailed-container
+  .aioptions
+  .aiButtonRow
+  .button-other
+  .icon,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-other .icon {
+  width: 20px;
+  height: 20px;
+}
+.detailed-Section .detailed-container .aioptions .aiButtonRow .button-other .ai,
+.detailed-Section .page-Navigation-row .aiButtonRow .button-other .ai {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #314bf3;
+}
+.detailed-Section .detailed-container .list-head {
+  gap: 9px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: #010836;
+  align-items: center;
+  margin: 12px auto 10px 0;
+}
+.detailed-Section .detailed-container .list-head img {
+  width: 26px;
+  height: auto;
+}
+.detailed-Section .detailed-container .list-unstyled {
+  color: #454545;
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-weight: 500;
+  gap: 16px;
+  line-height: 18px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-left: 22px;
+  transition: opacity 0.6s ease;
+}
+.detailed-Section .detailed-container .list-unstyled li {
+  position: relative;
+  transition: transform 0.6s ease;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+}
+.detailed-Section .detailed-container .list-unstyled li:after {
+  background: #6f6c6c;
+  border-radius: 5px;
+  content: "";
+  height: 4px;
+  left: -19px;
+  position: absolute;
+  top: 40%;
+  transition: width 0.6s ease, background-color 0.6s ease;
+  width: 10px;
+}
+.detailed-Section .detailed-container .para {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #000000;
+  margin-bottom: 9px;
+  margin-top: 6px;
+}
+.detailed-Section .detailed-container .list-boxy {
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  display: flex;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+.detailed-Section .detailed-container .list-boxy .list-text {
+  height: auto;
+  background: #ededed;
+  border-radius: 6px;
+  font-weight: 400;
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 18px;
+  color: #000000;
+}
+
+.detailed-row .similar-j-list {
+  gap: 22px;
+  justify-content: flex-start;
+  height: calc(100vh - 64px);
+}
+.detailed-row .similar-j-list .top-head {
+  background: #f9faff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 17px;
+  margin: 1px 3px;
+  z-index: 1;
+  padding: 14px 20px;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+  color: #40189d;
+}
+.detailed-row .similar-j-list .top-head img {
+  width: 20px;
+  height: 17px;
+}
+.detailed-row .similar-j-list .jobs-list {
+  gap: 22px;
+  overflow: auto;
+  padding: 5px 3px;
+  height: calc(100vh - 140px);
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .jobItemTop {
+  gap: 13px;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem {
+  background: #f9faff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 29px;
+  padding: 17px 20px;
+  gap: 13px;
+  cursor: pointer;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .leftImage {
+  width: 50px;
+  height: 50px;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .right {
+  gap: 4px;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .right .head {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  color: #181818;
+  margin-bottom: 0;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .right .comName {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  color: #010836;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .jobItemBottom .divider {
+  width: 5px;
+  height: 10px;
+
+  border: 1px solid rgba(194, 194, 194, 0.7);
+  border-radius: 9px;
+  margin-top: -3px;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .jobItemBottom {
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.detailed-row .similar-j-list .jobs-list .jobItem .jobItemBottom .simInfo {
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.detailed-row
+  .similar-j-list
+  .jobs-list
+  .jobItem
+  .jobItemBottom
+  .simInfo
+  .item {
+  gap: 5px;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+  color: #5c5c5c;
+  align-items: center;
+  text-wrap: nowrap;
+}
+.detailed-row
+  .similar-j-list
+  .jobs-list
+  .jobItem
+  .jobItemBottom
+  .simInfo
+  .mapIcon {
+  width: 16px;
+  height: 16px;
+}
+@media (max-width: 768px) {
+  .detailed-Section .detailed-container .aioptions {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .detailed-Section .detailed-container .aioptions .aitext-row {
+    display: none;
+  }
+  .detailed-row {
+    margin-top: 0;
+    margin-bottom: 0;
+    gap: 50px;
+  }
+  .detailed-Section .page-Navigation-row .dashBButton {
+    display: none;
+  }
+  .detailed-Section .detailed-container .aioptions .aiButtonRow .button-ai .ai,
+  .detailed-Section .page-Navigation-row .aiButtonRow .button-ai .ai {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .detailed-Section
+    .detailed-container
+    .aioptions
+    .aiButtonRow
+    .button-ai
+    .icon,
+  .detailed-Section .page-Navigation-row .aiButtonRow .button-ai .icon {
+    width: 26px;
+    height: 26px;
+  }
+  .detailed-Section .detailed-container .aioptions .aiButtonRow .button-ai,
+  .detailed-Section .page-Navigation-row .aiButtonRow .button-ai {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .detailed-Section .detailed-container .aioptions .aiButtonRow,
+  .detailed-Section .page-Navigation-row .aiButtonRow {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .detailed-Section
+    .detailed-container
+    .aioptions
+    .aiButtonRow
+    .button-other
+    .ai,
+  .detailed-Section .page-Navigation-row .aiButtonRow .button-other .ai {
+    font-size: 18px;
+    line-height: 24px;
+    display: none;
+    gap: 2px;
+  }
+  .detailed-Section .detailed-container .aioptions .aiButtonRow .button-other,
+  .detailed-Section .page-Navigation-row .aiButtonRow .button-other {
+    align-items: center;
+    justify-content: center;
+  }
+  .detailed-Section .page-Navigation-row .applyButton .svg {
+    width: 26px;
+    height: 26px;
+  }
+  .detailed-Section .page-Navigation-row .applyButton {
+    font-size: 18px;
+    line-height: 24px;
+    gap: 2px;
+    width: 100%;
+  }
+}

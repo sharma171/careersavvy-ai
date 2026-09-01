@@ -1,0 +1,1112 @@
+.resAi h5.head.fs18 {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+.resAi .job-description ul {
+  margin: 10px 0;
+}
+
+.row.search-Jobs-Container {
+  margin-top: -20px;
+  max-height: calc(100vh - 110px);
+  overflow: hidden;
+  margin-bottom: -54px;
+  border-radius: 20px;
+}
+
+.resumeOuter.light .resumeTab {
+  background: #f7f7f7;
+  box-shadow: 0px 0px 29.3px rgba(0, 0, 0, 0.08);
+}
+
+.resumeOuter.light .resumeTab .close + h5 {
+  color: #40189d !important;
+}
+.resumeOuter.light .resumeTab .close {
+  background: #40189d;
+  color: #fff !important;
+}
+
+.resumeOuter.light .resumeTab .responseContainer {
+  color: #333;
+}
+
+.resumeOuter .resumeTab .resumeAiInner .card .card-divider {
+  border-bottom: 2px solid rgba(106, 75, 178, 0.29);
+  border-radius: 0;
+  width: 100%;
+  height: 1px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.resumeOuter .resumeTab .resumeAiInner .card {
+  background: #e7e6eb00;
+  display: flex;
+  box-shadow: none;
+  flex-direction: column;
+  align-items: start;
+  padding: 0;
+}
+
+.resumeOuter.light
+  .resumeTab
+  .resumeAiInner
+  .summaryAi
+  .suggestion-button
+  .suggestion-icon,
+.resumeOuter.light
+  .resumeTab
+  .resumeAiInner
+  .card
+  .suggestion-button
+  .suggestion-icon {
+  width: 20px;
+  height: 20px;
+}
+.resumeOuter.light
+  .resumeTab
+  .resumeAiInner
+  .card
+  .card-head
+  .CopyButton
+  .copyIcon {
+  width: 22px;
+  height: 22px;
+}
+.resumeOuter.light
+  .resumeTab
+  .resumeAiInner
+  .card
+  .card-head
+  .CopyButton:hover {
+  background: #00e6731f;
+  border: 1px solid #00b9598c;
+  color: #00b947;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .customAiButton .resumeAiIcon {
+  width: 28px;
+  height: 28px;
+}
+.resumeOuter.light .resumeTab .customResumeComp,
+.t-jobsContent .customResumeComp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.resumeOuter.light .resumeTab .customResumeComp .topHead,
+.t-jobsContent .customResumeComp .topHead {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+.resumeOuter.light .resumeTab .customResumeComp .topHead .icon,
+.t-jobsContent .customResumeComp .topHead .icon {
+  width: 28px;
+  height: 28px;
+}
+.resumeOuter.light .resumeTab .customResumeComp .buttonRow button,
+.t-jobsContent .customResumeComp .buttonRow button {
+  background: #421b9e;
+  border-radius: 27px;
+  padding: 8px 14px;
+  color: #fff;
+  border: none;
+}
+.resumeOuter.light .resumeTab .customResumeComp .buttonRow,
+.t-jobsContent .customResumeComp .buttonRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.resumeOuter.light .resumeTab .customResumeComp .topHead .headText,
+.t-jobsContent .customResumeComp .topHead .headText {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 0;
+  line-height: 27px;
+  color: #2f009d;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .customAiButton {
+  padding: 8px 13px;
+  background: linear-gradient(45deg, #421b9e, #3b00c5);
+  border-radius: 27px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  line-height: 28px;
+  margin: 10px 0px 16px 0px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .card-head .CopyButton {
+  padding: 6px 12px;
+  box-sizing: border-box;
+  border: 1px solid #00b95a;
+  border-radius: 27px;
+  font-weight: 500;
+  transition: all 0.5s;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  letter-spacing: 0.2px;
+  align-items: center;
+  color: #00cb4d;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .list-text .checkedIcon {
+  width: 20px;
+  height: 20px;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .list-text {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  color: #564fb7;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .jobTitleDate .divider {
+  width: 1px;
+  height: 20px;
+  background: #837ecb;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .jobTitleDate .job-title {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #837ecb;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .jobTitleDate {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .CompanyName {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  margin-top: 2px;
+  color: #2f009d;
+  margin-bottom: 11px;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .card-head {
+  width: 100%;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .summaryAi p {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
+  color: #2f009d;
+}
+.resumeOuter.light .resumeTab .resumeAiInner .card .suggestion-button,
+.resumeOuter.light .resumeTab .resumeAiInner .summaryAi .suggestion-button {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 7px 10px;
+  background: #421b9e;
+  width: fit-content;
+  border-radius: 27px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 20px;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+.resumeOuter {
+  align-content: center;
+  align-items: center;
+  animation: popupbg 0.5s ease-out 0s 1;
+  background: rgba(236, 236, 236, 0.91);
+  backdrop-filter: blur(37.5px);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.resAi .resumeTab {
+  animation: popupcont 1s ease-out 0s 1;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px #7474741f;
+  font-size: 18px;
+  font-weight: 400;
+  left: 0;
+  padding: 30px;
+  position: relative;
+  top: 0;
+  transform: translate(0);
+  width: 80%;
+  max-width: 1400px;
+  background: #333a54;
+  border-radius: 18px;
+}
+.resAi .resumeOuter.resumeAi .resumeTab .close {
+  width: 28px;
+  height: 28px;
+  top: 18px;
+  right: 24px;
+  background: #00dd70;
+}
+.resAi .resumeOuter.resumeAi .resumeTab {
+  padding: 18px 24px;
+  border-radius: 30px;
+  padding-bottom: 24px;
+}
+
+.resAi .resumeTab .close {
+  align-items: center;
+  animation: popupclose 2s ease-out 0s 1;
+  background: #fff;
+  border-radius: 100px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  font-size: 24px;
+  color: #1d3d63 !important;
+  height: 35px;
+  justify-content: center;
+  position: absolute;
+  right: 20px;
+  rotate: 45deg;
+  top: 20px;
+  width: 35px;
+}
+
+.content-detail .resAi .card-body .head {
+  font-size: 20px;
+  position: relative;
+  line-height: 26px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  color: #3609a0 !important;
+  position: relative;
+}
+.content-detail .resAi .card-body li {
+  list-style: auto;
+  margin-bottom: 12px;
+  color: #454545;
+  font-size: 15px;
+}
+
+.resAi .resumeTab .popup-Top-Head .head {
+  margin-bottom: 0;
+  font-weight: 600;
+  margin-top: 4px !important;
+  font-size: 21px;
+  line-height: 24px;
+  background: linear-gradient(90deg, #0148cc 0%, #00e673 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.resAi .resumeTab .popup-Top-Head .icon {
+  width: 27px;
+  height: 27px;
+}
+.resAi .resumeTab .popup-Top-Head {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  align-content: center;
+  margin-bottom: 12px;
+}
+.resAi .resumeTab .fwline {
+  width: 100%;
+  height: 2px;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #014bca 0%, #01e374 20%);
+}
+
+.resAi .resumeTab .responseContainer .loader-icon img {
+  border-radius: 100px;
+  height: 54px;
+  object-fit: cover;
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  width: 54px;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.resAi .resumeTab .responseContainer .loader-icon .loading-text {
+  max-width: 855px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  align-items: center;
+  text-align: center;
+  color: #17009a;
+}
+.resAi .resumeTab .responseContainer .loader-icon .gptAnimate {
+  height: 66px;
+  width: 66px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  z-index: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(#164ca8, #00aaa2, #370f96);
+  animation: rotate 2s linear infinite;
+}
+.resAi .resumeTab .responseContainer .loader-icon .loader {
+  position: relative;
+  height: 80px;
+  width: 80px;
+}
+.resAi .resumeTab .responseContainer .loader-icon {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-size: 15px;
+}
+
+.resAi .resumeTab .responseContainer.loading {
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: aiLoading;
+  animation-timing-function: ease-in-out;
+  border-radius: 20px;
+  height: 400px;
+  width: 100%;
+}
+
+.resAi .resumeTab .responseContainer h3 {
+  font-size: 17px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.resAi .resumeTab .responseContainer {
+  color: #dbe1e9;
+  max-height: 400px;
+  font-size: 15px;
+  overflow: auto;
+}
+.t-jobsContent .responseContainer {
+  color: #dbe1e9;
+  max-height: 100%;
+  font-size: 15px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  align-items: center;
+  justify-content: center;
+}
+
+.resumeAiInner .info .instruction-icon {
+  width: 20px;
+  height: 20px;
+}
+.resumeAiInner .info .instructions {
+  margin-bottom: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #c15100;
+}
+.resumeAiInner .info {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 5px;
+  margin-bottom: 18px;
+}
+
+.resumeAiInner .card {
+  padding: 20px;
+  margin-bottom: 10px;
+  font-size: 16px !important;
+}
+
+.content-list.tab-content .search-row .title {
+  max-width: 210px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.content-list {
+  max-height: calc(100vh - 205px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 11px;
+  padding: 2px 5px;
+}
+
+.content-detail {
+  max-height: calc(100vh - 85px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  border-radius: 11px;
+}
+
+.breadcumb-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.content-body .mob {
+  display: none;
+}
+.filter-pagination.pagination .page-item:last-child {
+  margin-right: 0;
+}
+.filter-pagination.pagination {
+  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-left: 10px !important;
+  z-index: 0;
+}
+.filter-pagination li a.page-link {
+  background: #e0dbe9 !important;
+  color: #40189d !important;
+  border-color: #40189d1a !important;
+  border-radius: 25px !important;
+  font-weight: 600;
+}
+.resumeOuter.light
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-animation::after,
+.t-jobsContent
+  .customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-animation::after {
+  height: 72px;
+  width: 72px;
+  box-shadow: 0 0 40px #bbbaba42;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  box-shadow: 0 0 40px #bbbaba42;
+  content: "";
+  z-index: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(#164ca8, #00aaa2, #370f96);
+  animation: rotate 2s linear infinite;
+}
+.resumeOuter.light
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-animation,
+.t-jobsContent
+  .customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-animation {
+  background: #39364936;
+  position: relative;
+  border-radius: 1000px;
+  width: 70px;
+}
+.resumeOuter.light .resumeTab .customResumeComp .animation-box .animation,
+.t-jobsContent .customResumeComp .animation-box .animation {
+  display: flex;
+  flex-direction: column;
+  color: #0036a1;
+  align-items: center;
+}
+.animation-box .animation .animation-line {
+  width: 40%;
+  border: 1px solid #24b7b5;
+  animation: 1s linear infinite LineAnimate;
+  margin-top: 10px;
+}
+.resumeOuter.light
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .progress-outer
+  .progress-inner,
+.t-jobsContent
+  .customResumeComp
+  .animation-box
+  .progress-outer
+  .progress-inner {
+  position: absolute;
+  left: 0;
+  width: 0%;
+  border: 1px solid #3c94e6;
+  visibility: hidden;
+  transition: all 6s;
+}
+.resumeOuter.light
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .progress-outer
+  .right-dot,
+.t-jobsContent .customResumeComp .animation-box .progress-outer .right-dot {
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-right: -10px;
+  background: #e4e4e4;
+  border-radius: 100px;
+  transition: all 12s;
+}
+.customResumeComp .animation-box .progress-outer .left-dot {
+  position: absolute;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  margin-left: -10px;
+  background: #e4e4e4;
+  border-radius: 100px;
+  transition: all 2s;
+}
+.resumeOuter
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .progress-outer.active
+  .right-dot {
+  background: #3c94e6;
+}
+.resumeOuter
+  .resumeTab
+  .customResumeComp
+  .animation-box
+  .progress-outer.active
+  .left-dot {
+  background: #3c94e6;
+}
+.customResumeComp .animation-box .progress-outer {
+  width: 69%;
+  border: 1px solid #e4e4e4;
+  position: relative;
+  margin-top: 27px;
+  transition: all 4s;
+}
+.customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-server
+  .server-img {
+  width: 80px;
+}
+.customResumeComp .animation-box .resume-upload-animation .ai-server {
+  padding: 23px;
+  background: linear-gradient(45deg, #ffffff36, #ffffff);
+  border-radius: 1000px;
+  box-shadow: 0 0 40px #bbbaba42;
+}
+.customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .ai-animation
+  .ai-img {
+  width: 60px;
+  height: 60px;
+  z-index: 99;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 1000px;
+}
+.customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .local-animation
+  .local-img {
+  width: 80px;
+}
+.customResumeComp .animation-box .progress-outer.active .progress-inner {
+  width: 100%;
+  visibility: visible;
+}
+.customResumeComp .animation-box .resume-upload-animation .ai-server.active {
+  animation: 12s linear backgroundAnimate;
+  background: linear-gradient(45deg, #ffffff36, #ebf4fa);
+  box-shadow: 0px 0px 20px #cbdeea, inset 0 0 20px #cbdeea;
+}
+
+.customResumeComp
+  .animation-box
+  .resume-upload-animation
+  .local-animation.active {
+  animation: 2s linear backgroundAnimate;
+  background: linear-gradient(45deg, #ffffff36, #ebf4fa);
+  box-shadow: 0px 0px 20px #cbdeea, inset 0 0 20px #cbdeea;
+}
+@keyframes backgroundAnimate {
+  0% {
+    background: linear-gradient(45deg, #ffffff36, #ffffff);
+    box-shadow: 0 0 0 transparent;
+  }
+  100% {
+    background: linear-gradient(45deg, #ffffff36, #ebf4fa);
+    box-shadow: 0px 0px 20px #cbdeea, inset 0 0 20px #cbdeea;
+  }
+}
+.customResumeComp .animation-box .resume-upload-animation .local-animation {
+  padding: 23px;
+  background: linear-gradient(45deg, #ffffff36, #ffffff);
+  border-radius: 1000px;
+  box-shadow: 0 0 40px #bbbaba42;
+}
+.customResumeComp .animation-box .resume-upload-animation {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 50px;
+}
+.customResumeComp .animation-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 40px 0 40px 0;
+}
+
+@keyframes LineAnimate {
+  0% {
+    border: 1px solid #24b7b5;
+  }
+  50% {
+    border: 1px solid #24b7b536;
+  }
+  100% {
+    border: 1px solid #24b7b5;
+  }
+}
+
+@keyframes popupcont {
+  0% {
+    top: -100%;
+  }
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes popupclose {
+  0% {
+    rotate: 0deg;
+  }
+
+  50% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 45deg;
+  }
+}
+
+.search-Jobs-Container .resAi.card .Ai-Insights-Button img {
+  width: 25px;
+  height: 25px;
+}
+.search-Jobs-Container .resAi.card .Ai-Insights-Button {
+  border-radius: 91px;
+  border: 1px solid #63c2fb;
+  margin-top: 16px;
+  display: flex;
+  padding: 8px;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-weight: 600;
+  background: linear-gradient(295deg, #62d5fd 36.27%, #6584f6 52.28%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  .icon {
+        /* filter: brightness(10); */
+        width: 20px;
+        rotate: 0deg;
+    }
+}
+.search-Jobs-Container .resAi.card .Ai-Insights-Button:hover {
+      background: linear-gradient(182deg, #6a8bee, #77c5f7);
+    color: #ffffff;
+    -webkit-background-clip: unset;
+    -webkit-text-fill-color: unset;
+    background-clip: unset;
+    text-fill-color: unset;
+    .icon {
+        filter: brightness(10);
+        width: 18px;
+        rotate: -90deg;
+    }
+}
+.search-Jobs-Container .resAi.card .card-body .fs-15.job-decription h4 {
+  text-align: center;
+  font-size: 16px;
+  margin-bottom: 12px;
+  margin-top: 20px;
+  color: #40189dd9;
+  font-weight: 600;
+}
+
+.search-Jobs-Container .resAi.card .card-body .fs-15.job-decription {
+  text-align: justify;
+  padding: 0 14px;
+}
+.search-Jobs-Container .resAi.card .card-body.col-xl-12.col-sm-6.border-left {
+  padding-top: 20px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+.search-Jobs-Container
+  .resAi.card
+  .card-body.border-bottom.text-center.col-xl-12.col-sm-6 {
+  padding-bottom: 16px;
+}
+.search-Jobs-Container .resAi.card .employer-det {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.search-Jobs-Container .resAi.card .description-image {
+  width: 100px;
+  height: 100px;
+  filter: drop-shadow(2px 4px 29px #0000002e);
+}
+.search-Jobs-Container .search-row.jobs-list .apply-button.btn-sm {
+  padding: 0.475rem 1rem;
+}
+.search-Jobs-Container .search-row.jobs-list {
+  padding: 0 14px;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.jobs-list-outer .jobs-list .location-info .location-info-text span {
+  font-size: 14px;
+}
+.jobs-list-outer
+  .jobs-list
+  .location-info
+  .location-info-text
+  h4.sub-title.text-black {
+  margin-bottom: 3px;
+  color: #b65700 !important;
+  font-weight: 600;
+  font-size: 14px;
+}
+.jobs-list-outer .jobs-list .location-info svg {
+  width: 40px;
+  height: 40px;
+}
+.jobs-list-outer .jobs-list .date-info .date-info-text span {
+  font-size: 14px;
+}
+.jobs-list-outer .jobs-list .date-info .date-info-text h4.sub-title.text-black {
+  margin-bottom: 3px;
+  font-weight: 600;
+  color: #008b20 !important;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 142px;
+  font-size: 14px;
+}
+.jobs-list-outer .jobs-list .date-info svg {
+  width: 40px;
+  height: 40px;
+}
+.jobs-list-outer .jobs-list .jobs-title-name .title-company span.text-primary {
+  font-size: 12px;
+  margin-top: 0px;
+  line-height: 14px;
+}
+.jobs-list-outer .jobs-list .jobs-title-name .title-company h2 {
+  margin-bottom: 0;
+}
+.jobs-list-outer .jobs-list .jobs-title-name svg {
+  width: 40px;
+  height: 40px;
+}
+
+@media (max-width: 768px) {
+  .content-body .breadcumb-column {
+    display: none;
+  }
+  .content-body .search-column {
+    max-width: 100%;
+  }
+  .content-body .desk {
+    display: none;
+  }
+  .mobile-filters-popup {
+    position: fixed;
+    background: #ffffffde;
+    backdrop-filter: blur(4px);
+    padding: 12px;
+    border-radius: 18px;
+    top: 50%;
+    left: 50%;
+    box-shadow: 0 0 24px #a6a3a396;
+    width: 90%;
+    transform: translate(-50%, -50%);
+  }
+  .mobile-filters-popup .select {
+    width: 100%;
+  }
+  .content-body .mob {
+    display: unset;
+  }
+  .JobsCard .bot-details .jobInfo .jobDetails {
+    display: none;
+  }
+  .JobsCard .bot-details .Main-buttons .aiButton {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+  }
+  .JobsCard .bot-details {
+                    margin-top: 8px;
+        margin-bottom: -5px;
+  }
+  .JobsCard .bot-details .Main-buttons .aiButton, .JobsCard .bot-details .Main-buttons .ApplyButton {
+    background: transparent;
+    box-sizing: border-box;
+    font-weight: 500;
+    padding: 0px 8px;
+    transition: all 0.7s;
+    height: 28px;
+    font-size: 14px;
+  }
+  .JobsCard .bot-details .jobInfo {
+    display: none;
+  }
+  .JobsCard .top-contents .jobTags .PostLocTime {
+    margin-top: 19px;
+  }
+  .JobsCard .top-contents .jobTags .jobCompntype {
+    margin-bottom: -3px;
+    margin-right: -68px;
+    margin-top: 4px;
+  }
+  .JobsCard .top-contents .jobTags .PostLocTime .posted span {
+    font-size: 12px;
+  }
+  .t-job-btn {
+    border-radius: 100px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    transform: translate(-50%, 0);
+  }
+  .aiOuter {
+    display: unset !important;
+  }
+  .JobsCard .bot-details .jobInfo .time {
+    display: none;
+  }
+  .JobsCard .bot-details .Main-buttons .ApplyOuter,
+  .JobsCard .bot-details .Main-buttons .aiOuter {
+    display: none;
+  }
+  .filtersContainer .inputFilters {
+    display: none !important;
+  }
+  .filtersContainer .widthDivider {
+    display: none !important;
+  }
+  .filtersContainer .jobPagination {
+    width: 50% !important;
+  }
+  .JobsCard .bot-details .Main-buttons .AutoApply.aiButton {
+    display: none;
+  }
+  .JobsCard .bot-details .Main-buttons .ApplyButton span {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .JobsCard .top-contents .jobTags .PostLocTime .posted span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical;
+  }
+  .JobsCard .top-contents .jobTags .jobCompntype span {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1 !important;
+    margin-right: 3px;
+    -webkit-box-orient: vertical;
+  }
+  .topFilters {
+    margin-top: 19px;
+  }
+
+  .JobsCard .top-contents .jobTags {
+    margin: 0;
+    width: 80%;
+  }
+  .JobsCard .top-contents .jobTags .mainHead {
+    font-weight: 600;
+    font-size: 16px !important;
+    width: 100%;
+    -webkit-line-clamp: 2 !important;
+  }
+}
+.pro-bg .pro-container.small.video {
+  height: auto;
+}
+
+.pro-bg .pro-container.small.video iframe {
+  min-height: 188px;
+  margin-top: 10px;
+}
+@media (max-width: 768px) {
+  .interview-prep .resumeOuter.fullWidthPopup {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .interview-prep .resumeOuter.fullWidthPopup .resumeTab .feedbackbox {
+    max-height: 85vh;
+    overflow: auto;
+    margin-bottom: 15px !important;
+  }
+  .interview-prep .resumeOuter.fullWidthPopup .resumeTab .close {
+    right: 14px;
+    top: 11px;
+  }
+  .JobsCard .top-contents .jobTags .PostLocTime {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 8px;
+    font-weight: 500;
+    margin-right: -58px;
+    font-size: 14px;
+    line-height: 21px;
+    color: #5c5c5c;
+    align-items: center;
+  }
+  .interview-prep .resumeOuter.fullWidthPopup .resumeTab .card .text.answer,
+  .interview-prep .resumeOuter.fullWidthPopup .resumeTab .card .text.rating,
+  .resumeOuter .resumeTab .card {
+    background: #fff !important;
+    padding: 10px 0 !important;
+    max-height: 90vh !important;
+  }
+  .resumeOuter .resumeTab .text {
+    font-weight: 500 !important;
+    font-size: 13px;
+  }
+  .resumeOuter .resumeTab .card .text.feedback {
+    margin-left: 1rem !important;
+  }
+  .interview-prep .resumeOuter.fullWidthPopup .resumeTab {
+    height: 100%;
+    border-radius: 0 !important;
+    padding: 17px 16px;
+  }
+  .customResumeComp .animation-box .resume-upload-animation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .customResumeComp .animation-box .resume-upload-animation .local-animation {
+    padding: 15px;
+  }
+  .customResumeComp .animation-box .resume-upload-animation .ai-server {
+    padding: 15px;
+  }
+  .customResumeComp
+    .animation-box
+    .resume-upload-animation
+    .local-animation
+    .local-img {
+    width: 35px;
+  }
+  .customResumeComp
+    .animation-box
+    .resume-upload-animation
+    .ai-server
+    .server-img {
+    width: 35px;
+  }
+  .deznav .metismenu .has-arrow:after {
+    opacity: 0;
+  }
+  .deznav.side-open .deznav-scroll .metismenu .menu-title.mm-active a i {
+    filter: brightness(3);
+  }
+  .customResumeComp .animation-box .progress-outer {
+    width: 69%;
+    border: 1px solid #e4e4e4;
+    position: relative;
+    margin-top: 10px;
+  }
+  .customResumeComp
+    .animation-box
+    .resume-upload-animation
+    .ai-animation
+    .ai-img {
+    width: 25px;
+    height: 25px;
+  }
+  .customResumeComp
+    .animation-box
+    .resume-upload-animation
+    .ai-animation::after {
+    height: 30px !important;
+    width: 30px !important;
+  }
+}

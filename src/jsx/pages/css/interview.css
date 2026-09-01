@@ -15,7 +15,7 @@
   padding: 32px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  max-width: 650px;
+  max-width: 600px;
   width: 100%;
   text-align: center;
 }
@@ -157,10 +157,4 @@
   background-color: #2563eb;
 }
 
-}
-@media (max-width:768px) {
-  .w-oLogininterview {
-    .info-boxes {
-      flex-direction: column;
-    }}
 }

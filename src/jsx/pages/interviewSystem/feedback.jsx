@@ -30,12 +30,12 @@ export default function FeedbackComponent({ docId, feedback, setFeedback }) {
   const minutes = String(now.getMinutes()).padStart(2, "0");
   const seconds = String(now.getSeconds()).padStart(2, "0");
   const currentDateTime = `${month}-${day}-${year}_${hours}-${minutes}-${seconds}`;
-  useEffect(()=>{
-    setTimeout(()=>{
-      setIsLoading(true);
-      window.location.href = "https://careersavvy.ai";
-    },2000)
-  },[feedback])
+useEffect(()=>{
+  setTimeout(()=>{
+    setIsLoading(true);
+    navigate("/")
+  },2000)
+},[feedback])
   // useEffect(() => {
   //   const fetchFeedback = async () => {
   //     const payload = { action: "Get_Feedback", doc_id: docId };
@@ -240,9 +240,7 @@ export default function FeedbackComponent({ docId, feedback, setFeedback }) {
         </div>
 
         <div style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
-          <button className="reportDownload bottombutton" onClick={() => {setTimeout(() => {
-              window.location.href = "https://careersavvy.ai";
-            }, 500)}}>
+          <button className="reportDownload bottombutton" onClick={() => navigate("/")}>
             Go Back To Home Page
           </button>
         </div>

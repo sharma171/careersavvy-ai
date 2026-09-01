@@ -2,18 +2,19 @@
 import React, { useContext, useEffect, useReducer, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { PhoneCall } from "lucide-react";
 import "./sidebar.css";
-import { Collapse } from "react-bootstrap";
+import "./profileUpdateMinimalist.css";
+import { Collapse } from 'react-bootstrap';
 /// Link
+import ToastSuccess from "../../components/toastSuccess"
 import Icons from "./proIcon.svg";
 import { Link } from "react-router-dom";
-// import { MenuList } from "./Menu";
+import { MenuList } from './Menu';
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { navtoggle } from "../../../store/actions/AuthActions";
-import { setShowPro, setSidebarPopupType } from "../../../store/actions/actions";
-import { HiOutlineUserAdd } from "react-icons/hi";
+import { setShowPro, setProfileUpdateStatus } from "../../../store/actions/actions";
+
 
 const reducer = (previousState, updatedState) => ({
   ...previousState,
@@ -23,12 +24,21 @@ const reducer = (previousState, updatedState) => ({
 const initialState = {
   active: "",
   activeSubmenu: "",
-};
+}
+
+
 
 const SideBar = () => {
   /// Open menu
   let d = new Date();
-  const { iconHover, sidebarposition, headerposition, sidebarLayout, ChangeIconSidebar } = useContext(ThemeContext);
+  const {
+    iconHover,
+    sidebarposition,
+    headerposition,
+    sidebarLayout,
+    ChangeIconSidebar,
+
+  } = useContext(ThemeContext);
 
   const [state, setState] = useReducer(reducer, initialState);
   const dispatch = useDispatch();
@@ -36,89 +46,95 @@ const SideBar = () => {
   const navigate = useNavigate;
 
   const userEmail = useSelector((state) => state.auth.auth);
-  const { profileData, fileResume, featuresToBlock, isDarkMode ,sidebarPopupType } = useSelector((state) => state.profile);
+  const { profileData, fileResume, featuresToBlock, isDarkMode, profileUpdateStatus } = useSelector(state => state.profile);
   const [upgradePro, setUpgradePro] = useState(false);
-  const sideMenu = useSelector((state) => state.sideMenu);
-
-  useEffect(()=>{
-    console.log("sideMenu",sideMenu);
-    
-  },[sideMenu])
-  useEffect(()=>{
-    setTimeout(()=>{
-      if (sideMenu == false) {
-
-        sideBarOpen();
-      }
-
-    },6000);
-  },[sideMenu])
-  
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+  const sideMenu = useSelector(state => state.sideMenu);
+  //useEffect(() => {			
+  //}, []);
+  //For scroll
+  // Toggle function to dispatch the action
+  const handleToggle = () => {
+    if (sideMenu === false) {
+      dispatch(navtoggle());
+    }
+  };
 
   useEffect(() => {
     if (window.innerWidth <= 768) {
       const timer = setTimeout(() => {
-        // handleToggle(); // Calls the toggle function after 10 seconds
-      }, 5000);
+        handleToggle(); // Calls the toggle function after 10 seconds
+      }, 2000)
 
       // Cleanup the timer when component unmounts or userEmail changes
       return () => clearTimeout(timer);
-    } else {
+    }
+    else {
       const timer = setTimeout(() => {
-        // handleToggle(); // Calls the toggle function after 10 seconds
-      }, 10000);
+        handleToggle(); // Calls the toggle function after 10 seconds
+      }, 10000)
 
       // Cleanup the timer when component unmounts or userEmail changes
       return () => clearTimeout(timer);
     }
   }, [userEmail, sideMenu]); // Dependency array includes sideMenu to ensure it has the latest value
 
+
   const sideBarOpen = () => {
-    if (sideMenu == false) {
+    if (sideMenu !== false) {
       dispatch(navtoggle());
     }
-    else{
-
-      // dispatch(navtoggle());
-    }
-  };
+  }
   const sideBarClose = () => {
-    if (sideMenu == true) {
+    if (sideMenu !== true) {
       dispatch(navtoggle());
     }
-  };
+  }
 
-  let handleheartBlast = document.querySelector(".heart");
+  useEffect(() => {
+    if (profileUpdateStatus == true) {
+      setTimeout(() => {
+        dispatch(setProfileUpdateStatus(false));
+      }, 18000)
+    }
+  }, [profileUpdateStatus])
+
+
+
+  let handleheartBlast = document.querySelector('.heart');
   function heartBlast() {
     return handleheartBlast.classList.toggle("heart-blast");
   }
 
-  const [hideOnScroll, setHideOnScroll] = useState(true);
+  const [hideOnScroll, setHideOnScroll] = useState(true)
   useScrollPosition(
     ({ prevPos, currPos }) => {
-      const isShow = currPos.y > prevPos.y;
-      if (isShow !== hideOnScroll) setHideOnScroll(isShow);
+      const isShow = currPos.y > prevPos.y
+      if (isShow !== hideOnScroll) setHideOnScroll(isShow)
     },
     [hideOnScroll]
-  );
+  )
 
-  const handleMenuActive = (status) => {
+
+  const handleMenuActive = status => {
     setState({ active: status });
     if (state.active === status) {
       setState({ active: "" });
     }
-  };
+  }
   const handleSubmenuActive = (status) => {
-    setState({ activeSubmenu: status });
+    setState({ activeSubmenu: status })
     if (state.activeSubmenu === status) {
-      setState({ activeSubmenu: "" });
+      setState({ activeSubmenu: "" })
     }
-  };
+  }
 
   function makePayment() {
     setUpgradePro(false);
     dispatch(setShowPro(true));
   }
+
 
   // Function to handle click and set active menu
 
@@ -131,102 +147,346 @@ const SideBar = () => {
 
   return (
     <>
-      <div
-        className={`deznav ${sideMenu === true ? "side-close" : "side-open"}`}
-        // onMouseOver={sideBarOpen}
-        // onMouseLeave={sideBarClose}
-      >
-        <div className="deznav-scroll ">
-          {location.pathname !== "/resume-upload" ? (
-            <ul className="metismenu" id="menu" onClick={sideBarClose}>
-              
-              <li className={`menu-title ${location.pathname === "/jobposting" ? "mm-active" : ""}`}>
-                <Link to="/jobposting">
-                  <i className="fi fi-br-briefcase">
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      style={
-                        (sideMenu && location.pathname === "/jobposting") || location.pathname !== "/jobposting"
-                          ? { filter: "brightness(25)" }
-                          : {}
-                      }
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-briefcase-business"
-                    >
-                      <path d="M12 12h.01"></path>
-                      <path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path>
-                      <path d="M22 13a18.15 18.15 0 0 1-20 0"></path>
-                      <rect width="20" height="14" x="2" y="6" rx="2"></rect>
-                    </svg>
-                  </i>
-                  <span className="nav-text">Job Postings</span>
-                </Link>
-              </li>
-
-              <li className={`menu-title ${location.pathname === "/users" ? "mm-active" : ""}`}>
-                <Link to="/users">
-                  <HiOutlineUserAdd
-                    style={
-                      (sideMenu && location.pathname === "/users") || location.pathname !== "/users"
-                        ? { filter: "brightness(25)", width: "24px", height: "24px", marginRight: "0.75rem" }
-                        : {}
-                    }
-                  />
-                  <span className="nav-text">Users</span>
-                </Link>
-              </li>
-             
-            </ul>
-          ) : (
+      <div className={`deznav ${sideMenu === true ? "side-close" : "side-open"}`} onMouseOver={sideBarOpen} onMouseLeave={sideBarClose}>
+        <div className={`deznav-scroll ${location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? "interviewGoingOn" : ""}`} onClick={() => {
+          if (profileUpdateStatus) {
+            setMessage("Processing resume & updating your profile - please wait a moment.")
+          }
+        }}
+        >
+          {profileUpdateStatus == true ? (
             <>
-              <ul className="metismenu" id="menu">
-                <li className={`menu-title ${location.pathname === "/resume-upload" ? "mm-active" : ""} `}>
-                  <Link className="has-arrow ai-icon" to="/resume-upload">
-                    <i className="flaticon-381-networking"></i>
-                    <span className="nav-text">Resume Upload</span>
+              <ul className="metismenu" id="menu"
+                style={{
+                  pointerEvents: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'none' : 'auto',
+                  opacity: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 0.5 : 1, // optional visual feedback
+                  cursor: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'not-allowed' : 'default'
+                }}
+              >
+                <li className={`menu-title ${location.pathname === '/dashboard' ? "mm-active" : ""} ${profileUpdateStatus == true && "do-not-allow-cursor"} ${location.pathname === '/' ? "mm-active" : ""}`}>
+                  <Link  className={`has-arrow ai-icon ${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="flaticon-381-networking">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.9998 1.25C11.8111 1.24892 8.70518 2.26442 6.13304 4.14899C3.56091 6.03357 1.65655 8.68907 0.69659 11.7298C-0.263373 14.7705 -0.228952 18.0381 0.794854 21.0579C1.81866 24.0777 3.77853 26.6925 6.3898 28.5225L6.71355 28.75H23.286L23.6098 28.5225C26.2211 26.6925 28.1809 24.0777 29.2047 21.0579C30.2285 18.0381 30.263 14.7705 29.303 11.7298C28.343 8.68907 26.4387 6.03357 23.8666 4.14899C21.2944 2.26442 18.1885 1.24892 14.9998 1.25ZM22.4848 26.25H7.5148C5.41233 24.6781 3.85812 22.4841 3.07258 19.9793C2.28703 17.4744 2.31002 14.7859 3.1383 12.2948C3.96657 9.80377 5.55808 7.63672 7.68712 6.10098C9.81616 4.56524 12.3747 3.73877 14.9998 3.73877C17.6249 3.73877 20.1834 4.56524 22.3125 6.10098C24.4415 7.63672 26.033 9.80377 26.8613 12.2948C27.6896 14.7859 27.7126 17.4744 26.927 19.9793C26.1415 22.4841 24.5873 24.6781 22.4848 26.25ZM24.9998 16.25C25.0034 17.5816 24.739 18.9004 24.2223 20.1276C23.7057 21.3549 22.9473 22.4657 21.9923 23.3938L20.2423 21.6062C21.1965 20.6804 21.8848 19.5155 22.2355 18.2331C22.5862 16.9506 22.5864 15.5976 22.236 14.315L24.2048 12.3463C24.73 13.5807 25.0004 14.9085 24.9998 16.25ZM7.4998 16.25C7.49632 17.2481 7.69373 18.2367 8.08028 19.1569C8.46683 20.0771 9.0346 20.9101 9.7498 21.6062L7.9998 23.3938C6.33764 21.7636 5.29637 19.6045 5.05553 17.2888C4.8147 14.9732 5.38938 12.646 6.6805 10.7087C7.97162 8.77134 9.89826 7.3452 12.1282 6.67617C14.3582 6.00713 16.7517 6.13713 18.896 7.04375L16.9348 9.0125C15.8242 8.70994 14.6587 8.66809 13.5293 8.89022C12.3998 9.11234 11.337 9.59243 10.4237 10.293C9.51035 10.9936 8.77127 11.8958 8.26408 12.9291C7.7569 13.9624 7.49534 15.0989 7.4998 16.25ZM17.4073 15.61C17.5577 16.1509 17.5248 16.7265 17.3136 17.2467C17.1024 17.7669 16.7249 18.2026 16.2399 18.4856C15.755 18.7686 15.19 18.8831 14.6332 18.8111C14.0764 18.7392 13.559 18.4848 13.162 18.0878C12.765 17.6908 12.5106 17.1734 12.4387 16.6166C12.3667 16.0598 12.4812 15.4948 12.7642 15.0099C13.0472 14.5249 13.4829 14.1474 14.0031 13.9362C14.5233 13.725 15.0989 13.6921 15.6398 13.8425L20.991 8.49125L22.7585 10.2588L17.4073 15.61Z" fill="white" />
+                      </svg>
+
+
+
+                    </i>
+                    <span className="nav-text">Dashboard</span>
                   </Link>
                 </li>
+                {/* <li className={`menu-title ${location.pathname === '/profile' ? "mm-active" : ""}`}>
+                  <Link to="/profile">
+                      <i className="flaticon-381-networking">
+                      <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1.0686 3.61625C1.07106 3.27567 1.21219 2.9497 1.46149 2.70875C1.7108 2.46779 2.04827 2.33121 2.40101 2.32849H26.5992C27.3352 2.32849 27.9316 2.90558 27.9316 3.61625V24.3838C27.9291 24.7243 27.788 25.0503 27.5387 25.2913C27.2894 25.5322 26.9519 25.6688 26.5992 25.6715H2.40101C2.04751 25.6712 1.70861 25.5353 1.45877 25.2939C1.20894 25.0524 1.0686 24.7251 1.0686 24.3838V3.61625ZM7.73804 17.8905C7.02182 17.8905 6.4412 18.4711 6.4412 19.1873V19.1873C6.4412 19.9036 7.02182 20.4842 7.73804 20.4842H21.2622C21.9784 20.4842 22.559 19.9036 22.559 19.1873V19.1873C22.559 18.4711 21.9784 17.8905 21.2622 17.8905H7.73804ZM10.3317 7.51583C8.18304 7.51583 6.4412 9.25767 6.4412 11.4063V11.4063C6.4412 13.555 8.18304 15.2968 10.3317 15.2968H10.6096C12.7583 15.2968 14.5001 13.555 14.5001 11.4063V11.4063C14.5001 9.25767 12.7583 7.51583 10.6096 7.51583H10.3317ZM18.4832 7.51583C17.767 7.51583 17.1864 8.09644 17.1864 8.81266V8.81266C17.1864 9.52888 17.767 10.1095 18.4832 10.1095H21.2622C21.9784 10.1095 22.559 9.52888 22.559 8.81266V8.81266C22.559 8.09644 21.9784 7.51583 21.2622 7.51583H18.4832ZM18.4832 12.7032C17.767 12.7032 17.1864 13.2838 17.1864 14V14C17.1864 14.7162 17.767 15.2968 18.4832 15.2968H21.2622C21.9784 15.2968 22.559 14.7162 22.559 14V14C22.559 13.2838 21.9784 12.7032 21.2622 12.7032H18.4832ZM9.1275 11.4063C9.1275 10.6901 9.70811 10.1095 10.4243 10.1095H10.517C11.2332 10.1095 11.8138 10.6901 11.8138 11.4063V11.4063C11.8138 12.1226 11.2332 12.7032 10.517 12.7032H10.4243C9.70811 12.7032 9.1275 12.1226 9.1275 11.4063V11.4063Z" fill="white"/>
+                      </svg>
+
+
+                      </i>
+                      <span className="nav-text">Profile</span>
+                  </Link>
+              </li> */}
+                <li className={`menu-title ${location.pathname === '/search-job' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  <Link  className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="fi fi-br-briefcase">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.007 21H9.605C6.02 21 4.228 21 3.114 19.865C2 18.73 2 16.903 2 13.25C2 9.597 2 7.77 3.114 6.635C4.228 5.5 6.02 5.5 9.605 5.5H13.408C16.993 5.5 18.786 5.5 19.9 6.635C20.757 7.508 20.954 8.791 21 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 5.5L15.9 5.19C15.405 3.65 15.158 2.88 14.569 2.44C13.979 2 13.197 2 11.63 2H11.367C9.802 2 9.019 2 8.43 2.44C7.84 2.88 7.593 3.65 7.098 5.19L7 5.5M17.111 13.255C17.296 13.085 17.388 13 17.5 13C17.612 13 17.704 13.085 17.889 13.255L18.602 13.912C18.688 13.991 18.731 14.031 18.784 14.05C18.838 14.07 18.896 14.068 19.014 14.063L19.976 14.025C20.224 14.015 20.348 14.011 20.433 14.082C20.518 14.153 20.535 14.276 20.568 14.522L20.7 15.508C20.716 15.622 20.723 15.678 20.751 15.728C20.779 15.776 20.824 15.811 20.914 15.882L21.69 16.492C21.882 16.644 21.978 16.719 21.997 16.827C22.016 16.935 21.951 17.039 21.823 17.247L21.297 18.094C21.237 18.191 21.207 18.24 21.197 18.294C21.187 18.348 21.199 18.405 21.223 18.517L21.432 19.495C21.482 19.735 21.508 19.855 21.453 19.951C21.398 20.047 21.281 20.085 21.048 20.161L20.122 20.462C20.012 20.498 19.956 20.516 19.913 20.552C19.87 20.589 19.843 20.641 19.79 20.744L19.338 21.615C19.223 21.838 19.165 21.949 19.06 21.987C18.955 22.025 18.84 21.977 18.608 21.881L17.72 21.513C17.611 21.468 17.557 21.445 17.5 21.445C17.443 21.445 17.389 21.468 17.28 21.513L16.392 21.881C16.16 21.977 16.045 22.025 15.94 21.987C15.835 21.949 15.777 21.837 15.662 21.615L15.21 20.744C15.156 20.641 15.13 20.589 15.087 20.553C15.044 20.517 14.988 20.498 14.878 20.463L13.952 20.161C13.719 20.085 13.602 20.047 13.547 19.951C13.492 19.855 13.517 19.736 13.568 19.495L13.778 18.517C13.801 18.405 13.813 18.349 13.803 18.295C13.7825 18.2227 13.7486 18.1548 13.703 18.095L13.178 17.247C13.048 17.039 12.984 16.935 13.003 16.827C13.022 16.719 13.118 16.644 13.31 16.493L14.086 15.883C14.176 15.811 14.221 15.776 14.249 15.727C14.277 15.678 14.284 15.622 14.299 15.507L14.432 14.522C14.465 14.277 14.482 14.153 14.567 14.082C14.652 14.011 14.776 14.015 15.024 14.025L15.987 14.063C16.104 14.068 16.162 14.07 16.216 14.05C16.269 14.03 16.312 13.991 16.398 13.912L17.111 13.255Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+
+
+
+
+
+
+                    </i>
+                    <span className="nav-text">Active Jobs</span>
+                  </Link>
+                </li>
+                <li className={`menu-title ${location.pathname === '/recording' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  {featuresToBlock.includes("block_mockinterview") ? (
+                    <Link  onClick={() => setUpgradePro(true)} className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                      <i className="flaticon-381-networking">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M25.8912 10.1604L25.5837 10.8679C25.5357 10.9831 25.4546 11.0815 25.3507 11.1507C25.2469 11.2199 25.1248 11.2569 25 11.2569C24.8752 11.2569 24.7531 11.2199 24.6493 11.1507C24.5454 11.0815 24.4643 10.9831 24.4163 10.8679L24.1088 10.1604C23.5681 8.90878 22.578 7.90527 21.3337 7.34787L20.385 6.92412C20.2699 6.87118 20.1724 6.78634 20.104 6.67966C20.0357 6.57298 19.9994 6.44894 19.9994 6.32225C19.9994 6.19555 20.0357 6.07152 20.104 5.96484C20.1724 5.85816 20.2699 5.77332 20.385 5.72037L21.2812 5.32162C22.5568 4.74835 23.5638 3.70773 24.095 2.41412L24.4112 1.65037C24.4577 1.53207 24.5387 1.4305 24.6437 1.35891C24.7487 1.28731 24.8729 1.24902 25 1.24902C25.1271 1.24902 25.2513 1.28731 25.3563 1.35891C25.4613 1.4305 25.5423 1.53207 25.5888 1.65037L25.905 2.41287C26.4356 3.70672 27.4422 4.74779 28.7175 5.32162L29.615 5.72162C29.7298 5.77472 29.8269 5.85955 29.895 5.96609C29.9631 6.07263 29.9993 6.19643 29.9993 6.32287C29.9993 6.44932 29.9631 6.57312 29.895 6.67966C29.8269 6.7862 29.7298 6.87103 29.615 6.92412L28.665 7.34662C27.421 7.90458 26.4313 8.90853 25.8912 10.1604ZM15 5.00037C12.9713 5.00068 10.9906 5.61803 9.32098 6.77045C7.65135 7.92288 6.37172 9.55588 5.65198 11.4526C4.93224 13.3494 4.80644 15.4202 5.29127 17.3902C5.77609 19.3601 6.84862 21.136 8.36647 22.4821C9.88431 23.8282 11.7757 24.6808 13.7894 24.9266C15.8032 25.1725 17.8442 24.8001 19.6413 23.8588C21.4384 22.9175 22.9068 21.4519 23.8514 19.6565C24.796 17.8611 25.1722 15.8209 24.93 13.8066L27.4125 13.5116C27.4708 14.0008 27.5 14.497 27.5 15.0004C27.5 21.9041 21.9037 27.5004 15 27.5004C8.09625 27.5004 2.5 21.9041 2.5 15.0004C2.5 8.09663 8.09625 2.50037 15 2.50037C16.0763 2.50037 17.1238 2.63787 18.1225 2.89412L17.5 5.31537C16.6833 5.10538 15.8433 4.99954 15 5.00037ZM16.25 13.7504H20L13.75 22.5004V16.2504H10L16.25 7.50037V13.7504Z" fill="white" />
+                        </svg>
+
+
+                      </i>
+                      <span className="nav-text">Mock Interview</span>
+                    </Link>
+                  ) : (
+                    <Link  className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                      <i className="flaticon-381-networking">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M25.8912 10.1604L25.5837 10.8679C25.5357 10.9831 25.4546 11.0815 25.3507 11.1507C25.2469 11.2199 25.1248 11.2569 25 11.2569C24.8752 11.2569 24.7531 11.2199 24.6493 11.1507C24.5454 11.0815 24.4643 10.9831 24.4163 10.8679L24.1088 10.1604C23.5681 8.90878 22.578 7.90527 21.3337 7.34787L20.385 6.92412C20.2699 6.87118 20.1724 6.78634 20.104 6.67966C20.0357 6.57298 19.9994 6.44894 19.9994 6.32225C19.9994 6.19555 20.0357 6.07152 20.104 5.96484C20.1724 5.85816 20.2699 5.77332 20.385 5.72037L21.2812 5.32162C22.5568 4.74835 23.5638 3.70773 24.095 2.41412L24.4112 1.65037C24.4577 1.53207 24.5387 1.4305 24.6437 1.35891C24.7487 1.28731 24.8729 1.24902 25 1.24902C25.1271 1.24902 25.2513 1.28731 25.3563 1.35891C25.4613 1.4305 25.5423 1.53207 25.5888 1.65037L25.905 2.41287C26.4356 3.70672 27.4422 4.74779 28.7175 5.32162L29.615 5.72162C29.7298 5.77472 29.8269 5.85955 29.895 5.96609C29.9631 6.07263 29.9993 6.19643 29.9993 6.32287C29.9993 6.44932 29.9631 6.57312 29.895 6.67966C29.8269 6.7862 29.7298 6.87103 29.615 6.92412L28.665 7.34662C27.421 7.90458 26.4313 8.90853 25.8912 10.1604ZM15 5.00037C12.9713 5.00068 10.9906 5.61803 9.32098 6.77045C7.65135 7.92288 6.37172 9.55588 5.65198 11.4526C4.93224 13.3494 4.80644 15.4202 5.29127 17.3902C5.77609 19.3601 6.84862 21.136 8.36647 22.4821C9.88431 23.8282 11.7757 24.6808 13.7894 24.9266C15.8032 25.1725 17.8442 24.8001 19.6413 23.8588C21.4384 22.9175 22.9068 21.4519 23.8514 19.6565C24.796 17.8611 25.1722 15.8209 24.93 13.8066L27.4125 13.5116C27.4708 14.0008 27.5 14.497 27.5 15.0004C27.5 21.9041 21.9037 27.5004 15 27.5004C8.09625 27.5004 2.5 21.9041 2.5 15.0004C2.5 8.09663 8.09625 2.50037 15 2.50037C16.0763 2.50037 17.1238 2.63787 18.1225 2.89412L17.5 5.31537C16.6833 5.10538 15.8433 4.99954 15 5.00037ZM16.25 13.7504H20L13.75 22.5004V16.2504H10L16.25 7.50037V13.7504Z" fill="white" />
+                        </svg>
+
+
+
+                      </i>
+                      <span className="nav-text">Mock Interview</span>
+                    </Link>
+                  )}
+
+                </li>
+                <li className={`menu-title ${location.pathname === '/aspire-quest' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  <Link  className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="flaticon-381-networking">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4 3H7.6C6.83571 3 6.2 3 5.67857 3.04364C3.66286 3.21091 2.20429 4.73673 2.04286 6.74545C2 7.27636 2 7.92655 2 8.70182V21.2982C2 22.0764 2 22.7236 2.04286 23.2545C2.08571 23.8073 2.18286 24.3251 2.42857 24.8153C2.80524 25.5681 3.40635 26.1801 4.14571 26.5636C4.62714 26.8138 5.13571 26.9127 5.67857 26.9564C6.2 27 6.83571 27 7.59857 27H21.4014C22.1643 27 22.8014 27 23.3214 26.9564C23.8643 26.9127 24.3729 26.8138 24.8543 26.5636C25.0973 26.4267 25.2786 26.1991 25.3599 25.9287C25.4413 25.6583 25.4163 25.3663 25.2903 25.1143C25.1643 24.8623 24.9472 24.6699 24.6846 24.5778C24.422 24.4856 24.1346 24.5009 23.8829 24.6204C23.7529 24.6873 23.5571 24.7484 23.1457 24.7818C22.7243 24.8167 22.1743 24.8182 21.3571 24.8182H7.64286C6.82571 24.8182 6.27571 24.8182 5.85286 24.7818C5.44286 24.7484 5.24714 24.6873 5.11857 24.6204C4.78202 24.446 4.50844 24.1674 4.33714 23.8247C4.27143 23.6938 4.21143 23.4945 4.17857 23.0756C4.14429 22.6465 4.14286 22.0865 4.14286 21.2545V9.54545H24.8371C24.8486 10.1515 24.8552 10.7576 24.8571 11.3636C24.8571 11.653 24.97 11.9304 25.171 12.135C25.3719 12.3396 25.6444 12.4545 25.9286 12.4545C26.2127 12.4545 26.4853 12.3396 26.6862 12.135C26.8871 11.9304 27 11.653 27 11.3636C27 11.0921 26.9986 10.8216 26.9957 10.552C26.9857 9.57746 26.9571 7.92364 26.8657 6.744C26.7043 4.67273 25.3343 3.20945 23.3214 3.04364C22.8 3 22.1643 3 21.4 3ZM24.76 7.36364C24.6914 6.20436 24.3629 5.31855 23.1457 5.21818C22.7243 5.18327 22.1743 5.18182 21.3571 5.18182H7.64286C6.82571 5.18182 6.27571 5.18182 5.85286 5.21818C4.68429 5.31564 4.19143 6.20727 4.15429 7.36364H24.76Z" fill="white" />
+                        <path d="M7.1 11C6.80826 11 6.52847 11.1054 6.32218 11.2929C6.11589 11.4804 6 11.7348 6 12C6 12.2652 6.11589 12.5196 6.32218 12.7071C6.52847 12.8946 6.80826 13 7.1 13H15.9C16.1917 13 16.4715 12.8946 16.6778 12.7071C16.8841 12.5196 17 12.2652 17 12C17 11.7348 16.8841 11.4804 16.6778 11.2929C16.4715 11.1054 16.1917 11 15.9 11H7.1Z" fill="white" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22.3216 12C21.6533 12.0003 20.9942 12.1709 20.396 12.4986C19.7978 12.8262 19.2768 13.302 18.8739 13.8884C18.4711 14.4748 18.1973 15.1559 18.0741 15.8783C17.9509 16.6007 17.9817 17.3447 18.164 18.0518C18.3462 18.7589 18.6751 19.4099 19.1247 19.9537C19.5743 20.4975 20.1324 20.9192 20.7552 21.1858C21.378 21.4524 22.0485 21.5566 22.714 21.4902C23.3795 21.4237 24.022 21.1885 24.591 20.803L26.2724 22.6508C26.3637 22.7586 26.4739 22.845 26.5963 22.905C26.7187 22.965 26.8508 22.9972 26.9847 22.9998C27.1187 23.0024 27.2517 22.9753 27.376 22.9201C27.5002 22.865 27.613 22.7828 27.7078 22.6786C27.8025 22.5744 27.8772 22.4503 27.9274 22.3137C27.9776 22.1771 28.0022 22.0307 27.9998 21.8834C27.9975 21.7361 27.9682 21.5908 27.9136 21.4562C27.8591 21.3216 27.7805 21.2004 27.6825 21.1L26.0024 19.2507C26.4064 18.5303 26.6282 17.7043 26.6449 16.858C26.6616 16.0118 26.4726 15.176 26.0974 14.4369C25.7222 13.6979 25.1745 13.0824 24.5107 12.654C23.8469 12.2256 23.0912 11.9998 22.3216 12ZM19.9937 16.7548C19.9937 16.0758 20.239 15.4246 20.6755 14.9444C21.1121 14.4643 21.7042 14.1945 22.3216 14.1945C22.939 14.1945 23.5311 14.4643 23.9677 14.9444C24.4043 15.4246 24.6495 16.0758 24.6495 16.7548C24.6495 17.4338 24.4043 18.0851 23.9677 18.5652C23.5311 19.0453 22.939 19.3151 22.3216 19.3151C21.7042 19.3151 21.1121 19.0453 20.6755 18.5652C20.239 18.0851 19.9937 17.4338 19.9937 16.7548Z" fill="white" />
+                        <path d="M7.03846 14C6.76304 14 6.49891 14.1094 6.30416 14.3042C6.10941 14.4989 6 14.763 6 15.0385C6 15.3139 6.10941 15.578 6.30416 15.7728C6.49891 15.9675 6.76304 16.0769 7.03846 16.0769H11.1923C11.4677 16.0769 11.7319 15.9675 11.9266 15.7728C12.1214 15.578 12.2308 15.3139 12.2308 15.0385C12.2308 14.763 12.1214 14.4989 11.9266 14.3042C11.7319 14.1094 11.4677 14 11.1923 14H7.03846ZM7.03846 18.1538C6.76304 18.1538 6.49891 18.2633 6.30416 18.458C6.10941 18.6528 6 18.9169 6 19.1923C6 19.4677 6.10941 19.7319 6.30416 19.9266C6.49891 20.1214 6.76304 20.2308 7.03846 20.2308H13.9615C14.237 20.2308 14.5011 20.1214 14.6958 19.9266C14.8906 19.7319 15 19.4677 15 19.1923C15 18.9169 14.8906 18.6528 14.6958 18.458C14.5011 18.2633 14.237 18.1538 13.9615 18.1538H7.03846ZM7.03846 20.9231C6.76304 20.9231 6.49891 21.0325 6.30416 21.2272C6.10941 21.422 6 21.6861 6 21.9615C6 22.237 6.10941 22.5011 6.30416 22.6958C6.49891 22.8906 6.76304 23 7.03846 23H11.1923C11.4677 23 11.7319 22.8906 11.9266 22.6958C12.1214 22.5011 12.2308 22.237 12.2308 21.9615C12.2308 21.6861 12.1214 21.422 11.9266 21.2272C11.7319 21.0325 11.4677 20.9231 11.1923 20.9231H7.03846Z" fill="white" />
+                      </svg>
+                    </i>
+                    <span className="nav-text">Aspire Quest</span>
+                  </Link>
+                </li>
+                
               </ul>
             </>
-          )}
-          
-            <div className={`contactUsBtn ${sideMenu === true ? "side-close" : "side-open"}`} onClick={()=>dispatch(setSidebarPopupType("ContactUs"))}>
-              <PhoneCall size={18}/>
-              <span className="text">
-                Contact Us
-              </span>
-            </div>
+          ) : (<>
+            {location.pathname !== "/resume-upload" ? (
+              <ul className="metismenu" id="menu"
+                style={{
+                  pointerEvents: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'none' : 'auto',
+                  opacity: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 0.5 : 1, // optional visual feedback
+                  cursor: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'not-allowed' : 'default'
+                }}
+              >
+                <li className={`menu-title ${location.pathname === '/dashboard' ? "mm-active" : ""} ${profileUpdateStatus == true && "do-not-allow-cursor"} ${location.pathname === '/' ? "mm-active" : ""}`}>
+                  <Link to="/dashboard" className={`has-arrow ai-icon ${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="flaticon-381-networking">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.9998 1.25C11.8111 1.24892 8.70518 2.26442 6.13304 4.14899C3.56091 6.03357 1.65655 8.68907 0.69659 11.7298C-0.263373 14.7705 -0.228952 18.0381 0.794854 21.0579C1.81866 24.0777 3.77853 26.6925 6.3898 28.5225L6.71355 28.75H23.286L23.6098 28.5225C26.2211 26.6925 28.1809 24.0777 29.2047 21.0579C30.2285 18.0381 30.263 14.7705 29.303 11.7298C28.343 8.68907 26.4387 6.03357 23.8666 4.14899C21.2944 2.26442 18.1885 1.24892 14.9998 1.25ZM22.4848 26.25H7.5148C5.41233 24.6781 3.85812 22.4841 3.07258 19.9793C2.28703 17.4744 2.31002 14.7859 3.1383 12.2948C3.96657 9.80377 5.55808 7.63672 7.68712 6.10098C9.81616 4.56524 12.3747 3.73877 14.9998 3.73877C17.6249 3.73877 20.1834 4.56524 22.3125 6.10098C24.4415 7.63672 26.033 9.80377 26.8613 12.2948C27.6896 14.7859 27.7126 17.4744 26.927 19.9793C26.1415 22.4841 24.5873 24.6781 22.4848 26.25ZM24.9998 16.25C25.0034 17.5816 24.739 18.9004 24.2223 20.1276C23.7057 21.3549 22.9473 22.4657 21.9923 23.3938L20.2423 21.6062C21.1965 20.6804 21.8848 19.5155 22.2355 18.2331C22.5862 16.9506 22.5864 15.5976 22.236 14.315L24.2048 12.3463C24.73 13.5807 25.0004 14.9085 24.9998 16.25ZM7.4998 16.25C7.49632 17.2481 7.69373 18.2367 8.08028 19.1569C8.46683 20.0771 9.0346 20.9101 9.7498 21.6062L7.9998 23.3938C6.33764 21.7636 5.29637 19.6045 5.05553 17.2888C4.8147 14.9732 5.38938 12.646 6.6805 10.7087C7.97162 8.77134 9.89826 7.3452 12.1282 6.67617C14.3582 6.00713 16.7517 6.13713 18.896 7.04375L16.9348 9.0125C15.8242 8.70994 14.6587 8.66809 13.5293 8.89022C12.3998 9.11234 11.337 9.59243 10.4237 10.293C9.51035 10.9936 8.77127 11.8958 8.26408 12.9291C7.7569 13.9624 7.49534 15.0989 7.4998 16.25ZM17.4073 15.61C17.5577 16.1509 17.5248 16.7265 17.3136 17.2467C17.1024 17.7669 16.7249 18.2026 16.2399 18.4856C15.755 18.7686 15.19 18.8831 14.6332 18.8111C14.0764 18.7392 13.559 18.4848 13.162 18.0878C12.765 17.6908 12.5106 17.1734 12.4387 16.6166C12.3667 16.0598 12.4812 15.4948 12.7642 15.0099C13.0472 14.5249 13.4829 14.1474 14.0031 13.9362C14.5233 13.725 15.0989 13.6921 15.6398 13.8425L20.991 8.49125L22.7585 10.2588L17.4073 15.61Z" fill="white" />
+                      </svg>
+
+
+
+                    </i>
+                    <span className="nav-text">Dashboard</span>
+                  </Link>
+                </li>
+                {/* <li className={`menu-title ${location.pathname === '/profile' ? "mm-active" : ""}`}>
+                  <Link to="/profile">
+                      <i className="flaticon-381-networking">
+                      <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1.0686 3.61625C1.07106 3.27567 1.21219 2.9497 1.46149 2.70875C1.7108 2.46779 2.04827 2.33121 2.40101 2.32849H26.5992C27.3352 2.32849 27.9316 2.90558 27.9316 3.61625V24.3838C27.9291 24.7243 27.788 25.0503 27.5387 25.2913C27.2894 25.5322 26.9519 25.6688 26.5992 25.6715H2.40101C2.04751 25.6712 1.70861 25.5353 1.45877 25.2939C1.20894 25.0524 1.0686 24.7251 1.0686 24.3838V3.61625ZM7.73804 17.8905C7.02182 17.8905 6.4412 18.4711 6.4412 19.1873V19.1873C6.4412 19.9036 7.02182 20.4842 7.73804 20.4842H21.2622C21.9784 20.4842 22.559 19.9036 22.559 19.1873V19.1873C22.559 18.4711 21.9784 17.8905 21.2622 17.8905H7.73804ZM10.3317 7.51583C8.18304 7.51583 6.4412 9.25767 6.4412 11.4063V11.4063C6.4412 13.555 8.18304 15.2968 10.3317 15.2968H10.6096C12.7583 15.2968 14.5001 13.555 14.5001 11.4063V11.4063C14.5001 9.25767 12.7583 7.51583 10.6096 7.51583H10.3317ZM18.4832 7.51583C17.767 7.51583 17.1864 8.09644 17.1864 8.81266V8.81266C17.1864 9.52888 17.767 10.1095 18.4832 10.1095H21.2622C21.9784 10.1095 22.559 9.52888 22.559 8.81266V8.81266C22.559 8.09644 21.9784 7.51583 21.2622 7.51583H18.4832ZM18.4832 12.7032C17.767 12.7032 17.1864 13.2838 17.1864 14V14C17.1864 14.7162 17.767 15.2968 18.4832 15.2968H21.2622C21.9784 15.2968 22.559 14.7162 22.559 14V14C22.559 13.2838 21.9784 12.7032 21.2622 12.7032H18.4832ZM9.1275 11.4063C9.1275 10.6901 9.70811 10.1095 10.4243 10.1095H10.517C11.2332 10.1095 11.8138 10.6901 11.8138 11.4063V11.4063C11.8138 12.1226 11.2332 12.7032 10.517 12.7032H10.4243C9.70811 12.7032 9.1275 12.1226 9.1275 11.4063V11.4063Z" fill="white"/>
+                      </svg>
+
+
+                      </i>
+                      <span className="nav-text">Profile</span>
+                  </Link>
+              </li> */}
+                <li className={`menu-title ${location.pathname === '/search-job' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  <Link to="/search-job" className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="fi fi-br-briefcase">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.007 21H9.605C6.02 21 4.228 21 3.114 19.865C2 18.73 2 16.903 2 13.25C2 9.597 2 7.77 3.114 6.635C4.228 5.5 6.02 5.5 9.605 5.5H13.408C16.993 5.5 18.786 5.5 19.9 6.635C20.757 7.508 20.954 8.791 21 11" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 5.5L15.9 5.19C15.405 3.65 15.158 2.88 14.569 2.44C13.979 2 13.197 2 11.63 2H11.367C9.802 2 9.019 2 8.43 2.44C7.84 2.88 7.593 3.65 7.098 5.19L7 5.5M17.111 13.255C17.296 13.085 17.388 13 17.5 13C17.612 13 17.704 13.085 17.889 13.255L18.602 13.912C18.688 13.991 18.731 14.031 18.784 14.05C18.838 14.07 18.896 14.068 19.014 14.063L19.976 14.025C20.224 14.015 20.348 14.011 20.433 14.082C20.518 14.153 20.535 14.276 20.568 14.522L20.7 15.508C20.716 15.622 20.723 15.678 20.751 15.728C20.779 15.776 20.824 15.811 20.914 15.882L21.69 16.492C21.882 16.644 21.978 16.719 21.997 16.827C22.016 16.935 21.951 17.039 21.823 17.247L21.297 18.094C21.237 18.191 21.207 18.24 21.197 18.294C21.187 18.348 21.199 18.405 21.223 18.517L21.432 19.495C21.482 19.735 21.508 19.855 21.453 19.951C21.398 20.047 21.281 20.085 21.048 20.161L20.122 20.462C20.012 20.498 19.956 20.516 19.913 20.552C19.87 20.589 19.843 20.641 19.79 20.744L19.338 21.615C19.223 21.838 19.165 21.949 19.06 21.987C18.955 22.025 18.84 21.977 18.608 21.881L17.72 21.513C17.611 21.468 17.557 21.445 17.5 21.445C17.443 21.445 17.389 21.468 17.28 21.513L16.392 21.881C16.16 21.977 16.045 22.025 15.94 21.987C15.835 21.949 15.777 21.837 15.662 21.615L15.21 20.744C15.156 20.641 15.13 20.589 15.087 20.553C15.044 20.517 14.988 20.498 14.878 20.463L13.952 20.161C13.719 20.085 13.602 20.047 13.547 19.951C13.492 19.855 13.517 19.736 13.568 19.495L13.778 18.517C13.801 18.405 13.813 18.349 13.803 18.295C13.7825 18.2227 13.7486 18.1548 13.703 18.095L13.178 17.247C13.048 17.039 12.984 16.935 13.003 16.827C13.022 16.719 13.118 16.644 13.31 16.493L14.086 15.883C14.176 15.811 14.221 15.776 14.249 15.727C14.277 15.678 14.284 15.622 14.299 15.507L14.432 14.522C14.465 14.277 14.482 14.153 14.567 14.082C14.652 14.011 14.776 14.015 15.024 14.025L15.987 14.063C16.104 14.068 16.162 14.07 16.216 14.05C16.269 14.03 16.312 13.991 16.398 13.912L17.111 13.255Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+
+
+
+
+
+
+                    </i>
+                    <span className="nav-text">Active Jobs</span>
+                  </Link>
+                </li>
+                <li className={`menu-title ${location.pathname === '/recording' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  {featuresToBlock.includes("block_mockinterview") ? (
+                    <Link to="" onClick={() => setUpgradePro(true)} className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                      <i className="flaticon-381-networking">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M25.8912 10.1604L25.5837 10.8679C25.5357 10.9831 25.4546 11.0815 25.3507 11.1507C25.2469 11.2199 25.1248 11.2569 25 11.2569C24.8752 11.2569 24.7531 11.2199 24.6493 11.1507C24.5454 11.0815 24.4643 10.9831 24.4163 10.8679L24.1088 10.1604C23.5681 8.90878 22.578 7.90527 21.3337 7.34787L20.385 6.92412C20.2699 6.87118 20.1724 6.78634 20.104 6.67966C20.0357 6.57298 19.9994 6.44894 19.9994 6.32225C19.9994 6.19555 20.0357 6.07152 20.104 5.96484C20.1724 5.85816 20.2699 5.77332 20.385 5.72037L21.2812 5.32162C22.5568 4.74835 23.5638 3.70773 24.095 2.41412L24.4112 1.65037C24.4577 1.53207 24.5387 1.4305 24.6437 1.35891C24.7487 1.28731 24.8729 1.24902 25 1.24902C25.1271 1.24902 25.2513 1.28731 25.3563 1.35891C25.4613 1.4305 25.5423 1.53207 25.5888 1.65037L25.905 2.41287C26.4356 3.70672 27.4422 4.74779 28.7175 5.32162L29.615 5.72162C29.7298 5.77472 29.8269 5.85955 29.895 5.96609C29.9631 6.07263 29.9993 6.19643 29.9993 6.32287C29.9993 6.44932 29.9631 6.57312 29.895 6.67966C29.8269 6.7862 29.7298 6.87103 29.615 6.92412L28.665 7.34662C27.421 7.90458 26.4313 8.90853 25.8912 10.1604ZM15 5.00037C12.9713 5.00068 10.9906 5.61803 9.32098 6.77045C7.65135 7.92288 6.37172 9.55588 5.65198 11.4526C4.93224 13.3494 4.80644 15.4202 5.29127 17.3902C5.77609 19.3601 6.84862 21.136 8.36647 22.4821C9.88431 23.8282 11.7757 24.6808 13.7894 24.9266C15.8032 25.1725 17.8442 24.8001 19.6413 23.8588C21.4384 22.9175 22.9068 21.4519 23.8514 19.6565C24.796 17.8611 25.1722 15.8209 24.93 13.8066L27.4125 13.5116C27.4708 14.0008 27.5 14.497 27.5 15.0004C27.5 21.9041 21.9037 27.5004 15 27.5004C8.09625 27.5004 2.5 21.9041 2.5 15.0004C2.5 8.09663 8.09625 2.50037 15 2.50037C16.0763 2.50037 17.1238 2.63787 18.1225 2.89412L17.5 5.31537C16.6833 5.10538 15.8433 4.99954 15 5.00037ZM16.25 13.7504H20L13.75 22.5004V16.2504H10L16.25 7.50037V13.7504Z" fill="white" />
+                        </svg>
+
+
+                      </i>
+                      <span className="nav-text">Mock Interview</span>
+                    </Link>
+                  ) : (
+                    <Link to="/recording" className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                      <i className="flaticon-381-networking">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M25.8912 10.1604L25.5837 10.8679C25.5357 10.9831 25.4546 11.0815 25.3507 11.1507C25.2469 11.2199 25.1248 11.2569 25 11.2569C24.8752 11.2569 24.7531 11.2199 24.6493 11.1507C24.5454 11.0815 24.4643 10.9831 24.4163 10.8679L24.1088 10.1604C23.5681 8.90878 22.578 7.90527 21.3337 7.34787L20.385 6.92412C20.2699 6.87118 20.1724 6.78634 20.104 6.67966C20.0357 6.57298 19.9994 6.44894 19.9994 6.32225C19.9994 6.19555 20.0357 6.07152 20.104 5.96484C20.1724 5.85816 20.2699 5.77332 20.385 5.72037L21.2812 5.32162C22.5568 4.74835 23.5638 3.70773 24.095 2.41412L24.4112 1.65037C24.4577 1.53207 24.5387 1.4305 24.6437 1.35891C24.7487 1.28731 24.8729 1.24902 25 1.24902C25.1271 1.24902 25.2513 1.28731 25.3563 1.35891C25.4613 1.4305 25.5423 1.53207 25.5888 1.65037L25.905 2.41287C26.4356 3.70672 27.4422 4.74779 28.7175 5.32162L29.615 5.72162C29.7298 5.77472 29.8269 5.85955 29.895 5.96609C29.9631 6.07263 29.9993 6.19643 29.9993 6.32287C29.9993 6.44932 29.9631 6.57312 29.895 6.67966C29.8269 6.7862 29.7298 6.87103 29.615 6.92412L28.665 7.34662C27.421 7.90458 26.4313 8.90853 25.8912 10.1604ZM15 5.00037C12.9713 5.00068 10.9906 5.61803 9.32098 6.77045C7.65135 7.92288 6.37172 9.55588 5.65198 11.4526C4.93224 13.3494 4.80644 15.4202 5.29127 17.3902C5.77609 19.3601 6.84862 21.136 8.36647 22.4821C9.88431 23.8282 11.7757 24.6808 13.7894 24.9266C15.8032 25.1725 17.8442 24.8001 19.6413 23.8588C21.4384 22.9175 22.9068 21.4519 23.8514 19.6565C24.796 17.8611 25.1722 15.8209 24.93 13.8066L27.4125 13.5116C27.4708 14.0008 27.5 14.497 27.5 15.0004C27.5 21.9041 21.9037 27.5004 15 27.5004C8.09625 27.5004 2.5 21.9041 2.5 15.0004C2.5 8.09663 8.09625 2.50037 15 2.50037C16.0763 2.50037 17.1238 2.63787 18.1225 2.89412L17.5 5.31537C16.6833 5.10538 15.8433 4.99954 15 5.00037ZM16.25 13.7504H20L13.75 22.5004V16.2504H10L16.25 7.50037V13.7504Z" fill="white" />
+                        </svg>
+
+
+
+                      </i>
+                      <span className="nav-text">Mock Interview</span>
+                    </Link>
+                  )}
+
+                </li>
+                <li className={`menu-title ${location.pathname === '/aspire-quest' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                  <Link to="/aspire-quest" className={`${profileUpdateStatus == true && "do-not-allow-cursor"}`} style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                    <i className="flaticon-381-networking">
+                      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4 3H7.6C6.83571 3 6.2 3 5.67857 3.04364C3.66286 3.21091 2.20429 4.73673 2.04286 6.74545C2 7.27636 2 7.92655 2 8.70182V21.2982C2 22.0764 2 22.7236 2.04286 23.2545C2.08571 23.8073 2.18286 24.3251 2.42857 24.8153C2.80524 25.5681 3.40635 26.1801 4.14571 26.5636C4.62714 26.8138 5.13571 26.9127 5.67857 26.9564C6.2 27 6.83571 27 7.59857 27H21.4014C22.1643 27 22.8014 27 23.3214 26.9564C23.8643 26.9127 24.3729 26.8138 24.8543 26.5636C25.0973 26.4267 25.2786 26.1991 25.3599 25.9287C25.4413 25.6583 25.4163 25.3663 25.2903 25.1143C25.1643 24.8623 24.9472 24.6699 24.6846 24.5778C24.422 24.4856 24.1346 24.5009 23.8829 24.6204C23.7529 24.6873 23.5571 24.7484 23.1457 24.7818C22.7243 24.8167 22.1743 24.8182 21.3571 24.8182H7.64286C6.82571 24.8182 6.27571 24.8182 5.85286 24.7818C5.44286 24.7484 5.24714 24.6873 5.11857 24.6204C4.78202 24.446 4.50844 24.1674 4.33714 23.8247C4.27143 23.6938 4.21143 23.4945 4.17857 23.0756C4.14429 22.6465 4.14286 22.0865 4.14286 21.2545V9.54545H24.8371C24.8486 10.1515 24.8552 10.7576 24.8571 11.3636C24.8571 11.653 24.97 11.9304 25.171 12.135C25.3719 12.3396 25.6444 12.4545 25.9286 12.4545C26.2127 12.4545 26.4853 12.3396 26.6862 12.135C26.8871 11.9304 27 11.653 27 11.3636C27 11.0921 26.9986 10.8216 26.9957 10.552C26.9857 9.57746 26.9571 7.92364 26.8657 6.744C26.7043 4.67273 25.3343 3.20945 23.3214 3.04364C22.8 3 22.1643 3 21.4 3ZM24.76 7.36364C24.6914 6.20436 24.3629 5.31855 23.1457 5.21818C22.7243 5.18327 22.1743 5.18182 21.3571 5.18182H7.64286C6.82571 5.18182 6.27571 5.18182 5.85286 5.21818C4.68429 5.31564 4.19143 6.20727 4.15429 7.36364H24.76Z" fill="white" />
+                        <path d="M7.1 11C6.80826 11 6.52847 11.1054 6.32218 11.2929C6.11589 11.4804 6 11.7348 6 12C6 12.2652 6.11589 12.5196 6.32218 12.7071C6.52847 12.8946 6.80826 13 7.1 13H15.9C16.1917 13 16.4715 12.8946 16.6778 12.7071C16.8841 12.5196 17 12.2652 17 12C17 11.7348 16.8841 11.4804 16.6778 11.2929C16.4715 11.1054 16.1917 11 15.9 11H7.1Z" fill="white" />
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22.3216 12C21.6533 12.0003 20.9942 12.1709 20.396 12.4986C19.7978 12.8262 19.2768 13.302 18.8739 13.8884C18.4711 14.4748 18.1973 15.1559 18.0741 15.8783C17.9509 16.6007 17.9817 17.3447 18.164 18.0518C18.3462 18.7589 18.6751 19.4099 19.1247 19.9537C19.5743 20.4975 20.1324 20.9192 20.7552 21.1858C21.378 21.4524 22.0485 21.5566 22.714 21.4902C23.3795 21.4237 24.022 21.1885 24.591 20.803L26.2724 22.6508C26.3637 22.7586 26.4739 22.845 26.5963 22.905C26.7187 22.965 26.8508 22.9972 26.9847 22.9998C27.1187 23.0024 27.2517 22.9753 27.376 22.9201C27.5002 22.865 27.613 22.7828 27.7078 22.6786C27.8025 22.5744 27.8772 22.4503 27.9274 22.3137C27.9776 22.1771 28.0022 22.0307 27.9998 21.8834C27.9975 21.7361 27.9682 21.5908 27.9136 21.4562C27.8591 21.3216 27.7805 21.2004 27.6825 21.1L26.0024 19.2507C26.4064 18.5303 26.6282 17.7043 26.6449 16.858C26.6616 16.0118 26.4726 15.176 26.0974 14.4369C25.7222 13.6979 25.1745 13.0824 24.5107 12.654C23.8469 12.2256 23.0912 11.9998 22.3216 12ZM19.9937 16.7548C19.9937 16.0758 20.239 15.4246 20.6755 14.9444C21.1121 14.4643 21.7042 14.1945 22.3216 14.1945C22.939 14.1945 23.5311 14.4643 23.9677 14.9444C24.4043 15.4246 24.6495 16.0758 24.6495 16.7548C24.6495 17.4338 24.4043 18.0851 23.9677 18.5652C23.5311 19.0453 22.939 19.3151 22.3216 19.3151C21.7042 19.3151 21.1121 19.0453 20.6755 18.5652C20.239 18.0851 19.9937 17.4338 19.9937 16.7548Z" fill="white" />
+                        <path d="M7.03846 14C6.76304 14 6.49891 14.1094 6.30416 14.3042C6.10941 14.4989 6 14.763 6 15.0385C6 15.3139 6.10941 15.578 6.30416 15.7728C6.49891 15.9675 6.76304 16.0769 7.03846 16.0769H11.1923C11.4677 16.0769 11.7319 15.9675 11.9266 15.7728C12.1214 15.578 12.2308 15.3139 12.2308 15.0385C12.2308 14.763 12.1214 14.4989 11.9266 14.3042C11.7319 14.1094 11.4677 14 11.1923 14H7.03846ZM7.03846 18.1538C6.76304 18.1538 6.49891 18.2633 6.30416 18.458C6.10941 18.6528 6 18.9169 6 19.1923C6 19.4677 6.10941 19.7319 6.30416 19.9266C6.49891 20.1214 6.76304 20.2308 7.03846 20.2308H13.9615C14.237 20.2308 14.5011 20.1214 14.6958 19.9266C14.8906 19.7319 15 19.4677 15 19.1923C15 18.9169 14.8906 18.6528 14.6958 18.458C14.5011 18.2633 14.237 18.1538 13.9615 18.1538H7.03846ZM7.03846 20.9231C6.76304 20.9231 6.49891 21.0325 6.30416 21.2272C6.10941 21.422 6 21.6861 6 21.9615C6 22.237 6.10941 22.5011 6.30416 22.6958C6.49891 22.8906 6.76304 23 7.03846 23H11.1923C11.4677 23 11.7319 22.8906 11.9266 22.6958C12.1214 22.5011 12.2308 22.237 12.2308 21.9615C12.2308 21.6861 12.1214 21.422 11.9266 21.2272C11.7319 21.0325 11.4677 20.9231 11.1923 20.9231H7.03846Z" fill="white" />
+                      </svg>
+                    </i>
+                    <span className="nav-text">Aspire Quest</span>
+                  </Link>
+                </li>
+                {/* <ul className="mm-show collapse show"><li className=""><Link to="/profile">Profile</Link></li></ul> */}
+
+
+                {/* {MenuList.map((data, index)=>{
+                  let menuClass = data.classsChange;
+                    if(menuClass === "menu-title"){
+                      return(
+                          <li className={menuClass}  key={index} >{data.title}</li>
+                      )
+                    }else{
+                      return(				
+                        <li className={`has-menu ${ state.active === data.title ? 'mm-active' : ''}`}
+                          key={index} 
+                        >
+                          
+                          {data.content && data.content.length > 0 ?
+                              <Link to={"#"} 
+                                className="has-arrow ai-icon"
+                                onClick={() => {handleMenuActive(data.title)}}
+                              >								
+                                  {data.iconStyle}{" "}
+                                  <span className="nav-text">{data.title}</span>
+                              </Link>
+                          :
+                            <Link  to={data.to} >
+                                {data.iconStyle}{" "}
+                                <span className="nav-text">{data.title}</span>
+                            </Link>
+                          }
+                          <Collapse in={state.active === data.title ? true :false}>
+                            <ul className={`${menuClass === "mm-collapse" ? "mm-show" : ""}`}>
+                              {data.content && data.content.map((data,index) => {									
+                                return(	
+                                    <li key={index}
+                                      className={`${ state.activeSubmenu === data.title ? "mm-active" : ""}`}                                    
+                                    >
+                                      {data.content && data.content.length > 0 ?
+                                          <>
+                                            <Link to={data.to} className={data.hasMenu ? 'has-arrow' : ''}
+                                              onClick={() => { handleSubmenuActive(data.title)}}
+                                            >
+                                              {data.title}
+                                            </Link>
+                                            <Collapse in={state.activeSubmenu === data.title ? true :false}>
+                                                <ul className={`${menuClass === "mm-collapse" ? "mm-show" : ""}`}>
+                                                  {data.content && data.content.map((data,index) => {
+                                                    return(	                                                    
+                                                      <li key={index}>
+                                                        <Link className={`${path === data.to ? "mm-active" : ""}`} to={data.to}>{data.title}</Link>
+                                                      </li>
+                                                      
+                                                    )
+                                                  })}
+                                                </ul>
+                                            </Collapse>
+                                          </>
+                                        :
+                                        <Link to={data.to}>
+                                          {data.title}
+                                        </Link>
+                                      }
+                                      
+                                    </li>
+                                  
+                                )
+                              })}
+                            </ul>
+                          </Collapse>
+                        </li>	
+                      )
+                  }
+                })}   */}
+              </ul>) : (
+              <>
+                <ul className="metismenu" id="menu"
+                  style={{
+                    pointerEvents: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'none' : 'auto',
+                    opacity: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 0.5 : 1, // optional visual feedback
+                    cursor: location.pathname === "/videoInterview" || location.pathname == "/interview-exam" ? 'not-allowed' : 'default'
+                  }}
+                >
+                  <li className={`menu-title ${location.pathname === '/resume-upload' ? "mm-active" : ""}  ${profileUpdateStatus == true && "do-not-allow-cursor"}`}>
+                    <Link className={`has-arrow ai-icon resumesidebar ${sideMenu === true ? "side-close" : "side-open"} ${profileUpdateStatus == true && "do-not-allow-cursor"}`} to="/resume-upload" style={{ cursor: profileUpdateStatus == true ? 'not-allowed' : 'default' }}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-user-icon lucide-file-user"><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 18a3 3 0 1 0-6 0" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><circle cx="12" cy="13" r="2" /></svg>
+                      <span className="nav-text">Resume Upload</span>
+                    </Link>
+                  </li>
+                </ul>
+              </>
+            )}
+          </>)}
+
+          {/* <div className="copyright">
+              <p>
+                <strong>Jobie Admin Template</strong>© {d.getFullYear()} All
+                  Rights Reserved
+              </p>
+              <p>
+                Made with{" "}
+                <span className="heart"
+                  onClick={heartBlast}
+                ></span>{" "}
+                by DexignZone
+              </p>
+            </div> */}
         </div>
-      </div>
-      {upgradePro && (
-        <div className={`pro-bg ${isDarkMode === false ? "dark" : "Light"}`}>
-          <div className="pro-container small">
-            <div className="pro-header flex-row">
-              <img src={Icons} className="icon" alt="icons" />
-              <span>Upgrade To Pro</span>
-              <div className="close" onClick={() => setUpgradePro(false)}>
-                +
+      </div >
+      {message !== "" && (<>
+        <ToastSuccess type={type} setType={setType} message={message} setMessage={setMessage} />
+      </>)
+      }
+      {
+        profileUpdateStatus && (<>
+          <div className="ProfileUpdateMinimalist">
+            <div className="resumeBg">
+              <div className="outerborder"></div>
+              <div className="resumeIcon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-user-icon lucide-file-user"><path d="M14 2v4a2 2 0 0 0 2 2h4" /><path d="M15 18a3 3 0 1 0-6 0" /><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z" /><circle cx="12" cy="13" r="2" /></svg>
               </div>
             </div>
-            <div className="upgrade-description">
-              Upgrade to Pro to access these features and reach your career goals faster with the help of Career Savvy!
-            </div>
-            <div className="upgrade-button" onClick={makePayment}>
-              Upgrade Now
+            <span className="text">
+              Updating Profile
+            </span>
+          </div>
+        </>)
+      }
+      {
+        upgradePro && (
+          <div className={`pro-bg ${isDarkMode === false ? "dark" : "Light"}`}>
+            <div className="pro-container small">
+              <div className="pro-header flex-row">
+                <img src={Icons} className="icon" alt="icons" />
+                <span>Upgrade To Pro</span>
+                <div className="close" onClick={() => setUpgradePro(false)}>+</div>
+              </div>
+              <div className="upgrade-description">
+                Upgrade to Pro to access these features and reach your career goals faster with the help of CareerSavvy!
+              </div>
+              <div className="upgrade-button" onClick={makePayment}>
+                Upgrade Now
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
-};
+
+}
 
 export default SideBar;

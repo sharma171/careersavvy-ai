@@ -1,0 +1,244 @@
+.SiteHeader.active {
+  position: fixed;
+  width: 100%;
+}
+.SiteHeader.active .siteHeaderWrapper {
+  top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+.SiteHeader {
+  position: relative;
+  z-index: 9999;
+}
+.SiteHeader .siteHeaderWrapper {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  right: 40px;
+  width: calc(100% - 80px);
+  max-width: calc(100% - 80px);
+  min-height: 40px;
+  background: rgb(255 255 255 / 52%);
+  backdrop-filter: blur(20px);
+  border: 1px solid #cfcfcf;
+  box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.09);
+  border-radius: 17px;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .innerSpacing {
+  margin: 15px 20px;
+  min-height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .innerSpacing.leftMenu
+  .navMenuIcon {
+  width: 20px;
+  height: 30px;
+  margin-left: 17px;
+  margin-right: 17px;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .innerSpacing.leftMenu
+  .navMenuIcon
+  svg {
+  width: 20px;
+  height: 20px;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .centerMenu
+  .logoIcon
+  img.Site-Rounded-Logo {
+  width: 60px;
+  height: 60px;
+  background: #e6f9ff;
+  border-radius: 50px;
+  border: 4px solid #003a86;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .rightMenu .contactButton {
+  background: linear-gradient(113.7deg, #0780e6 0%, #3d009f 100%);
+  border-radius: 50px;
+  font-weight: 600;
+  padding: 12px 22px;
+  border: none;
+  color: #fff;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .navMenu {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 350px;
+  justify-content: space-evenly;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .centerMenu
+  .navMenu
+  .navItems:hover
+  svg {
+  filter: brightness(10);
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .centerMenu
+  .navMenu
+  .navItems:hover {
+  background: linear-gradient(113.7deg, #0780e6 0%, #3d009f 100%);
+  border-radius: 50px;
+  padding: 8px 22px;
+  color: #fff;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .centerMenu
+  .navMenu
+  .navItems
+  svg {
+  margin-bottom: 6px;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .navMenu .navItems {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 8px 22px;
+  line-height: 22px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 9px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #333333;
+  align-items: flex-end;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .positionList .navMenu {
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .positionList .navItems svg {
+  margin-bottom: 7px;
+}
+.SiteHeader
+  .siteHeaderWrapper
+  .siteHeaderRow
+  .positionList
+  .navItems:hover
+  svg {
+  filter: brightness(20);
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .positionList .navItems:hover {
+  background: linear-gradient(113.7deg, #0780e6 0%, #3d009f 100%);
+  color: #fff;
+  cursor: pointer;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .positionList .navItems {
+  background: #f5f5f5;
+  border-radius: 10px;
+  display: flex;
+  text-wrap: nowrap;
+  flex-direction: row;
+  gap: 6px;
+  padding: 6px 14px;
+  align-items: flex-end;
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #333333;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .rightMenu .mobileview.contactButton {
+    display: none;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .positionList {
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: absolute;
+  padding: 15px;
+  left: 0;
+  top: calc(100% + 25px);
+  border: 1px solid #cfcfcf;
+}
+.SiteHeader .separateSymbol {
+  font-weight: 400;
+  font-size: 23px;
+  margin: 0 4px;
+  line-height: 14px;
+  font-family: "FontAwesome";
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .logoIcon {
+  border-radius: 100px;
+  margin: 0 40px;
+  padding: 4px;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(54, 127, 200, 0.3) 0%,
+    rgba(25, 107, 190, 0.132) 100%
+  );
+}
+@media (max-width: 1100px) {
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .navMenu {
+    display: none;
+  }
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .leftMenu .hideSearch {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu {
+    margin: 0;
+  }
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .logoIcon {
+    margin: 0 5px;
+  }
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .rightMenu .contactButton {
+    display: none;
+  }
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .rightMenu .mobileview.contactButton {
+    display: unset;
+}
+.SiteHeader .siteHeaderWrapper .siteHeaderRow .centerMenu .logoIcon img.Site-Rounded-Logo {
+    width: 45px;
+    height: 45px;
+    background: #e6f9ff;
+    border-radius: 50px;
+    border: 4px solid #003a86;
+}
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .rightMenu .contactButton {
+    font-size: 12px;
+    padding: 6px 12px;
+    line-height: 23px;
+
+  }
+  .SiteHeader .siteHeaderWrapper .siteHeaderRow .innerSpacing {
+    margin: 8px 8px;
+    min-height: auto;
+  }
+}

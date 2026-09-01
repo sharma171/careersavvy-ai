@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Webcam from "react-webcam";
 import { useSelector } from "react-redux";
-import "./videoInterview.css";
+import "./videoInterview.css?ver0.1";
 import InstuctionIcon from "./icons/InstructionIcon.png";
 import SystemCheckPopup from "../AspireQuest/systemCheckPopup";
 import GptIcon from "../SearchJobs/aiIcon.gif";

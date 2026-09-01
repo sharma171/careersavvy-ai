@@ -51,10 +51,9 @@
                 }
             }
             .questionCount {
-                font-weight: 500;
-                font-size: 15px;
-                color: #fff;
-                text-transform: capitalize;
+                    font-weight: 500;
+                    font-size: 15px;
+                    color: #fff;
             }
             .endInterview {
                 background: #ef4444;
@@ -870,9 +869,6 @@
         .videoInterview {
     & .interviewTopSection {
         & .buttonRow {
-            .questionCount.mob-w-ologin {
-                margin-left: 0;
-            }
             .questionCount {
                 margin-left: 3.7rem;
             }}}}

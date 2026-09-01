@@ -1,107 +1,785 @@
 .aspireQuestPage {
-    background: #fff;
-    height: 100vh;
-    overflow: auto;
+  background: #fff;
+  height: 100vh;
+  overflow: auto;
 }
 .header .header-content.whiteHeader {
-    background: #fff;
+  background: #fff;
 }
-
 
 .resumeOuter .resumeTab.whiteResume .card .text.question .questionIcon svg {
-    color: rgb(37 99 235);
-    margin-right: 0;
-    width: 16px;
-    filter: unset;
-    height: 16px;
+  color: rgb(37 99 235);
+  margin-right: 0;
+  width: 16px;
+  filter: unset;
+  height: 16px;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.answer .AnswerName svg {
-    color: rgb(75 85 99 );
-    margin-right: 0;
-    width: 16px;
-    filter: unset;
-    height: 16px;
+.resumeOuter .resumeTab.whiteResume .card .text.answer .AnswerName svg {
+  color: rgb(75 85 99);
+  margin-right: 0;
+  width: 16px;
+  filter: unset;
+  height: 16px;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.answer .AnswerName .answerIcon {
-    background-color: rgb(243 244 246);
-    padding: .4rem;
-    border-radius: 100px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+.resumeOuter .resumeTab.whiteResume .card .text.answer .AnswerName .answerIcon {
+  background-color: rgb(243 244 246);
+  padding: 0.4rem;
+  border-radius: 100px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.rating .ratingIcon svg {
-    color: rgb(75 85 99 );
-    margin-right: 0;
-    width: 16px;
-    filter: unset;
-    height: 16px;
+.resumeOuter .resumeTab.whiteResume .card .text.rating .ratingIcon svg {
+  color: rgb(75 85 99);
+  margin-right: 0;
+  width: 16px;
+  filter: unset;
+  height: 16px;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.rating .ratingIcon {
-    background-color: rgb(243 244 246);
-    padding: .4rem;
-    border-radius: 100px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+.resumeOuter .resumeTab.whiteResume .card .text.rating .ratingIcon {
+  background-color: rgb(243 244 246);
+  padding: 0.4rem;
+  border-radius: 100px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.feedback .feedbackIcon svg {
-    color: rgb(37 99 235);
-    margin-right: 0;
-    width: 16px;
-    filter: unset;
-    height: 16px;
+.resumeOuter .resumeTab.whiteResume .card .text.feedback .feedbackIcon svg {
+  color: rgb(37 99 235);
+  margin-right: 0;
+  width: 16px;
+  filter: unset;
+  height: 16px;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.feedback .feedbackIcon {
-    background-color: rgb(243 244 246);
-    padding: .4rem;
-    border-radius: 100px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+.resumeOuter .resumeTab.whiteResume .card .text.feedback .feedbackIcon {
+  background-color: rgb(243 244 246);
+  padding: 0.4rem;
+  border-radius: 100px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.answer span, .resumeOuter .resumeTab.whiteResume .card  .text.rating span, .resumeOuter .resumeTab.whiteResume .card  .text.feedback span {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+.resumeOuter .resumeTab.whiteResume .card .text.answer span,
+.resumeOuter .resumeTab.whiteResume .card .text.rating span,
+.resumeOuter .resumeTab.whiteResume .card .text.feedback span {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
-.resumeOuter .resumeTab.whiteResume .card  .text.answer, .resumeOuter .resumeTab.whiteResume .card  .text.rating, .resumeOuter .resumeTab.whiteResume .card  .text.feedback {
-    margin-left: 2.0rem;
+.resumeOuter .resumeTab.whiteResume .card .text.answer,
+.resumeOuter .resumeTab.whiteResume .card .text.rating,
+.resumeOuter .resumeTab.whiteResume .card .text.feedback {
+  margin-left: 2rem;
 }
 .resumeOuter .resumeTab.whiteResume .card .text.question .QuestionName {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 .resumeOuter .resumeTab.whiteResume .card .text.question .questionIcon {
-    background-color: rgb(219 234 254);
-    padding: 0.4rem;
-    border-radius: 100px;
-    margin-right: 10px;
-    display: flex;
-    align-items: center;
+  background-color: rgb(219 234 254);
+  padding: 0.4rem;
+  border-radius: 100px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 }
 .resumeOuter .resumeTab.whiteResume .card {
-    background: #fff;
-    padding: 10px 0;
-    max-height: 65vh;
+  background: #fff;
+  padding: 10px 0;
+  max-height: 65vh;
 }
 .resumeOuter .resumeTab.whiteResume {
-    background: #fff;
-    /* height: 90vh; */
+  background: #fff;
+  /* height: 90vh; */
 }
 
-
-
-@media (min-width: 768px) and (max-width:1280px) {
-    .interviewCard {
-        width: calc(50% - 0.7rem) !important;
+.AspireQuest {
+  * {
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-ring-offset-shadow: 0 0 #0000;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --card-foreground: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    --border: 214.3 31.8% 91.4%;
+  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  .interview-Buttons {
+    background-color: #f1f3f5; /* Light muted background */
+    border-radius: 6px;
+    padding: 4px;
+    margin-bottom: 1rem;
+    .interview-btn {
+      border: none;
+      padding-top: 0.375rem;
+      padding-bottom: 0.375rem;
+      padding-left: 0.75rem;
+      justify-content: center;
+      padding-right: 0.75rem;
+      border-radius: calc(0.5rem - 4px);
+      font-size: 1rem;
+      color: #64748b;
+      background: transparent;
+      font-weight: 500;
     }
 
-    
+    .interview-btn.active {
+      background-color: white;
+      color: #020817;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+  }
+  .interviewData {
+    background: transparent;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    color: hsl(var(--card-foreground));
+    border: 1px solid;
+    border-radius: var(--radius);
+    width: 100%;
+    border-color: hsl(var(--border));
+    margin-top: 0.5rem;
+    & .interviewCardHead {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      .lhs,
+      .rhs {
+        display: flex;
+        flex-direction: column;
+      }
+      .button-row {
+        display: flex;
+        flex-direction: row;
+        gap: 0.6rem;
+        .cardButton {
+          font-size: 0.75rem;
+          line-height: 1.15rem;
+          font-weight: 500;
+          padding-left: 0.85rem;
+          padding-right: 0.85rem;
+          padding-top: 0.59em;
+          padding-bottom: 0.5rem;
+          border-radius: var(--radius);
+          border: 1px solid hsl(var(--border));
+          &.active {
+            color: #fff;
+            background-color: #6024c2;
+          }
+          &:hover {
+            background: #f3edfc;
+            color: #6024c2;
+          }
+        }
+      }
+      .mainHead {
+        font-size: 1.4rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: #020817;
+      }
+      .interviewCardText {
+        font-size: 0.955rem;
+        line-height: 1.45rem;
+        color: #31373e;
+      }
+    }
+    & .interviewContent {
+      padding: 1.5rem;
+      padding-top: 0;
+      width: 100%;
+      & .interviewChooseBox {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        .interviewOption {
+          flex: 1;
+          min-height: 160px;
+          background-color: #fff;
+          border: 1px solid #dee2e6;
+          width: 100%;
+          border-radius: 0.5rem;
+          text-align: center;
+          padding: 1.5rem 1rem;
+          transition: box-shadow 0.2s ease, border-color 0.2s ease;
+          cursor: pointer;
+        }
+
+        .interviewOption:hover {
+          border-color: #4b1c97;
+          /* box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25); */
+          background-color: #f0e9fb;
+          color: #4b1c97;
+          .icon {
+            color: #4b1c97;
+          }
+          .title {
+            color: #4b1c97;
+          }
+        }
+
+        .icon {
+          font-size: 1.5rem;
+          margin-bottom: 0.55rem;
+          color: #000;
+        }
+
+        .title {
+          font-size: 18px;
+          font-weight: 600;
+          color: #020817;
+          margin-bottom: 0.5rem;
+        }
+
+        .desc {
+          font-size: 0.9rem;
+          font-weight: 500;
+          color: #6c757d;
+        }
+      }
+      .interviewBrief {
+        display: flex;
+        flex-direction: column;
+        .howitworks {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          margin: 25px 0;
+          .mText {
+            background: #fff;
+            color: rgb(82 83 85);
+            font-size: 0.895rem;
+            line-height: 1.5rem;
+            font-weight: 600;
+            padding: 5px 16px;
+            margin-bottom: 0;
+            z-index: 1;
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            z-index: 0;
+            background: rgb(214 215 216);
+            top: calc(50% - 1px);
+            left: 0;
+          }
+        }
+        .interviewBriefCard {
+          display: flex;
+          flex-direction: row;
+          gap: 20px;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          .briefCard {
+            display: flex;
+            cursor: pointer;
+            flex-direction: column;
+            min-width: 300px;
+            align-items: flex-start;
+            box-sizing: border-box;
+            width: calc(33% - 20px);
+            border: 1px solid #dee2e6;
+            background: #fff;
+            border-radius: 0.5rem;
+            padding: 1.8rem;
+            &:hover {
+              background: #fdfdfd;
+              box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                rgba(0, 0, 0, 0) 0px 0px 0px 0px,
+                rgba(0, 0, 0, 0.086) 0px 3.10715px 4.80953px -0.702383px,
+                rgba(0, 0, 0, 0.07) 0px 1.40477px 2.80953px -1.40477px;
+            }
+            &:nth-child(1) {
+              .roundedNumbers {
+                background-color: rgb(237 233 254);
+                color: rgb(124 58 237);
+              }
+            }
+            &:nth-child(2) {
+              .roundedNumbers {
+                background-color: rgb(224, 236, 252);
+                color: rgb(37 99 235);
+              }
+            }
+            &:nth-child(3) {
+              .roundedNumbers {
+                background-color: rgb(231, 252, 237);
+                color: rgb(22 163 74);
+              }
+            }
+            &:nth-child(1):hover {
+              .roundedNumbers {
+                background-color: rgb(228, 223, 255);
+              }
+            }
+            &:nth-child(2):hover {
+              .roundedNumbers {
+                background-color: rgb(209, 227, 252);
+              }
+            }
+            &:nth-child(3):hover {
+              .roundedNumbers {
+                background-color: rgb(216, 252, 226);
+              }
+            }
+            .roundedNumbers {
+              font-weight: 600;
+              font-size: 1.225rem;
+              line-height: 1.75rem;
+              height: 55px;
+              width: 55px;
+              display: flex;
+              flex-direction: column;
+              border-radius: 100px;
+              justify-content: center;
+              align-items: center;
+              margin-bottom: 1.2rem;
+            }
+            .cardHead {
+              color: rgb(17 24 39);
+              font-weight: 600;
+              margin-bottom: 0.7rem;
+              font-size: 1.1rem;
+            }
+            .cardText {
+              color: rgb(107 114 128 / 92%);
+              font-size: 0.92rem;
+              line-height: 1.25rem;
+              font-weight: 400;
+              margin-bottom: 0.2rem;
+            }
+          }
+        }
+      }
+      & .interviewCardList {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+        & .interviewCard {
+          display: flex;
+          flex-direction: column;
+          width: calc(33.3% - 0.7rem);
+          border-radius: 0.5rem;
+          border: 1px solid hsl(var(--border));
+          &.amber {
+            border-top: 8px solid #f59e0b;
+          }
+          &.green {
+            border-top: 8px solid rgb(34 197 94);
+          }
+          .interviewHead {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1rem;
+            & .lhs {
+              display: flex;
+              flex-direction: column;
+              .headIcon {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 0;
+                margin-bottom: 0.25rem;
+                .icon {
+                  width: 16px;
+                  height: 16px;
+                  svg {
+                    width: 16px;
+                    height: 16px;
+                  }
+                }
+                .title {
+                  font-size: 16px;
+                  font-weight: 500;
+                  margin-bottom: 0;
+                }
+              }
+              .interviewSubhead {
+                color: #64748b;
+                font-size: 0.875rem;
+                line-height: 1.25rem;
+                text-transform: capitalize;
+              }
+            }
+            & .rhs {
+              display: flex;
+              flex-direction: column;
+              & .interviewStatus {
+                padding-top: 0.125rem;
+                padding-bottom: 0.125rem;
+                padding-left: 0.625rem;
+                padding-right: 0.625rem;
+                border-radius: 33px;
+                font-size: 12px;
+                line-height: 1.3em;
+                font-weight: 500;
+              }
+              & .interviewStatus.amber {
+                color: rgb(245 158 11);
+                border: 1px solid rgb(245 158 11);
+                background: transparent;
+              }
+              & .interviewStatus.green {
+                color: rgb(34 197 94);
+                border: 1px solid rgb(34 197 94);
+                background: transparent;
+              }
+            }
+          }
+          .cardDateButton {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            padding: 1rem;
+            padding-top: 0.5rem;
+            .date {
+              color: #64748b;
+              font-size: 0.775rem;
+              line-height: 1.25rem;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              svg {
+                margin-right: 0.25rem;
+                width: 14px;
+                height: 14px;
+              }
+            }
+            .actionButton {
+              font-size: 0.875rem;
+              line-height: 1.25rem;
+              padding-left: 0.75rem;
+              padding-right: 0.75rem;
+              font-weight: 500;
+              background: #6024c2;
+              border: none;
+              height: 2.15rem;
+              border-radius: calc(var(--radius) - 2px);
+              color: #fff;
+              &:hover {
+                background: #8044e0;
+              }
+            }
+            .resultButton {
+              font-size: 0.875rem;
+              line-height: 1.25rem;
+              padding-left: 0.8rem;
+              padding-right: 0.8rem;
+              padding-top: 0.4rem;
+              padding-bottom: 0.4rem;
+              display: flex;
+              flex-direction: row;
+              gap: 6px;
+              font-weight: 500;
+              background-color: rgb(34 197 94);
+              border: none;
+              cursor: pointer;
+              height: unset;
+              border-radius: calc(var(--radius) - 2px);
+              color: #fff;
+              align-items: center;
+              &:hover {
+                background-color: rgb(21 155 70);
+              }
+              & .svg {
+                color: #fff;
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+        }
+      }
+      & .interview-table-container {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", sans-serif;
+      }
+
+      .interview-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 16px;
+      }
+      .interview-table td .icon {
+        margin-right: 4px;
+      }
+      .interview-table td .icon svg {
+        width: 16px;
+        height: 16px;
+        margin-bottom: 0 !important;
+      }
+
+      .interview-table th,
+      .interview-table td {
+        text-align: left;
+        padding: 12px 16px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 15px;
+        text-transform: capitalize;
+      }
+
+      .interview-table th {
+        color: #506680;
+        font-weight: 600;
+      }
+
+      .icon {
+        margin-right: 8px;
+      }
+
+      .status svg {
+        width: 12px;
+        height: 12px;
+        margin-top: -2px;
+      }
+      .status {
+        padding: 4px 8px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+        line-height: 1em;
+        cursor: pointer;
+      }
+
+      .status.completed {
+        background-color: #4caf50;
+        color: white;
+        &:hover {
+          background-color: #6024c2;
+        }
+      }
+
+      .status.in-progress {
+        background-color: transparent;
+        color: #ff9800;
+        border: 1px solid #ff9800;
+      }
+
+      .resume-link {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        padding-left: 0.75rem;
+        padding: 0.3rem 0.75rem;
+        padding-right: 0.75rem;
+        margin: 0 auto;
+        background-color: rgb(63, 25, 130);
+        color: #fff;
+        margin-right: auto;
+        font-weight: 500;
+        border: none;
+        height: 30px;
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
+        height: 2.25rem;
+        border-radius: calc(var(--radius) - 2px);
+        & svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .resume-link:hover {
+        background-color: rgb(97, 30, 212);
+        color: #fff;
+      }
+      .result-link {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        padding-left: 0.75rem;
+        padding: 0.3rem 0.75rem;
+        padding-right: 0.75rem;
+        margin: 0 auto;
+        font-weight: 500;
+        border: none;
+        height: 30px;
+        flex-direction: row;
+        align-items: center;
+        text-wrap: nowrap;
+        gap: 6px;
+        height: 2.25rem;
+        border-radius: calc(var(--radius) - 2px);
+        background-color: #4caf50;
+        color: #fff;
+        & svg {
+          width: 16px;
+          height: 16px;
+          margin-right: 6px;
+          margin-top: -4px;
+        }
+      }
+
+      .result-link:hover {
+        background-color: #3c903f;
+        color: #fff;
+      }
+
+      .footer-note {
+        text-align: center;
+        margin-top: 20px;
+        color: #506680;
+        margin-bottom: 0;
+        font-size: 14px;
+      }
+    }
+    & .jobPagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      list-style: none;
+      gap: 8px;
+      padding: 15px 0 20px 0;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .page-btn {
+      padding: 6px 10px;
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .page-btn.disabled {
+      color: #aaa;
+      pointer-events: none;
+    }
+
+    .page-number {
+      padding: 6px 12px;
+      font-size: 14px;
+      color: #0d47a1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .page-number:hover {
+      background-color: #f0f0f0;
+    }
+
+    .page-number.active {
+      background-color: #f5faff;
+      border: 1px solid #dbeafe;
+      color: black;
+      font-weight: 600;
+    }
+
+    .page-number.dots {
+      cursor: default;
+      color: #999;
+    }
+  }
 }
-@media (min-width: 350px) and (max-width:768px) {
-    .interviewCard {
-        width: calc(100% - 0.7rem) !important;
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .interviewCard {
+    width: calc(50% - 0.7rem) !important;
+  }
+
+  .AspireQuest {
+    & .interviewData {
+      & .interviewContent {
+        .interviewBrief .interviewBriefCard .briefCard {
+          min-width: 200px;
+        }
+      }
     }
+  }
+  .AspireQuest {
+    & .interviewData {
+      & .interviewCardHead {
+        .mainHead {
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 350px) and (max-width: 768px) {
+  .interviewCard {
+    width: calc(100% - 0.7rem) !important;
+  }
+  .AspireQuest {
+    & .interviewData {
+      & .interviewCardHead {
+        .mainHead {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+  .AspireQuest {
+    & .interviewData {
+      & .interviewContent {
+        .interview-table {
+          min-width: 600px;
+        }
+      }
+    }
+  }
+  .AspireQuest {
+    & .interviewData {
+      & .interviewContent {
+        .interviewBrief .interviewBriefCard .briefCard {
+          width: 100%;
+        }
+        & .interview-table-container {
+          overflow: auto;
+          scrollbar-width: none;
+        }
+      }
+    }
+  }
+
+  .AspireQuest {
+    & .interviewData {
+      & .interviewCardHead {
+        flex-direction: column;
+        gap: 15px;
+        align-items: normal;
+        & .button-row {
+          .cardButton {
+            font-size: 0.75rem;
+            width: 95px;
+          }
+        }
+      }
+    }
+  }
+
+  .AspireQuest {
+    & .interviewData {
+      & .interviewCardHead {
+        .lhs {
+          display: flex;
+          flex-direction: column;
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+  .AspireQuest {
+    & .interviewData {
+      & .interviewContent {
+        & .interviewChooseBox {
+          flex-direction: column;
+        }
+      }
+    }
+  }
 }

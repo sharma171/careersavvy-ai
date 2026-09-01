@@ -1,0 +1,939 @@
+.CSavvyLogin {
+  min-height: 100vh;
+  background: #dddddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .loginCard {
+    background: linear-gradient(
+      112.89deg,
+      #f0eaf8 0%,
+      #f8f8f8 31.25%,
+      #e7e0ed 63.46%,
+      #ede0f9 100%
+    );
+    border-radius: 0;
+    height: calc(100vh - 0px);
+    min-height: calc(100vh - 70px);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    max-width: 100%;
+    .topRightBg {
+      position: absolute;
+      top: 0;
+      right: 0;
+      svg {
+        height: 380px;
+        width: 440px;
+      }
+    }
+    .botLeftBg {
+      position: absolute;
+      bottom: 0;
+      left: -40px;
+      svg {
+        width: 200px;
+        height: auto;
+      }
+    }
+    .topEclipse {
+      position: absolute;
+      left: 0;
+      top: 0;
+      svg {
+        width: 300px;
+        height: auto;
+      }
+    }
+    .botEclipse {
+      position: absolute;
+      left: 0;
+      bottom: -80px;
+      svg {
+        width: 450px;
+        height: auto;
+      }
+    }
+    .loginRow {
+      display: flex;
+      flex-direction: row;
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      padding: 60px 50px;
+      .brand-col {
+        width: calc(60% - 0px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        & .BrandTop {
+          display: flex;
+          flex-direction: column;
+          & .TopHead {
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 800;
+            font-size: 32.0402px;
+            line-height: 42px;
+            text-align: center;
+            letter-spacing: 0.12px;
+            background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+          }
+          .para {
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 25px;
+            text-align: center;
+            letter-spacing: 0.120134px;
+            color: #121212;
+          }
+          & .social {
+            ul {
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+            }
+
+            ul li {
+              list-style: none;
+            }
+
+            ul li a {
+              width: 33px;
+              height: 33px;
+              border: 2px solid rgba(233, 232, 234, 1);
+              background-color: #fff;
+              text-align: center;
+              line-height: 30px;
+              font-size: 12px;
+              margin: 0 10px;
+              display: block;
+              border-radius: 50%;
+              position: relative;
+              overflow: hidden;
+              z-index: 1;
+            }
+
+            ul li a .icon {
+              position: relative;
+              color: #262626;
+              transition: 0.5s;
+              z-index: 3;
+            }
+
+            ul li a:hover .icon {
+              color: #fff;
+              transform: rotateY(360deg);
+            }
+
+            ul li a:before {
+              content: "";
+              position: absolute;
+              top: 100%;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: #f00;
+              transition: 0.5s;
+              z-index: 2;
+            }
+
+            ul li a:hover:before {
+              top: 0;
+            }
+
+            ul li:nth-child(1) a:before {
+              background: #3b5999;
+            }
+
+            ul li:nth-child(2) a:before {
+              background: linear-gradient(194deg, #e838b2, #e838b2, #f7cd7d);
+            }
+
+            ul li:nth-child(3) a:before {
+              background: #0077b5;
+            }
+
+            ul li:nth-child(4) a:before {
+              background: #dd4b39;
+            }
+          }
+        }
+        & .BrandBottom {
+          display: flex;
+          flex-direction: column;
+          & svg {
+            width: 345px;
+            height: auto;
+          }
+        }
+      }
+      .form-col {
+        width: calc(40% - 0px);
+        background: #fff;
+        border-radius: 50px;
+        margin: auto 0;
+        z-index: 10;
+        padding: 28px 28px;
+        overflow: auto;
+        position: relative !important;
+        scrollbar-width: none;
+        box-sizing: border-box;
+        #preloader {
+          position: absolute !important;
+        }
+        .sk-three-bounce {
+          margin: 0;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          background-color: white;
+          border-radius: 50px;
+        }
+        .logoClose {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          .close {
+            width: 40px;
+            height: auto;
+            cursor: pointer;
+            svg {
+              width: 40px;
+              height: auto;
+            }
+          }
+          .logoIcon {
+            width: 50px;
+            height: auto;
+            cursor: pointer;
+            .Icon {
+              width: 60px;
+              height: 60px;
+              background: #e6f9ff;
+              border-radius: 50px;
+              border: 4px solid #003a86;
+            }
+            svg {
+              width: 50px;
+              height: auto;
+            }
+          }
+        }
+        .AuthForm {
+          width: 90%;
+          margin: 25px auto 0px auto;
+          height: calc(100% - 75px);
+          overflow: auto;
+          position: relative;
+          display: flex;
+          scrollbar-width: none;
+          flex-direction: column;
+          justify-content: center;
+          .hiddenWhileLoad {
+            opacity: 0;
+          }
+          .successMessage {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            border: none;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            background: #fff;
+            img {
+              width: 35px;
+            }
+          }
+          .TopHead {
+            font-weight: 600;
+            font-family: "Manrope";
+            font-size: 25.5005px;
+            line-height: 43px;
+            letter-spacing: 0.105002px;
+            color: #171725;
+          }
+          .TopPara {
+            font-weight: 600;
+            font-family: "Manrope";
+            font-size: 14.7327px;
+            line-height: 21px;
+            margin-bottom: 8px;
+            letter-spacing: 0.105002px;
+            color: rgba(114, 114, 114, 0.8);
+          }
+          .textlabel {
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500 !important;
+            font-size: 12.4815px !important;
+            margin-bottom: 11px !important;
+            margin-top: 13px !important;
+            line-height: 18px;
+            letter-spacing: 0.0962963px;
+            color: #969ab8 !important;
+          }
+          .inputouter {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding: 9.0002px 18.0003px;
+            background: #ffffff;
+            border: 1.68397px solid #e0e2e9;
+            border-radius: 8.40013px;
+            &:hover {
+              transform: translateY(0px);
+              transition: all 0.3s;
+              cursor: pointer;
+            }
+            svg {
+              width: 19px;
+              height: auto;
+            }
+            .CSavvyInputs {
+              border: none;
+              width: 100%;
+              padding-left: 10px;
+              font-size: 15px;
+              font-weight: 400;
+              line-height: 26px;
+              color: #252525 !important;
+              &:-internal-autofill-selected {
+                background-color: transparent !important;
+                color: #4e4e4e !important;
+              }
+            }
+            .CSavvyInputs:-webkit-autofill,
+            .CSavvyInputs:-webkit-autofill:hover,
+            .CSavvyInputs:-webkit-autofill:focus,
+            .CSavvyInputs:-webkit-autofill:active {
+              -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+              box-shadow: 0 0 0px 1000px #fff inset !important;
+              -webkit-text-fill-color: #0b0b0b !important;
+            }
+
+            .passwordDiv {
+              width: 100%;
+            }
+          }
+          .LoginButton {
+            padding: 12.6002px 67.2011px;
+            background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+            border-radius: 8.40013px;
+
+            text-align: center;
+            width: 100%;
+            border: none;
+            color: #fff;
+            font-family: "Manrope";
+            font-weight: 600;
+            font-size: 15.7502px;
+            line-height: 22px;
+            text-align: center;
+            letter-spacing: 0.105002px;
+            border: 1px solid #431c9f !important;
+            &:hover {
+              color: #431c9f;
+              background: transparent;
+              border: #431c9f;
+              border: 1px solid #431c9f;
+            }
+          }
+          .LoginButton.loaderActive {
+            background: transparent;
+          }
+          .forgotPassword {
+            margin-left: auto;
+            display: block;
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 600;
+            font-size: 14.0502px;
+            line-height: 25px;
+            margin-top: 16px !important;
+            margin-bottom: 6px;
+            margin-left: auto;
+            text-align: end;
+            letter-spacing: 0.105002px;
+            background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            &:hover {
+              transform: translateY(0px);
+              transition: all 0.3s;
+              cursor: pointer;
+            }
+          }
+          .ordivider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            .text {
+              font-family: "Manrope";
+              font-style: normal;
+              font-weight: 500;
+              font-size: 12.7002px;
+              line-height: 20px;
+              text-align: center;
+              letter-spacing: 0.105002px;
+              color: #969ab8;
+              background: #fff;
+              z-index: 1;
+              width: 35px;
+            }
+            &::before {
+              content: "";
+              position: absolute;
+              z-index: 0;
+              width: 100%;
+              border: 1px solid #e4e6ec;
+              top: calc(50% - 0px);
+            }
+          }
+          .RegisterButton {
+            text-align: center;
+            font-family: "Manrope";
+            font-style: normal;
+            font-weight: 500;
+            font-size: 13.7502px;
+            line-height: 25px;
+            text-align: center;
+            letter-spacing: 0.105002px;
+            color: #181818;
+            & .text-black {
+              font-family: "Manrope";
+              font-style: normal;
+              font-weight: 600;
+              font-size: 13.7502px;
+              line-height: 25px;
+              text-align: center;
+              letter-spacing: 0.105002px;
+              background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              text-fill-color: transparent;
+              margin-left: 3px;
+            }
+            &:hover {
+              transform: translateY(0px);
+              transition: all 0.3s;
+              cursor: pointer;
+            }
+          }
+          .backToHome {
+            font-family: "Manrope";
+            font-style: normal;
+            text-align: center;
+            font-weight: 600;
+            font-size: 13.7502px;
+            display: block;
+            line-height: 25px;
+            letter-spacing: 0.105002px;
+            background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            margin: 10px auto;
+            &:hover {
+              transform: translateY(0px);
+              transition: all 0.3s;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Animation & Transition Styles Only */
+
+/* Keyframes */
+@keyframes fadeInBg {
+  from {
+    background-color: #eeeeee;
+  }
+  to {
+    background-color: #dddddd;
+  }
+}
+
+@keyframes cardEntrance {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Animation Usage */
+
+.loginCard {
+  transform: translateY(20px);
+  opacity: 1;
+  animation: cardEntrance 10ms ease-out forwards;
+}
+/* Floating decorative elements */
+.topRightBg,
+.botLeftBg,
+.topEclipse,
+.botEclipse {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hover lift effect */
+.form-col {
+  transition: transform 0.7s ease, filter 0.3s ease;
+  position: relative !important;
+}
+.form-col:hover {
+  transform: scale(1.02);
+  /* filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); */
+}
+
+/* Input focus transition */
+.inputouter {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.inputouter:focus-within {
+  border-color: #9141af;
+  box-shadow: 0 0 8px rgba(145, 65, 175, 0.4);
+}
+
+/* Button loading spinner */
+.LoginButton {
+  transition: background 0.5s ease, color 0.5s ease;
+}
+.LoginButton.loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px;
+  border: 2px solid #fff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@media (max-width: 1021px) {
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        .brand-col {
+          width: calc(50% - 0px);
+        }
+        .form-col {
+          width: calc(50% - 0px);
+          position: relative !important;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 768px) {
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            .TopHead {
+              font-size: 21.5005px;
+              line-height: 30px;
+              margin-bottom: 7px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      .loginRow {
+        flex-direction: column-reverse !important;
+        & .brand-col {
+          margin-top: 40px;
+          & .BrandTop {
+            .TopHead {
+              display: none;
+            }
+            .para {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            & .ordivider {
+              &::before {
+                content: "";
+                position: absolute;
+                z-index: 0;
+                width: 100%;
+                border: none;
+                top: calc(50% - 0px);
+              }
+              .text {
+                font-family: "Manrope";
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14.7002px;
+                line-height: 20px;
+                text-align: center;
+                letter-spacing: 0.105002px;
+                color: #70727e;
+                background: transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .brand-col {
+          & .BrandBottom {
+            display: flex;
+            flex-direction: column;
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            margin: 14px auto 0px auto;
+            width: 100%;
+            .LoginButton {
+              padding: 8.6002px 67.2011px;
+            }
+            .inputouter {
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+              padding: 7.0002px 14.0003px 5.0002px 14.0003px;
+              background: #ffffff;
+              border: 1.68397px solid #e0e2e9;
+              border-radius: 8.40013px;
+              svg {
+                width: 15px;
+              }
+              .CSavvyInputs {
+                border: none;
+                color: #252525 !important;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 23px;
+                background: #ffffff;
+                padding-left: 10px;
+                width: 100%;
+              }
+            }
+            .TopPara {
+              font-size: 12.0327px;
+              color: #3b3b3b;
+              font-weight: 500;
+              line-height: 21px;
+              margin-bottom: 6px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      .topRightBg {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        rotate: 146deg;
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .logoClose {
+            margin-bottom: 30px;
+            & .logoIcon {
+              .Icon {
+                width: 45px;
+                height: 45px;
+                background: #e6f9ff;
+                border-radius: 50px;
+                border: 4px solid #003a86;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      .loginRow {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
+        height: unset;
+        padding: 5px 4px;
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    .loginCard {
+      background: linear-gradient(
+        112.89deg,
+        #f0eaf8 0%,
+        #f8f8f8 31.25%,
+        #e7e0ed 63.46%,
+        #ede0f9 100%
+      );
+      border-radius: 0;
+      height: unset;
+      min-height: unset;
+      overflow: auto;
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      height: 100vh;
+      & .loginRow {
+        .brand-col {
+          width: calc(100% - 0px);
+        }
+        .form-col {
+          position: relative !important;
+          width: calc(100% - 0px);
+          background: transparent;
+          padding: 18px 25px;
+        }
+      }
+    }
+  }
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+      top: unset;
+      bottom: -110px;
+    }
+    50% {
+      transform: translateY(-15px);
+      top: unset;
+      bottom: -120px;
+    }
+  }
+}
+
+@media (min-width: 1600px) {
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .brand-col {
+          & .BrandBottom {
+            & svg {
+              width: 445px;
+              height: auto;
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .brand-col {
+          & .BrandTop {
+            & .TopHead {
+              font-weight: 800;
+              font-size: 42.0402px;
+              line-height: 55px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .logoClose {
+            & .logoIcon {
+              width: 75px;
+              height: 75px;
+              .Icon {
+                width: 75px;
+                height: 75px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .logoClose {
+            & .close {
+              width: 50px;
+              svg {
+                width: 50px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            .TopHead {
+              font-size: 34.5005px;
+              line-height: 56px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          .AuthForm {
+            width: 95%;
+            margin: 60px auto 0px auto;
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            .TopPara {
+              font-size: 18.7327px;
+            }
+          }
+        }
+      }
+    }
+  }
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            .inputouter {
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+              padding: 12.0002px 22.0003px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            .LoginButton {
+              padding: 16.6002px 67.2011px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 1900px) {
+  .CSavvyLogin {
+    & .loginCard {
+      & .loginRow {
+        & .form-col {
+          & .AuthForm {
+            gap: 16px;
+          }
+        }
+      }
+    }
+  }
+}

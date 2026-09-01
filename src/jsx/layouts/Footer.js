@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import SidePopup from "../components/RecruiterComponents/Components/sidePopup";
-import ToastSucces from "../components/RecruiterComponents/toastSucces";
-import { setSidebarPopupType } from "../../store/actions/actions";
 import "./navStyle.css";
 const ContactUsComp = ({showContactus, setShowContactUs}) => {
   const userEmail = useSelector((state) => state.auth.auth);
-  const { sidebarPopupTypes } = useSelector((state) => state.profile);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [complaint, setComplaint] = useState("");
   const [feedbackMessage, setFeedbackMessage] = useState(""); // State to display the success message
-  
 
   const toggleContactUs = () => setShowContactUs(!showContactus);
 
@@ -55,7 +50,7 @@ const ContactUsComp = ({showContactus, setShowContactUs}) => {
     <div
       role="dialog"
       aria-modal="true"
-      className="fade fade bd-example-modal-lg modal show"
+      className="fade fade bd-example-modal-lg modal show footerContact"
       tabIndex={-1}
       style={{ display: "block", paddingRight: 11 }}
     >
@@ -179,70 +174,40 @@ const ContactUsComp = ({showContactus, setShowContactUs}) => {
 const Footer = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
-  const dispatch = useDispatch();
   const [showContactus, setShowContactUs] = useState(false);
-  const [type, setType] = useState("");
-  const { sidebarPopupType } = useSelector((state) => state.profile);
-  const [message, setMessage] = useState("");
-  const [showLoader, setShowLoader] = useState("");
-  const [popupType,setPopupType] = useState("");
   const d = new Date();
-  function closeAboutSection() {
-    setShowTerms(false);
-    setShowPrivacyPolicy(false);
-  }
 
   const toggleTerms = () => {
     setShowTerms(!showTerms);
     if (showPrivacyPolicy) setShowPrivacyPolicy(false); // Close Privacy Policy if Terms is clicked
-    // setTimeout(()=>{setShowTerms(false);}, 8000);
+    setTimeout(()=>{setShowTerms(false);}, 5000);
   };
 
   const togglePrivacyPolicy = () => {
     setShowPrivacyPolicy(!showPrivacyPolicy);
     if (showTerms) setShowTerms(false); // Close Terms if Privacy Policy is clicked
-    // setTimeout(()=>{setShowPrivacyPolicy(false)}, 8000);
+    setTimeout(()=>{setShowPrivacyPolicy(false)}, 5000);
   };
-  useEffect(()=>{
-    if(popupType==""){
-      dispatch(setSidebarPopupType(""));
-    }
-  },[popupType])
-  useEffect(()=>{
-    if(sidebarPopupType=="ContactUs"){
-      setPopupType("ContactUs");
-    }
-    else{
-      setPopupType("");
-    }
-  },[sidebarPopupType])
   const toggleContactUs = () => {
-    // setShowContactUs(!showContactus);
-    setPopupType("ContactUs");
+    setShowContactUs(!showContactus);
   };
 
   return (
-    <div className={`footer LayoutFooter text-light pt-2 sticky ${showTerms||showPrivacyPolicy?"active":""}`}>
-      {showTerms||showPrivacyPolicy?(<>
-      <button className="CloseBtn" onClick={closeAboutSection}>+</button>
-      </>):(<></>)}
+    <div className="footer LayoutFooter text-light pt-2 sticky">
       <div className="container">
-          {showTerms||showPrivacyPolicy?(<>
-        
-        </>):(<>
         <div className="row">
           {/* <div className="col text-center">
             <div className="footer-Links d-flex justify-content-center">
               <Link to="#" className={`${showTerms===true?"active":""}`} onClick={toggleTerms}>
-                <p className="text-light mb-0 me-2">Terms & Conditions</p>
+                <p className="text mb-0 me-2">Terms & Conditions</p>
               </Link>
               <div className="separator mx-2">|</div>
               <Link to="#" className={`${showPrivacyPolicy===true?"active":""}`} onClick={togglePrivacyPolicy}>
-                <p className="text-light mb-0">Privacy Policy</p>
+                <p className="text mb-0">Privacy Policy</p>
               </Link>
               <div className="separator mx-2">|</div>
               <Link to="#" onClick={toggleContactUs}>
-                <p className="text-light mb-0">Contact Us</p>
+                <p className="text mb-0">Contact Us</p>
               </Link>
             </div>
           </div> */}
@@ -252,19 +217,16 @@ const Footer = () => {
           <div className="col text-center">
             <p>
               Copyright © Designed &amp; Developed by{" "}
-              {/* <a  rel="noreferrer" className="text-light fw-bold"> */}
               TB Soft Solutions LLC
-              {/* </a>{" "} */}
               {d.getFullYear()}
             </p>
           </div>
         </div>
-        </>)}
 
         {showTerms && (
           <div className="row mt-4 footer height-adjust">
             <div className="col-12">
-              <div className="card customCard text-dark">
+              <div className="card text-dark">
                 <div className="card-body">
                   <h4>Terms and Conditions for Our Portal</h4>
                   <p>
@@ -312,7 +274,7 @@ const Footer = () => {
                   <h5>7. Contact Information</h5>
                   <p>
                     If you have any questions about these Terms and Conditions, please contact us at
-                    contact@careersavvy.ai.
+                    support@yolojobs.com.
                   </p>
                 </div>
               </div>
@@ -322,7 +284,8 @@ const Footer = () => {
 
         {showPrivacyPolicy && (
           <div className="row mt-4 footer height-adjust">
-              <div className="card customCard text-dark">
+            <div className="col-12">
+              <div className="card text-dark">
                 <div className="card-body">
                   <h4>Privacy Policy for Our Portal</h4>
                   <p>
@@ -394,18 +357,16 @@ const Footer = () => {
                   <h5>10. Contact Us</h5>
                   <p>
                     If you have any questions about this Privacy Policy, please contact us at
-                    contact@careersavvy.ai.
+                    support@yolojobs.com.
                   </p>
                 </div>
               </div>
+            </div>
           </div>
         )}
-        {popupType!=="" && (<>
-          {/* <ContactUsComp showContactus={showContactus} setShowContactUs={setShowContactUs}/> */}
-          <SidePopup popupType={popupType} setPopupType={setPopupType} setShowLoader={setShowLoader} setMessage={setMessage} setType={setType} />
+        {showContactus && (<>
+         <ContactUsComp showContactus={showContactus} setShowContactUs={setShowContactUs}/>
         </>)}
-          <ToastSucces type={type} setType={setType} message={message} setMessage={setMessage}/>
-         
       </div>
     </div>
   );

@@ -1,92 +1,219 @@
-.deznav{
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-
-.contactUsBtn.side-close {
-    .text {
-        display: none;
-    }
-}
-.contactUsBtn:hover {
-    svg {
-        color: #fff;
-        transition: all 0.5s;
-    }
-    .text {
-        color: #fff;
-        transition: all 0.5s;
-    }
-}
-.contactUsBtn {
-            position: absolute;
-            cursor: pointer;
-        bottom: 0px;
-        border-radius: 10px;
-        transition: all 0.5s;
-        background: #222d44;
-        min-width: 42.35px;
-        width: 80%;
-        min-height: 42.35px;
-        display: flex
-;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        flex-direction: row;
-        .text {
-            font-size: 16px;
-            font-weight: 600;
-        }
-}
-}
 .deznav.side-close li > a:after {
-    display: none !important;
-    opacity: 0!important;
+  display: none !important;
+  opacity: 0 !important;
 }
+.resumesidebar.side-close svg {
+  color: #fff !important;
+}
+.deznav {
+  .interviewGoingOn {
+    position: relative;
+  }
+  .interviewGoingOn::after {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .interviewGoingOn:hover::after {
+    content: "Interview is in progress. Sidebar is disabled.";
+    position: absolute;
+    top: 5%;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
+    transform: translateX(-50%);
+    left: 50%;
+    width: 90%;
+    text-wrap: auto;
+    background: #cabeecf7;
+    opacity: 1;
+    color: #1e1e1e;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 999999999999;
+  }
+}
+
 .checkout-loader {
-    padding: 20px;
-    position: fixed;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    z-index: 100;
-    background: #00000050;
-    img {
-        width: 50px;
-    }
+  padding: 20px;
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  z-index: 100;
+  background: #00000050;
+  img {
+    width: 50px;
+  }
 }
 .pro-bg .pro-container.small {
-    width: 380px;
-    height: 330px;
-    justify-content: space-around;
+  width: 380px;
+  height: 330px;
+  justify-content: space-around;
 }
 .pro-bg .pro-container.small .pro-header {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 .pro-bg .pro-container.small .upgrade-description {
-    color: #34137f;
-    font-size: 16px;
-    text-align: center;
-    margin-top: 23px;
-    font-weight: 500;
+  color: #34137f;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 23px;
+  font-weight: 500;
 }
 .pro-bg .pro-container.small .upgrade-button {
-    background: #34137f;
-    color: #ffffff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    text-align: center;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  background: #34137f;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-align: center;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
+.cSavvyContentLoader {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  .loaderInfo {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+    align-items: center;
+    .CSavvySpinner {
+      animation: spin 2s linear infinite;
+      width: 30px;
+      height: 30px;
+    }
+    .text {
+      font-size: 20px;
+      line-height: 30px;
+      color: #020817;
+      font-weight: 600;
+    }
+  }
+  .outerbar {
+    background: #eae1fb;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    .innerbar {
+      background: #6024c2;
+      animation: progressComplete 4s linear forwards;
+      width: 0%;
+      height: 12px;
+      border-radius: 6px;
+      transition: all 3seconds;
+      &.complete {
+        width: 100%;
+      }
+    }
+  }
+}
+.CSavvyLoaderBg.bgBlur {
+      backdrop-filter: blur(12px);
+}
+.CSavvyLoaderBg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: #f5f5f51f;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  .cSavvyLogo {
+    display: flex;
+    max-width: 250px;
+    width: 100%;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    padding: 20px 20px !important;
+    background: #ebebeba3;
+    flex-direction: column;
+    border: 1px solid #e1e1e1;
+    box-shadow: 0px 3px 6px -1px #00000021;
+    gap: 12px;
+    .loaderInfo {
+      display: flex;
+      gap: 8px;
+      padding: 0px 0 !important;
+      flex-direction: column;
+      align-items: center;
+      .CSavvySpinner {
+        animation: spin 2s linear infinite;
+        width: 22px;
+        height: 22px;
+      }
+      .text {
+        font-size: 15.5px;
+        line-height: 20px;
+        color: #323232;
+        font-weight: 500;
+        text-align: center;
+      }
+    }
+    .outerbar {
+      background: #b9b9b9;
+      width: 100%;
+      height: 6px;
+      border-radius: 6px;
+      margin-bottom: 0px !important;
+
+      .innerbar {
+        background: #323232;
+        animation: progressComplete 5s linear forwards;
+        width: 0%;
+        height: 6px;
+        border-radius: 6px;
+        transition: all 3seconds;
+        &.complete {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+@keyframes progressComplete {
+  0% {
+    width: 0%;
+  }
+  20% {
+    width: 20%;
+  }
+  40% {
+    width: 40%;
+  }
+  60% {
+    width: 60%;
+  }
+  80% {
+    width: 80%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

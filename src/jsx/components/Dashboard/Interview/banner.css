@@ -734,7 +734,7 @@ img.exam-loader {
   width: 35px;
 }
 .resumeOuter .resumeTab {
-  animation: popupcont 1s ease-out 0s 1;
+  nimation: popupcont 1s ease-out 0s 1;
     border-radius: 16px;
     box-shadow: 0 8px 24px #7474741f;
     font-size: 18px;
@@ -744,8 +744,8 @@ img.exam-loader {
     position: relative;
     top: 0;
     transform: translate(0);
-    width: 100%;
-    max-width: 600px;
+    width: 80%;
+    max-width: 1400px;
     background: #333a54;
     border-radius: 18px;
 }

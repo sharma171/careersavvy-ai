@@ -1,0 +1,179 @@
+.fSPopup {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  background: #00000014;
+  right: 0;
+  height: 100%;
+  z-index: 9999;
+  .PopupInner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    max-width: 600px;
+    padding: 32px;
+    gap: 0;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    .closeButton {
+      position: absolute;
+      top: 13px;
+      right: 13px;
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    .textCol {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 5px;
+
+      .MainHeading {
+        font-family: "Manrope", sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1.4;
+        background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .MainHeading.Type2 {
+        font-family: "Manrope", sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 1.4;
+        background: linear-gradient(61deg, #2a69f7 0%, #7516e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .paraText {
+        font-family: "Manrope", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #727272;
+      }
+      .paraText.Type2 {
+        font-family: "Manrope", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 1.4;
+        color: #020817;
+        margin-left: -45px;
+      }
+    }
+
+    .popuprow {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      margin-bottom: 6px;
+
+      &.vertical {
+        flex-direction: column;
+      }
+    }
+
+    .popupButtonRow {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 16px;
+
+      .strokeButton,
+      .filledButton {
+        padding: 10px 25px;
+        font-family: "Manrope", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        border-radius: 8px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .strokeButton {
+        background: #ffffff;
+        border: 1px solid #9141af;
+        background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .strokeButton.Type2 {
+        color: #fff;
+        /* border: 1px solid #9141af; */
+        background: linear-gradient(67deg, #2a69f7 0%, #7317e2 100%);
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+      }
+      .strokeButton.Type2:hover {
+        background: #ffffff;
+        border: 1px solid #2a69f7;
+        background: linear-gradient(180deg, #2a69f7 0%, #7317e2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .filledButton {
+        background: linear-gradient(180deg, #9141af 0%, #431c9f 100%);
+        color: #ffffff;
+        border: none;
+      }
+    }
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .fSPopup {
+    & .PopupInner {
+      .popuprow {
+        margin-bottom: 0px;
+      }
+    }
+  }
+  .fSPopup {
+    .PopupInner {
+      padding: 16px;
+      max-width: 90%;
+
+      .textCol {
+        margin-bottom: 24px;
+
+        .MainHeading {
+          font-size: 20px;
+        }
+
+        .paraText {
+          font-size: 13px;
+        }
+      }
+
+      .popuprow {
+        flex-direction: row;
+        gap: 12px;
+      }
+
+      .popupButtonRow {
+        flex-direction: column;
+        align-items: stretch;
+
+        .strokeButton,
+        .filledButton {
+          width: 100%;
+          padding: 12px;
+        }
+      }
+    }
+  }
+}

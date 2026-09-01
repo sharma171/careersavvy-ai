@@ -10,7 +10,7 @@ import { NAVTOGGLE } from '../actions/AuthActions';
 const initialState = {
     posts: [],
 };
-const initial = true;  
+const initial = false;  
 function PostsReducer(state = initialState, actions) {
     if (actions.type === CREATE_POST_ACTION) {
         const post = {

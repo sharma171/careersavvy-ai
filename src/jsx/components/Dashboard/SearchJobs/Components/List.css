@@ -1,0 +1,424 @@
+.JobsCard.active {
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+  animation: BorderAnimate 1s linear forwards;
+  outline: none;
+  position: relative;
+}
+.JobsCard {
+  position: relative;
+}
+.JobsCard .viewLink svg {
+  width: 16px;
+  height: 16px;
+}
+.JobsCard:hover .viewLink {
+  display: flex;
+  width: unset;
+}
+.JobsCard .viewLink {
+  display: none;
+  width: 0;
+  overflow: hidden;
+  transition: all 0.5s;
+  flex-direction: row;
+  gap: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  position: absolute;
+  top: 49%;
+  right: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  align-items: center;
+  background: #40189d;
+  padding: 6px 9px;
+  color: #ffffff;
+  box-sizing: border-box;
+}
+
+@keyframes BorderAnimate {
+  0% {
+    outline: 1px solid transparent;
+  }
+  35% {
+    outline: 1px solid #40189d;
+  }
+  100% {
+    outline: 1px solid #40189d;
+  }
+}
+.JobsCard:hover {
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.15);
+  transform: scale(1.008);
+}
+.JobsCard {
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 14px;
+  transition: all 0.6s;
+}
+.JobsCard:nth-child(2n) .top-contents .jobicons .companyIcon {
+  filter: sepia(1) saturate(2);
+}
+.JobsCard .row-flex {
+  display: flex;
+  flex-direction: row;
+}
+.JobsCard .col-flex {
+  display: flex;
+  flex-direction: column;
+}
+.JobsCard .top-contents {
+  justify-content: space-between;
+  width: 100%;
+}
+.JobsCard .top-contents .jobTags {
+  margin: 0;
+}
+.JobsCard .top-contents .jobTags .mainHead {
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 30px;
+  color: #121224;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  margin-right: 20px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.JobsCard .top-contents .jobTags .jobCompntype {
+  gap: 10px;
+  align-items: center;
+}
+.JobsCard .top-contents .jobTags .jobCompntype span {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #717b9e;
+  width: min-content;
+}
+.JobsCard .top-contents .jobTags .jobCompntype .widthDivider {
+  width: 1px;
+  height: 12px;
+  border: 1px solid #c0c4d3b9;
+}
+.JobsCard .top-contents .jobTags .PostLocTime .widthDivider {
+  height: 12px;
+  width: 1px;
+  border: 1px solid #c0c4d3a0;
+}
+.JobsCard .top-contents .jobTags .PostLocTime {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #5c5c5c;
+  align-items: center;
+}
+.JobsCard .top-contents .jobTags .PostLocTime .posted {
+  gap: 6px;
+}
+.JobsCard .top-contents .jobTags .PostLocTime .posted span {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 21px;
+  color: #5c5c5c;
+}
+.JobsCard .top-contents .jobTags .PostLocTime .posted img {
+  width: 14px;
+  height: 14px;
+}
+.JobsCard .top-contents .jobicons {
+  gap: 10px;
+}
+.JobsCard .top-contents .jobicons .companyIcon {
+  width: 45px;
+  height: 45px;
+}
+.JobsCard .bot-details {
+  gap: 5px;
+  width: 100%;
+}
+.JobsCard .bot-details .jobInfo .jobDetails {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #717171;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 3px;
+  margin-bottom: -2px;
+}
+.JobsCard .bot-details .jobInfo {
+  width: calc(100% - 2.5px);
+  max-width: 43%;
+}
+.JobsCard .bot-details .jobInfo .time {
+  background: rgba(217, 217, 217, 0.24);
+  border: 1px solid #dcdcdc;
+  border-radius: 11px;
+  padding: 4px 6px;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #a8a8a8;
+  margin-right: auto;
+}
+.JobsCard .bot-details .Main-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-end;
+  width: calc(100% - 2.5px);
+  justify-content: flex-end;
+}
+.JobsCard .bot-details .Main-buttons .ApplyOuter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  align-content: center;
+}
+.JobsCard .bot-details .Main-buttons .aiOuter {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+.JobsCard .bot-details .Main-buttons .aiButton {
+  gap: 6px;
+}
+.JobsCard .bot-details .Main-buttons .aiButton span {
+  background: linear-gradient(295deg, #62d5fd 36.27%, #6584f6 52.28%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-wrap: nowrap;
+}
+.JobsCard .bot-details .Main-buttons .aiButton img {
+  width: 25px;
+  height: 25px;
+}
+.JobsCard .bot-details .Main-buttons .ApplyButton {
+  padding: 2px 5px 2px 5px !important;
+}
+.JobsCard .bot-details .Main-buttons .aiButton,
+.JobsCard .bot-details .Main-buttons .ApplyButton {
+  background: transparent;
+  box-sizing: border-box;
+  font-weight: 500;
+  padding: 0px 8px;
+  transition: all 0.7s;
+  height: 28px;
+  font-size: 16px;
+  line-height: 24px;
+  align-items: center;
+  border: none;
+}
+.JobsCard .bot-details .Main-buttons .AutoApply.aiButton img {
+  width: 20px;
+  height: 20px;
+}
+.JobsCard .bot-details .Main-buttons .AutoApply.aiButton {
+  position: relative;
+}
+.JobsCard .bot-details .Main-buttons .AutoApply.aiButton::before {
+  position: absolute;
+  left: -7px;
+  top: 0;
+  height: 92%;
+  width: 1px;
+  background: #929292;
+  content: "";
+}
+.JobsCard .bot-details .Main-buttons .AutoApply.aiButton::after {
+  position: absolute;
+  right: -6px;
+  top: 0;
+  height: 92%;
+  width: 1px;
+  background: #929292;
+  content: "";
+}
+.JobsCard .bot-details .Main-buttons .AutoApply.aiButton span {
+  background: unset;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  text-fill-color: unset;
+  text-wrap: nowrap;
+  color: #314bf3;
+}
+.JobsCard .bot-details .Main-buttons .ApplyButton span {
+  background: unset;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  background-clip: unset;
+  text-fill-color: unset;
+  color: #09b100;
+}
+
+.resAi.card.top-card .row-flex {
+  display: flex;
+  flex-direction: row;
+}
+.resAi.card.top-card .col-flex {
+  display: flex;
+  flex-direction: column;
+}
+.resAi.card.top-card {
+  height: unset;
+}
+.resAi.card.top-card .detailedTop .icons svg {
+  width: 60px;
+  height: 60px;
+}
+.resAi.card.top-card .detailedTop {
+  gap: 8px;
+  width: 100%;
+  justify-content: space-between;
+}
+.resAi.card.top-card .detailedInfo h4 {
+  text-align: left;
+}
+.resAi.card.top-card .detailedInfo {
+  align-items: flex-start;
+  align-content: flex-start;
+}
+.resAi.card.top-card .detailedInfo .jobCompntype .widthDivider {
+  width: 1px;
+  height: 16px;
+  border: 1px solid #c0c4d3;
+}
+.resAi.card.top-card .detailedInfo .jobCompntype {
+  gap: 10px;
+  align-items: center;
+  margin-top: 4px;
+  width: calc(100% + 0px);
+}
+.resAi.card.top-card .detailedInfo .jobCompntype span {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  color: #717b9e;
+}
+.resAi.card.top-card .detailedInfo .PostLocTime .widthDivider {
+  height: 15px;
+  width: 1px;
+  border: 1px solid #c0c4d3;
+}
+.resAi.card.top-card .detailedInfo .PostLocTime {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 11px;
+  gap: 12px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #5c5c5c;
+  align-items: center;
+}
+.resAi.card.top-card .detailedInfo .PostLocTime .posted {
+  gap: 6px;
+}
+.resAi.card.top-card .detailedInfo .PostLocTime .posted span {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  color: #5c5c5c;
+}
+.JobsCard .top-contents .jobTags .PostLocTime .posted img {
+  width: 14px;
+  height: 14px;
+  /* display: none; */
+}
+.resAi.card.top-card .detailedInfo .PostLocTime .posted img {
+  width: 16px;
+  height: 16px;
+}
+.resAi.card.top-card .heightDivider {
+  height: 1px;
+  width: 100%;
+  border: 1px solid #d8d8d8;
+}
+.resAi.card.bot-card .heightDivider {
+  height: 1px;
+  width: 100%;
+  border: 1px solid #d8d8d8;
+}
+.resAi.card.top-card .button-box {
+  width: 100%;
+  justify-content: space-between;
+}
+.resAi.card.top-card .button-box .applyButton {
+  height: 38px;
+  padding: 7px 32px;
+  margin-right: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+.resAi.card.top-card .button-box .Ai-Insights-Button {
+  width: 149px;
+  height: 38px;
+  padding: 2px 6px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+.search-Jobs-Container .resAi .card-body .fs-15.job-decription .topHead h4 {
+  margin: 0;
+}
+.search-Jobs-Container .resAi .card-body .fs-15.job-decription .iconText {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  margin-left: -14px;
+}
+.resAi.card.bot-card .card-body .topHead {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.resAi.card.bot-card .card-body .topHead svg {
+  width: 20px;
+}
+.resAi.card.bot-card .card-body .topHead h5.head {
+  margin-bottom: 0;
+}
+.card {
+  animation: flowUp 0.2s;
+}
+@media (max-width: 768px) {
+  .JobsCard .top-contents .jobTags .PostLocTime .posted img {
+    width: 14px;
+    height: 14px;
+    /* display: none; */
+  }
+  .JobsCard .bot-details .Main-buttons .aiButton img {
+    width: 18px;
+    height: 18px;
+  }
+}
+@keyframes flowUp {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

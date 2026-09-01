@@ -4,65 +4,60 @@ import Webcam from "react-webcam";
 import { useSelector } from "react-redux";
 import CsavvyContentLoader from "../../components/Dashboard/CsavvyPageLoad";
 import "../../../jsx/components/Dashboard/Interview/videoInterview.css";
-import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { fetchFile } from "@ffmpeg/util";
 
 import SystemCheckPopup from "../../components/Dashboard/AspireQuest/systemCheckPopup";
+
 import FeedbackComponent from "./feedback";
 import RotateIcon from "../../components/Dashboard/Interview/icons/RotateIcon.png";
 import CameraGif from "../../components/Dashboard/Interview/icons/camera check.gif";
 import MicrophoneGif from "../../components/Dashboard/Interview/icons/mic check icon.gif";
-import ProgressBar from "../../components/Dashboard/Interview/ProgressBar";
+import ProgressBar from '../../components/Dashboard/Interview/ProgressBar';
 
-// Q&A backend
 const API_URL = "https://generate-video-interviews-v10-737421501165.us-east1.run.app";
 
-// Upload backend
-const API_URL_UPLOAD = "https://video-recording-functionality-v10-737421501165.us-east1.run.app";
-
 const InterviewVideo = () => {
-    // Redux data
-    const userEmail = useSelector((state) => state?.auth?.auth?.email);
-    const { scenarioBased, interviewLevel, industryInterview } = useSelector((state) => state?.profile || {});
-
+    const userEmail = useSelector((state) => state.auth.auth.email);
+    const { scenarioBased, interviewLevel, industryInterview } = useSelector((state) => state.profile);
     const navigate = useNavigate();
-
-    // Token/config
     const [interviewToken, setInterviewToken] = useState("");
-    const [interviewDetails, setInterviewDetails] = useState(null);
+    const [interviewDetails, setInterviewDetails] = useState([]);
     const [candidateEmail, setCandidateEmail] = useState("");
     const [errorPopup, setErrorPopup] = useState("");
-
     useEffect(() => {
-        const token = localStorage.getItem("Linktoken");
-        const detailsRaw = localStorage.getItem("LinkInterviewDetails");
-        let parsed = null;
+        const interviewToken = localStorage.getItem("Linktoken");
+        const interviewDetails = localStorage.getItem("LinkInterviewDetails");
+        // Parse interviewDetails safely
+        let parsedInterviewDetails = null;
         try {
-            parsed = detailsRaw ? JSON.parse(detailsRaw) : null;
-        } catch (err) {
-            console.error("Error parsing interview details:", err);
+            parsedInterviewDetails = interviewDetails ? JSON.parse(interviewDetails) : null;
+        } catch (error) {
+            console.error("Error parsing interview details:", error);
         }
-        setInterviewDetails(parsed);
-        setCandidateEmail(parsed?.interview_config?.candidate_email || "");
-        setInterviewToken(token || "");
-    }, []);
 
-    // UI states
+        setInterviewDetails(parsedInterviewDetails);
+        setCandidateEmail(parsedInterviewDetails.interview_config?.candidate_email);
+        // console.log("Interview details:", parsedInterviewDetails.interview_config?.candidate_email);
+        setInterviewToken(interviewToken);
+    }, []);
+    
+    // UI States
     const [showLoader, setShowLoader] = useState(false);
     const [prepareInterview, setPrepareInterview] = useState(true);
     const [systemCheck, setSystemCheck] = useState(true);
     const [feedbackTab, setFeedbackTab] = useState(false);
     const [showPopup, setShowPopup] = useState(true);
-    const [currentStage, setCurrentStage] = useState("Started");
 
-    // Interview states
+    const [currentStage, setCurrentStage] = useState("Started");
+    
+    
+    // Interview States
     const [interviewStarted, setInterviewStarted] = useState(false);
     const [interviewComplete, setInterviewComplete] = useState(false);
     const [questions, setQuestions] = useState([]);
     const [docId, setDocId] = useState("");
     const [feedback, setFeedback] = useState(null);
-
-    // Recording/transcription/timing states
+    
+    // Recording States
     const [isRecording, setIsRecording] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isListening, setIsListening] = useState(false);
@@ -71,25 +66,8 @@ const InterviewVideo = () => {
     const [transcript, setTranscript] = useState("");
     const [accumulatedTranscript, setAccumulatedTranscript] = useState("");
     const [interviewUnsuccessful, setInterviewUnsuccessful] = useState(false);
-    const [textInterviewReady, setTextInterviewReady] = useState(false);
-
-    // Chunks counter
-    const [chunkCount, setChunkCount] = useState(0);
-
-    // Progress for loaders
-    const [progress, setProgress] = useState(1);
-
-    // CRITICAL REFS FOR BUG FIXES
-    const isRecordingActiveRef = useRef(false);
-    const lastChunkTimeRef = useRef(0);
-    const processingChunksRef = useRef(new Set());
-    const ffmpegLockRef = useRef(Promise.resolve());
-
-    // Misc refs
-    // Add this line with your other refs around line 80-100
-    const isProcessingRef = useRef(false);
-    const chunkTimerRef = useRef(null);
-
+    
+    // Refs
     const streamRef = useRef(null);
     const timerIntervalRef = useRef(null);
     const recognitionRef = useRef(null);
@@ -100,7 +78,7 @@ const InterviewVideo = () => {
     const messagesEndRef = useRef(null);
     const lastSpokenIndexRef = useRef(-1);
     const recognitionRestartAttempts = useRef(0);
-    const recognitionManuallyStoppedRef = useRef(false);
+    const recognitionManuallyStoppedRef = useRef(false); 
     const keepAliveIntervalRef = useRef(null);
     const voiceActivityTimeoutRef = useRef(null);
     const lastSpeechTimeRef = useRef(Date.now());
@@ -112,386 +90,70 @@ const InterviewVideo = () => {
         startTime: 0,
         totalDuration: 0,
         pauseStartTime: 0,
-        isPaused: false,
+        isPaused: false
     });
 
-    // Global chunk recording controls
-    const webcamRef = useRef(null);
-    const globalRecorderRef = useRef(null);
-    const pendingUploadsRef = useRef(Promise.resolve());
-    const isStoppingRef = useRef(false);
-    const chunkCounterRef = useRef(0);
+     const [progress, setProgress] = useState(1);
 
-    // ffmpeg
-    const ffmpegRef = useRef(null);
+  useEffect(() => {
+        if(prepareInterview==true||isSubmitting==true){
+        setTimeout(()=>{
+            setProgress(95);
+        },100);
+        setTimeout(()=>{
+            setProgress(0);
+        },4000);
 
-    async function getFFmpeg() {
-        if (!ffmpegRef.current) {
-            const ffmpeg = new FFmpeg();
-            ffmpeg.on('log', ({ message }) => {
-                console.log('FFmpeg:', message);
-            });
-            await ffmpeg.load();
-            ffmpegRef.current = ffmpeg;
-        }
-        return ffmpegRef.current;
     }
+  }, [prepareInterview, isSubmitting]);
 
-    // COMPLETELY FIXED: webmToMp4 with mutex lock
-    async function webmToMp4(webmBlob, outName = "out.mp4") {
-        await ffmpegLockRef.current;
-
-        let resolveLock;
-        ffmpegLockRef.current = new Promise((resolve) => {
-            resolveLock = resolve;
-        });
-
-        try {
-            if (!webmBlob || webmBlob.size === 0) {
-                console.error("❌ Invalid or empty input blob");
-                throw new Error("Invalid input blob");
-            }
-
-            const ffmpeg = await getFFmpeg();
-
-            const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-            const inName = `in_${uniqueId}.webm`;
-            const outNameUnique = `out_${uniqueId}.mp4`;
-
-            console.log(`🎬 Starting conversion: ${outName}`);
-            const startTime = Date.now();
-
-            await ffmpeg.writeFile(inName, await fetchFile(webmBlob));
-
-            // EXTREME SPEED SETTINGS - Target 1-2 second conversion
-            await ffmpeg.exec([
-                "-i", inName,
-                "-vf", "scale=320:-2",           // EXTREME: 320p resolution (was 480p)
-                "-r", "10",                      // EXTREME: 10fps (was 15fps) - 33% fewer frames
-                "-c:v", "libx264",
-                "-preset", "ultrafast",          // EXTREME: Back to ultrafast for maximum speed
-                "-crf", "20",                    // EXTREME: CRF 35 (was 32) - very low quality
-                "-maxrate", "250k",              // EXTREME: 250kbps max (was 400k)
-                "-bufsize", "500k",              // EXTREME: Smaller buffer
-                "-g", "24",                      // EXTREME: Keyframe every 30 frames (3 seconds)
-                "-tune", "zerolatency",          // EXTREME: Zero latency tune
-                "-x264opts", "bframes=0:ref=1:no-cabac:no-deblock:no-mbtree:subme=0:trellis=0:weightp=0", // EXTREME: Disable all heavy features
-                "-c:a", "aac",
-                "-b:a", "8k",                   // EXTREME: 24kbps audio (was 32k)
-                "-ar", "16000",                  // EXTREME: 16kHz sample rate (was 22050)
-                "-ac", "1",                      // Mono audio
-                "-movflags", "+faststart",
-                outNameUnique,
-            ]);
-            let data;
-            try {
-                data = await ffmpeg.readFile(outNameUnique);
-            } catch (e) {
-                console.error("❌ Failed to read output file");
-                throw new Error("Conversion output file not found");
-            }
-
-            if (!data || data.length === 0) {
-                console.error("❌ Conversion produced empty file");
-                throw new Error("Conversion produced empty output");
-            }
-
-            const conversionTime = Date.now() - startTime;
-            console.log(`✅ Converted ${outName} in ${conversionTime}ms`);
-
-            try {
-                await ffmpeg.deleteFile(inName);
-                await ffmpeg.deleteFile(outNameUnique);
-            } catch (e) {
-                console.warn("Cleanup warning:", e);
-            }
-
-            return new Blob([data.buffer], { type: "video/mp4" });
-
-        } catch (error) {
-            console.error(`❌ Conversion failed for ${outName}:`, error);
-            throw error;
-        } finally {
-            resolveLock();
-        }
-    }
-    const chunkUploadCountRef = useRef(0);
-
-    const uploadVideoChunk = async (videoBlob, { isFinalChunk = false, totalChunks, chunkIndex } = {}) => {
-        if (!videoBlob || videoBlob.type !== "video/mp4") {
-            throw new Error("videoBlob must be MP4");
-        }
-
-        const formData = new FormData();
-
-        formData.append("action", "upload");
-        formData.append("job_id", interviewDetails?.interview_config?.job_id || "");
-        formData.append("candidate_email", candidateEmail || userEmail || "");
-
-        if (isFinalChunk) {
-            formData.append("is_final_chunk", "true");
-            formData.append("total_chunks", String(totalChunks ?? chunkCounterRef.current));
-        }
-
-        // ✅ BEST: Always append - true for first, false for rest (synchronous)
-        const isFirstChunk = chunkUploadCountRef.current === 0;
-        formData.append("new_video_recording", isFirstChunk ? "true" : "false");
-
-        const randomSuffix = Math.random().toString(36).substring(2, 10);
-        const timestamp = Date.now();
-        const filename = isFinalChunk
-            ? `final_${timestamp}_${randomSuffix}.mp4`
-            : `chunk_${chunkIndex}_${timestamp}_${randomSuffix}.mp4`;
-
-        formData.append("video_file", videoBlob, filename);
-
-        console.log(`📤 Uploading ${filename} (${(videoBlob.size / 1024).toFixed(2)} KB)`);
-        console.log(`🔹 new_video_recording: ${isFirstChunk ? "true" : "false"} (count: ${chunkUploadCountRef.current})`);
-
-        try {
-            const response = await fetch(API_URL_UPLOAD, {
-                method: "POST",
-                headers: { Accept: "application/json" },
-                body: formData,
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error(`❌ Upload failed for ${filename}:`, errorText);
-                throw new Error(`Upload failed for ${filename}: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log(`✅ Uploaded ${filename} successfully`);
-
-            // ✅ Immediate synchronous increment
-            chunkUploadCountRef.current += 1;
-
-            return result;
-        } catch (error) {
-            console.error(`❌ Error uploading ${filename}:`, error);
-            throw error;
-        }
-    };
-
-
-    // COMPLETELY FIXED: Prevent duplicate processing and corrupted blobs
-    const startGlobalRecording = () => {
-        try {
-            const stream = webcamRef.current?.stream;
-            if (!stream) {
-                console.error("No webcam stream available");
-                return;
-            }
-
-            // Stop previous recorder completely
-            if (globalRecorderRef.current) {
-                try {
-                    if (globalRecorderRef.current.state !== "inactive") {
-                        globalRecorderRef.current.stop();
-                    }
-                    globalRecorderRef.current.ondataavailable = null;
-                    globalRecorderRef.current.onstop = null;
-                    globalRecorderRef.current.onerror = null;
-                } catch (e) {
-                    console.warn("Error stopping previous recorder:", e);
-                }
-                globalRecorderRef.current = null;
-            }
-
-            // Clear any existing timer
-            if (chunkTimerRef.current) {
-                clearInterval(chunkTimerRef.current);
-                chunkTimerRef.current = null;
-            }
-
-            isRecordingActiveRef.current = true;
-
-            const createRecorder = () => {
-                const mime = MediaRecorder.isTypeSupported("video/webm;codecs=vp9")
-                    ? "video/webm;codecs=vp9"
-                    : "video/webm";
-
-                const mr = new MediaRecorder(stream, {
-                    mimeType: mime,
-                    videoBitsPerSecond: 100000,
-                    audioBitsPerSecond: 8000,
-                });
-
-                mr.ondataavailable = async (e) => {
-                    if (!isRecordingActiveRef.current) {
-                        console.warn("⚠️ Ignoring chunk - recording stopped");
-                        return;
-                    }
-
-                    if (!e.data || e.data.size === 0) {
-                        console.warn("⚠️ Empty blob, skipping");
-                        return;
-                    }
-
-                    if (e.data.size < 10000) {
-                        console.warn(`⚠️ Blob too small (${e.data.size} bytes), skipping`);
-                        return;
-                    }
-
-                    const nextIndex = chunkCounterRef.current + 1;
-                    chunkCounterRef.current = nextIndex;
-
-                    const now = Date.now();
-                    const chunkId = `chunk_${nextIndex}_${now}`;
-
-                    if (processingChunksRef.current.has(chunkId)) {
-                        console.warn(`⚠️ Chunk ${nextIndex} already queued`);
-                        return;
-                    }
-
-                    processingChunksRef.current.add(chunkId);
-
-                    // CRITICAL: Convert blob to ArrayBuffer IMMEDIATELY
-                    try {
-                        const arrayBuffer = await e.data.arrayBuffer();
-                        const webmBlob = new Blob([arrayBuffer], { type: e.data.type });
-
-                        pendingUploadsRef.current = pendingUploadsRef.current.then(async () => {
-                            try {
-                                console.log(`🎥 Processing chunk ${nextIndex} (${(webmBlob.size / 1024).toFixed(2)} KB)`);
-
-                                if (webmBlob.size === 0) {
-                                    console.error(`❌ Chunk ${nextIndex} is empty`);
-                                    return;
-                                }
-
-                                const uniqueChunkName = `chunk_${nextIndex}_${now}.mp4`;
-                                const mp4Blob = await webmToMp4(webmBlob, uniqueChunkName);
-
-                                if (!mp4Blob || mp4Blob.size === 0) {
-                                    console.error(`❌ Chunk ${nextIndex} conversion failed`);
-                                    return;
-                                }
-
-                                await uploadVideoChunk(mp4Blob, { chunkIndex: nextIndex });
-                                setChunkCount(nextIndex);
-                            } catch (err) {
-                                console.error(`❌ Chunk ${nextIndex} failed:`, err);
-                            } finally {
-                                processingChunksRef.current.delete(chunkId);
-                            }
-                        });
-                    } catch (err) {
-                        console.error("❌ Failed to prepare blob:", err);
-                        processingChunksRef.current.delete(chunkId);
-                    }
-                };
-
-                mr.onstop = () => {
-                    console.log("📹 MediaRecorder segment stopped");
-
-                    // CRITICAL: Restart recorder after stop if still active
-                    if (isRecordingActiveRef.current) {
-                        setTimeout(() => {
-                            if (isRecordingActiveRef.current) {
-                                console.log("🔄 Restarting recorder for next segment");
-                                const newRecorder = createRecorder();
-                                globalRecorderRef.current = newRecorder;
-                                newRecorder.start();
-                            }
-                        }, 100);
-                    }
-                };
-
-                mr.onerror = (event) => {
-                    console.error("❌ MediaRecorder error:", event);
-                    isRecordingActiveRef.current = false;
-                };
-
-                return mr;
-            };
-
-            // Create and start initial recorder
-            const mr = createRecorder();
-            globalRecorderRef.current = mr;
-            mr.start();
-
-            // CRITICAL FIX: Stop recorder every 15 seconds to trigger ondataavailable
-            chunkTimerRef.current = setInterval(() => {
-                if (isRecordingActiveRef.current && globalRecorderRef.current) {
-                    const currentRecorder = globalRecorderRef.current;
-                    if (currentRecorder.state === "recording") {
-                        console.log("⏰ Stopping recorder to capture chunk");
-                        currentRecorder.stop();
-                    }
-                }
-            }, 15000);
-
-            console.log("✅ Global recording started with 15s stop-restart chunks");
-        } catch (err) {
-            console.error("❌ Global recorder start failed:", err);
-            isRecordingActiveRef.current = false;
-        }
-    };
-
-
-
-
-    // Helpers
+    // Better deduplication function
     const isDuplicate = (existingText, newText) => {
         if (!existingText || !newText) return false;
-        const normalize = (text) => text.toLowerCase().trim().replace(/\s+/g, " ");
+        
+        // Normalize texts by removing extra spaces and converting to lowercase
+        const normalize = text => text.toLowerCase().trim().replace(/\s+/g, ' ');
         const normalizedExisting = normalize(existingText);
         const normalizedNew = normalize(newText);
+        
+        // Check if existing text already contains the new text
         return normalizedExisting.includes(normalizedNew);
     };
 
-    const similarStrings = (str1, str2) => {
-        if (!str1 || !str2) return false;
-        const normalize = (text) => text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-        const a = normalize(str1);
-        const b = normalize(str2);
-        return a.includes(b) || b.includes(a);
-    };
-
+    // Format seconds into MM:SS
     const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
-        return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+        return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     };
 
-    // Cleanup
+    // Resource cleanup function
     const cleanupResources = () => {
         window.speechSynthesis.cancel();
-
+        
         if (recognitionRef.current) {
-            try {
-                recognitionRef.current.stop();
-            } catch { }
-            recognitionRef.current.onresult =
-                recognitionRef.current.onend =
-                recognitionRef.current.onerror =
-                recognitionRef.current.onstart =
-                null;
+            recognitionRef.current.stop();
+            recognitionRef.current.onresult = recognitionRef.current.onend = 
+            recognitionRef.current.onerror = recognitionRef.current.onstart = null;
             recognitionRef.current = null;
         }
-
+        
         if (streamRef.current) {
-            try {
-                streamRef.current.getTracks().forEach((t) => t.stop());
-            } catch { }
+            streamRef.current.getTracks().forEach(track => track.stop());
             streamRef.current = null;
         }
-
+        
         if (audioContextRef.current) {
-            try {
-                audioContextRef.current.close();
-            } catch { }
+            audioContextRef.current.close();
             audioContextRef.current = null;
             analyserRef.current = null;
         }
-
+        
         if (timerIntervalRef.current) {
             clearInterval(timerIntervalRef.current);
             timerIntervalRef.current = null;
         }
-
+        
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
@@ -506,20 +168,27 @@ const InterviewVideo = () => {
             clearTimeout(voiceActivityTimeoutRef.current);
             voiceActivityTimeoutRef.current = null;
         }
-        if (chunkTimerRef.current) {
-            clearInterval(chunkTimerRef.current);
-            chunkTimerRef.current = null;
-        }
-
-        try {
-            const mr = globalRecorderRef.current;
-            if (mr && mr.state !== "inactive") {
-                mr.stop();
-            }
-        } catch { }
-
+        
         recognitionRestartAttempts.current = 0;
         continuousSilenceRef.current = 0;
+    };
+
+    // Helper function to check if strings are too similar
+    const similarStrings = (str1, str2) => {
+        if (!str1 || !str2) return false;
+        
+        // Convert to lowercase and remove punctuation for comparison
+        const normalize = (text) => text.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+        
+        const normalizedStr1 = normalize(str1);
+        const normalizedStr2 = normalize(str2);
+        
+        // Check if one is a substring of the other
+        if (normalizedStr1.includes(normalizedStr2) || normalizedStr2.includes(normalizedStr1)) {
+            return true;
+        }
+        
+        return false;
     };
 
     // Reset transcript
@@ -530,13 +199,11 @@ const InterviewVideo = () => {
         answerStartTimeRef.current = 0;
     };
 
-    // Stop listening
+    // Stop Speech Recognition and mark as manually stopped
     const stopListeningFn = () => {
         recognitionManuallyStoppedRef.current = true;
         if (recognitionRef.current) {
-            try {
-                recognitionRef.current.stop();
-            } catch { }
+            recognitionRef.current.stop();
             recognitionRef.current = null;
         }
         if (keepAliveIntervalRef.current) {
@@ -552,52 +219,50 @@ const InterviewVideo = () => {
         window.speechSynthesis.cancel();
     };
 
-    // Start listening (answer phase)
     const startListeningFn = (isRestart = false) => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) {
             alert("Speech recognition is not supported in this browser.");
             return;
         }
-
+    
         if (!isRestart) {
+            // Only reset these if it's a new listening session, not a restart
             recognitionManuallyStoppedRef.current = false;
             answerStartTimeRef.current = 0;
             previousTranscriptsRef.current = [];
             setAccumulatedTranscript("");
-
+            
+            // Reset speech tracking
             speechActivityRef.current = {
                 startTime: Date.now(),
                 totalDuration: 0,
                 pauseStartTime: 0,
-                isPaused: false,
+                isPaused: false
             };
             continuousSilenceRef.current = 0;
         }
-
+    
         if (!recognitionRef.current) {
             const recognition = new SpeechRecognition();
             recognition.continuous = true;
             recognition.interimResults = true;
             recognition.lang = "en-US";
-
-            navigator.mediaDevices
-                .getUserMedia({
-                    audio: {
-                        echoCancellation: true,
-                        noiseSuppression: true,
-                        autoGainControl: true,
-                        channelCount: 1,
-                        sampleRate: 48000,
-                    },
-                })
-                .then((stream) => {
-                    streamRef.current = stream;
-                })
-                .catch((err) => {
-                    console.error("Error accessing microphone:", err);
-                });
-
+    
+            navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true,
+                    channelCount: 1,
+                    sampleRate: 48000
+                }
+            }).then(stream => {
+                streamRef.current = stream;
+            }).catch(err => {
+                console.error("Error accessing microphone:", err);
+            });
+    
             recognition.onstart = () => {
                 setIsListening(true);
                 setIsRecording(true);
@@ -606,71 +271,98 @@ const InterviewVideo = () => {
                     setIsSpeaking(false);
                 }
             };
-
+    
             recognition.onresult = (event) => {
                 let finalTranscript = "";
                 let interimTranscript = "";
                 let hasNewContent = false;
-
+    
                 for (let i = event.resultIndex; i < event.results.length; i++) {
                     if (event.results[i].isFinal) {
                         finalTranscript += event.results[i][0].transcript;
                         hasNewContent = true;
                     } else {
                         interimTranscript += event.results[i][0].transcript;
+                        // Even interim results indicate speech activity
                         if (event.results[i][0].transcript.trim().length > 0) {
                             hasNewContent = true;
                         }
                     }
                 }
-
+    
                 const newTranscript = (finalTranscript + " " + interimTranscript).trim();
                 setTranscript(newTranscript);
-
+                
+                // When we get final results, add them to our accumulated transcript
                 if (finalTranscript.trim().length > 0) {
-                    setAccumulatedTranscript((prev) => {
-                        if (isDuplicate(prev, finalTranscript)) return prev;
-                        const sep = prev.length > 0 ? " " : "";
-                        const combined = prev + sep + finalTranscript.trim();
+                    setAccumulatedTranscript(prev => {
+                        // Check if the finalTranscript is already included in the accumulated transcript
+                        if (isDuplicate(prev, finalTranscript)) {
+                            console.log("Detected duplicate transcript, skipping addition");
+                            return prev;
+                        }
+                        
+                        // Add a space if needed between previous and new content
+                        const separator = prev.length > 0 ? " " : "";
+                        const combined = prev + separator + finalTranscript.trim();
+                        
+                        // Store in our backup array in case of restarts
                         previousTranscriptsRef.current.push(finalTranscript.trim());
+                        
+                        console.log("Updated accumulated transcript:", combined);
                         return combined;
                     });
                 }
-
+    
+                // If we have new speech content
                 if (hasNewContent) {
                     const now = Date.now();
                     lastSpeechTimeRef.current = now;
-
+                    
+                    // First speech in this answer? Record the start time
                     if (!isSpeaking && !answerStartTimeRef.current) {
                         answerStartTimeRef.current = now;
                     }
-
+                    
+                    // If we were in a pause state, calculate the pause duration
                     if (speechActivityRef.current.isPaused) {
-                        speechActivityRef.current.isPaused = false;
+                        const pauseDuration = now - speechActivityRef.current.pauseStartTime;
+                        console.log(`Speech resumed after ${pauseDuration}ms pause`);
+                        
+                        // Reset continuous silence counter
                         continuousSilenceRef.current = 0;
+                        
+                        // Mark as no longer paused
+                        speechActivityRef.current.isPaused = false;
                     }
-
+                    
                     if (!isSpeaking) {
                         setIsSpeaking(true);
+                        console.log("User started speaking at", new Date().toISOString());
                     }
-                } else if (isSpeaking) {
+                } 
+                // No new content - might be a pause
+                else if (isSpeaking) {
                     const now = Date.now();
                     const timeSinceLastSpeech = now - lastSpeechTimeRef.current;
+                    
+                    // If we've been silent for more than 1.5 seconds, consider it a pause
                     if (timeSinceLastSpeech > 1500 && !speechActivityRef.current.isPaused) {
                         speechActivityRef.current.isPaused = true;
                         speechActivityRef.current.pauseStartTime = lastSpeechTimeRef.current;
+                        console.log("Speech paused at", new Date().toISOString());
                     }
                 }
             };
-
+    
             recognition.onerror = (event) => {
                 console.error("Speech recognition error:", event.error);
-                if (event.error === "no-speech" || event.error === "audio-capture") {
+                if (event.error === 'no-speech' || event.error === 'audio-capture') {
                     if (recognitionRestartAttempts.current < 5) {
                         recognitionRestartAttempts.current++;
                         setTimeout(() => {
                             if (!recognitionManuallyStoppedRef.current && !interviewComplete && !feedbackTab) {
-                                startListeningFn(true);
+                                startListeningFn(true); // Pass true to indicate this is a restart
                             }
                         }, 1000);
                     } else {
@@ -681,62 +373,82 @@ const InterviewVideo = () => {
                     stopListeningFn();
                 }
             };
-
+    
             recognition.onend = () => {
                 setIsListening(false);
                 setIsRecording(false);
-
+                
+                // If this wasn't a manual stop and interview is still going
                 if (!recognitionManuallyStoppedRef.current && !interviewComplete && !feedbackTab) {
                     recognitionRestartAttempts.current++;
                     if (recognitionRestartAttempts.current < 10) {
+                        console.log("Recognition ended unexpectedly, restarting...");
+                        
+                        // Short delay before restart
                         setTimeout(() => {
-                            startListeningFn(true);
+                            // Make sure we retain our accumulated transcript when restarting
+                            // This is critical for preserving longer answers
+                            startListeningFn(true); // Pass true to indicate this is a restart
                         }, 500);
                     } else {
+                        console.error("Too many restart attempts, stopping recognition");
                         alert("Speech recognition has encountered too many errors. Please refresh the page and try again.");
                         setIsSpeaking(false);
                     }
                 } else {
                     recognitionRestartAttempts.current = 0;
                     setIsSpeaking(false);
+                    // Don't reset the answer start time here to maintain timing context
                 }
             };
-
+    
             recognitionRef.current = recognition;
         }
-
+    
         try {
             recognitionRef.current.start();
             setIsListening(true);
-
+            
+            // Start silence checking interval
             if (voiceActivityTimeoutRef.current) {
                 clearInterval(voiceActivityTimeoutRef.current);
             }
+            
+            // Check for long silences (real end of speech) every 1 second
             voiceActivityTimeoutRef.current = setInterval(() => {
                 if (isListening && !recognitionManuallyStoppedRef.current) {
                     const now = Date.now();
                     const timeSinceLastSpeech = now - lastSpeechTimeRef.current;
-                    const hasContent = accumulatedTranscript.trim().length > 10 || transcript.trim().length > 10;
-
+                    
+                    // Count continuous silence only if we've been speaking
                     if (isSpeaking && timeSinceLastSpeech > 1000) {
                         continuousSilenceRef.current += 1;
+                        console.log(`Continuous silence: ${continuousSilenceRef.current} seconds`);
+                        
+                        // After 7 seconds of silence after speaking, consider the answer complete
+                        // But only if we have meaningful accumulated content
+                        const hasContent = accumulatedTranscript.trim().length > 10 || transcript.trim().length > 10;
                         if (continuousSilenceRef.current >= 4 && hasContent) {
+                            console.log("Detected end of speech after extended silence");
                             clearInterval(voiceActivityTimeoutRef.current);
-
-                            const finalAnswer = accumulatedTranscript
-                                ? accumulatedTranscript +
-                                (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "")
-                                : transcript;
-
+                            
+                            // Combine any displayed transcript with the accumulated transcript
+                            const finalAnswer = accumulatedTranscript ? 
+                                accumulatedTranscript + (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "") : 
+                                transcript;
+                            
+                            // Submit the complete answer
                             submitAnswers(finalAnswer.trim());
                             resetTranscript();
                             stopListeningFn();
                         }
                     } else {
+                        // Reset silence counter if we're getting speech
                         continuousSilenceRef.current = 0;
                     }
                 }
             }, 1000);
+            
         } catch (error) {
             console.error("Failed to start recognition:", error);
             setTimeout(() => {
@@ -749,47 +461,70 @@ const InterviewVideo = () => {
     };
 
     const speakQuestionFn = (text) => {
+        // Cancel any ongoing speech
         window.speechSynthesis.cancel();
+        
+        // Clear any existing keep-alive interval
         if (keepAliveIntervalRef.current) {
             clearInterval(keepAliveIntervalRef.current);
             keepAliveIntervalRef.current = null;
         }
-
+        
         setTimeout(() => {
             const utterance = new SpeechSynthesisUtterance(text);
             currentUtteranceRef.current = utterance;
-
-            utterance.rate = 0.95;
-            utterance.pitch = 0.98;
-            utterance.volume = 1.0;
-
+            
+            // Set speech properties for better clarity
+            utterance.rate = 0.95; 
+            utterance.pitch = 0.98; 
+            utterance.volume = 1.0;  
+            
+            // Try to select a natural voice if available
             const voices = window.speechSynthesis.getVoices();
-            const english = voices.filter((v) => v.lang.includes("en"));
-            if (english.length > 0) {
-                const preferredNames = [
-                    "Google US English Male",
-                    "Daniel",
-                    "Alex",
-                    "Microsoft David",
-                    "Microsoft Mark",
-                    "Google UK English Male",
+            const englishVoices = voices.filter(voice => voice.lang.includes('en'));
+            if (englishVoices.length > 0) {
+                // Prioritize premium male voices in the given order
+                const preferredVoiceNames = [
+                    'Google US English Male',
+                    'Daniel',  // iOS/macOS
+                    'Alex',    // iOS/macOS
+                    'Microsoft David',
+                    'Microsoft Mark',
+                    'Google UK English Male'
                 ];
-                const preferred = preferredNames.map((name) => english.find((v) => v.name.includes(name))).find(Boolean);
-                const male = !preferred ? english.find((v) => v.name.toLowerCase().includes("male")) : null;
-                utterance.voice = preferred || male || english[0];
-            }
+                // Find the first available preferred voice
+                const preferredVoice = preferredVoiceNames
+                .map(name => englishVoices.find(voice => voice.name.includes(name)))
+                .find(voice => voice); // Select the first found voice
 
+                // If no preferred voice found, look for any voice with "male" in the name
+                const maleVoice = !preferredVoice ? 
+                englishVoices.find(voice => voice.name.toLowerCase().includes('male')) : 
+                null;
+
+                // Use preferred voice if found, otherwise try male voice, then fall back to first English voice
+                utterance.voice = preferredVoice || maleVoice || englishVoices[0];
+            }
+            
             utterance.onstart = () => {
+                console.log("Started speaking question:", text);
+                // Stop any ongoing recognition to avoid self-interference
                 setIsListening(false);
                 setIsRecording(false);
                 if (recognitionRef.current) {
-                    try {
-                        recognitionRef.current.stop();
-                    } catch { }
+                    try { 
+                        recognitionRef.current.stop(); 
+                    } catch (e) { 
+                        console.error("Error stopping recognition during speech:", e); 
+                    }
                 }
+                
+                // Chrome has a bug where long speeches get cut off
+                // Set up a keep-alive to prevent this
                 keepAliveIntervalRef.current = setInterval(() => {
                     const synth = window.speechSynthesis;
                     if (synth.speaking) {
+                        // This forces Chrome to not drop the audio
                         synth.pause();
                         synth.resume();
                     } else {
@@ -797,12 +532,35 @@ const InterviewVideo = () => {
                     }
                 }, 5000);
             };
-
+            
             utterance.onend = () => {
+                console.log("Finished speaking question:", text);
+                
+                // Clear the keep-alive interval
                 if (keepAliveIntervalRef.current) {
                     clearInterval(keepAliveIntervalRef.current);
                     keepAliveIntervalRef.current = null;
                 }
+                
+                if (!feedbackTab) {
+                    // Start listener after a slightly longer delay (800ms) to avoid interference
+                    setTimeout(() => {
+                        resetTranscript();
+                        startListeningFn();
+                    }, 800);
+                }
+            };
+            
+            utterance.onerror = (event) => {
+                console.error("Speech synthesis error:", event);
+                
+                // Clear the keep-alive interval on error
+                if (keepAliveIntervalRef.current) {
+                    clearInterval(keepAliveIntervalRef.current);
+                    keepAliveIntervalRef.current = null;
+                }
+                
+                // Try to restart listening on error
                 if (!feedbackTab) {
                     setTimeout(() => {
                         resetTranscript();
@@ -810,86 +568,80 @@ const InterviewVideo = () => {
                     }, 800);
                 }
             };
-
-            utterance.onerror = () => {
-                if (keepAliveIntervalRef.current) {
-                    clearInterval(keepAliveIntervalRef.current);
-                    keepAliveIntervalRef.current = null;
-                }
-                if (!feedbackTab) {
-                    setTimeout(() => {
-                        resetTranscript();
-                        startListeningFn();
-                    }, 800);
-                }
-            };
-
+            
+            // Add a special preparation for Chrome
+            // Because Chrome sometimes doesn't load voices immediately
             if (window.speechSynthesis.getVoices().length === 0) {
                 window.speechSynthesis.onvoiceschanged = () => {
+                    // Try to select voice again once they're loaded
                     const voices = window.speechSynthesis.getVoices();
-                    const english = voices.filter((v) => v.lang.includes("en"));
-                    if (english.length > 0) {
-                        const preferredNames = [
-                            "Google US English Male",
-                            "Daniel",
-                            "Alex",
-                            "Microsoft David",
-                            "Microsoft Mark",
-                            "Google UK English Male",
+                    const englishVoices = voices.filter(voice => voice.lang.includes('en'));
+                    if (englishVoices.length > 0) {
+                        // Apply the same voice selection logic
+                        const preferredVoiceNames = [
+                            'Google US English Male',
+                            'Daniel',  // iOS/macOS
+                            'Alex',    // iOS/macOS
+                            'Microsoft David',
+                            'Microsoft Mark',
+                            'Google UK English Male'
                         ];
-                        const preferred = preferredNames.map((name) => english.find((v) => v.name.includes(name))).find(Boolean);
-                        const male = !preferred ? english.find((v) => v.name.toLowerCase().includes("male")) : null;
-                        utterance.voice = preferred || male || english[0];
+                        
+                        const preferredVoice = preferredVoiceNames
+                            .map(name => englishVoices.find(voice => voice.name.includes(name)))
+                            .find(voice => voice);
+                            
+                        const maleVoice = !preferredVoice ? 
+                            englishVoices.find(voice => voice.name.toLowerCase().includes('male')) : 
+                            null;
+                            
+                        utterance.voice = preferredVoice || maleVoice || englishVoices[0];
                     }
+                    // Then speak
                     window.speechSynthesis.speak(utterance);
                     window.speechSynthesis.onvoiceschanged = null;
                 };
             } else {
+                // Speak immediately if voices are already loaded
                 window.speechSynthesis.speak(utterance);
             }
         }, 30);
     };
 
-    // Timer
+    // Interview control functions
     const startTimer = () => {
         if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
         setElapsedTime(0);
         timerIntervalRef.current = setInterval(() => {
-            setElapsedTime((prev) => prev + 1);
+            setElapsedTime(prevTime => prevTime + 1);
         }, 1000);
     };
 
-    // Start interview
     const startInterview = () => {
-        setTextInterviewReady(false);
         setInterviewStarted(true);
         startTimer();
-
-        getFFmpeg().then(() => {
-            const checkStreamAndStart = () => {
-                if (webcamRef.current?.stream) {
-                    startGlobalRecording();
-                } else {
-                    console.log("Waiting for webcam stream...");
-                    setTimeout(checkStreamAndStart, 500);
-                }
-            };
-            checkStreamAndStart();
-        }).catch(err => {
-            console.error("FFmpeg load failed:", err);
-            alert("Failed to initialize video recording. Please refresh and try again.");
-        });
     };
 
-    // Start via token
+    // API functions
     const fetchInterviews = async () => {
-        const payload = { action: "start_token_video", token: interviewToken };
+        const payload = {
+            // action: "start",
+            // candidate_email: userEmail,
+            // candidate_name: "",
+            // com_ind_name: industryInterview,
+            // interview_level: interviewLevel,
+            // scenario_based: scenarioBased ? "Yes" : "No",
+            // job_desc : industryInterview
+            action: 'start_token_video',
+            token: interviewToken
+        };
+
         try {
             setPrepareInterview(true);
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(payload)
             });
 
             if (response.ok) {
@@ -898,20 +650,24 @@ const InterviewVideo = () => {
                 setDocId(data.doc_id);
             } else {
                 const data = await response.json();
+                console.error("Error fetching interviews", await response.text());
                 alert("Failed to start the interview. Please try again.");
                 setInterviewStarted(false);
-                setErrorPopup(data.message || "Error in starting interview");
+                setErrorPopup(data.message||"Error in starting interview");
+                setTimeout(()=>{
+                    navigate("/");
+                },3000);
             }
         } catch (error) {
+            console.error("Error:", error);
             alert("Network error. Please check your connection and try again.");
             setInterviewStarted(false);
-            setErrorPopup(error?.message || "Error in starting Interview");
-            setTimeout(() => {
-                window.location.href = "https://careersavvy.ai";
-            }, 3000);
+            setErrorPopup(error||"Error in starting Interview");
+            setTimeout(()=>{
+                navigate("/");
+            },3000);
         } finally {
             setPrepareInterview(false);
-            setTextInterviewReady(true);
         }
     };
 
@@ -927,9 +683,10 @@ const InterviewVideo = () => {
             });
             if (response.ok) {
                 const data = await response.json();
-                if (data.status === "error") {
+                console.log(data);
+                if(data.status=="error"){
                     setInterviewUnsuccessful(true);
-                    setTimeout(() => {
+                    setTimeout(()=>{
                         setCount(5);
                     }, 500);
                     return;
@@ -937,117 +694,206 @@ const InterviewVideo = () => {
                 setFeedback(data);
                 setFeedbackTab(true);
             } else {
+                console.error("Error fetching feedback", await response.text());
                 alert("Failed to get feedback. Please try again later.");
             }
         } catch (error) {
+            console.error("Network error:", error);
             alert("Network error while fetching feedback. Please check your connection.");
         } finally {
             setShowLoader(false);
         }
     };
 
-    // Submit an answer
     const submitAnswers = async (answer) => {
-        const completeAnswer = accumulatedTranscript.trim()
-            ? accumulatedTranscript +
-            (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "")
-            : (answer || transcript);
-
+        // Always use accumulatedTranscript as the primary source, falling back to the provided answer
+        const completeAnswer = accumulatedTranscript.trim() ? 
+            accumulatedTranscript + (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "") : 
+            answer || transcript;
+        
         if (isSubmitting || !completeAnswer || interviewComplete || prepareInterview) return;
-
+        
+        // Validation checks
         const currentQuestion = questions.length > 0 ? questions[questions.length - 1].question : "";
         if (similarStrings(currentQuestion, completeAnswer) || completeAnswer.trim().length <= 5) {
+            console.log("Not submitting answer - too similar to question or too short");
             return;
         }
 
         try {
             setIsSubmitting(true);
-
+            console.log("Submitting complete answer:", completeAnswer); // Add logging for troubleshooting
+            
             const response = await fetch(API_URL, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    action: "submit_token_video",
-                    doc_id: docId,
-                    answer: completeAnswer,
-                    elapsed_time: elapsedTime,
-                }),
+                    "action": "submit_token_video", 
+                    "doc_id": docId, 
+                    "answer": completeAnswer, 
+                    "elapsed_time": elapsedTime
+                })
             });
 
             if (response.ok) {
                 const data = await response.json();
                 setCurrentStage(data.current_stage);
-
-                setQuestions((prev) => {
+                
+                setQuestions(prev => {
                     const updated = [...prev];
-                    if (
-                        updated.length > 0 &&
-                        !similarStrings(updated[updated.length - 1].question, completeAnswer)
-                    ) {
-                        updated[updated.length - 1].answer = completeAnswer;
+                    if (updated.length > 0 && !similarStrings(updated[updated.length - 1].question, completeAnswer)) {
+                        updated[updated.length - 1].answer = completeAnswer;  // Display the complete answer
                     }
+                    
                     if (data.next_question) {
                         updated.push({ question: data.next_question, answer: "" });
                     } else {
                         setInterviewComplete(true);
                         updated.push({ question: "Thank you for completing the interview.", answer: "" });
                     }
+                    
                     return updated;
                 });
-
+                
+                // Reset accumulated transcript after successful submission
                 resetTranscript();
             } else {
+                console.error("Error submitting answer", await response.text());
                 alert("Failed to submit your answer. Please try again.");
             }
         } catch (error) {
+            console.error("Error:", error);
             alert("Network error. Please check your connection and try again.");
         } finally {
             setIsSubmitting(false);
         }
     };
-
     useEffect(() => {
-        if (prepareInterview === true || isSubmitting === true) {
-            setTimeout(() => setProgress(95), 100);
-            setTimeout(() => setProgress(0), 4000);
-        }
-    }, [prepareInterview, isSubmitting]);
+    console.log(elapsedTime);
+
+},[elapsedTime]);
+const [remindLogInterview, setremindLogInterview] = useState(false);
+
+    const [count, setCount] = useState(null); // Countdown starts as null
+
+        useEffect(() => {
+            if (count === 0) {
+            navigate("/"); // Navigate when countdown reaches 0
+            return;
+            }
+        
+            if (count !== null) {
+            const timer = setTimeout(() => {
+                setCount((prevCount) => prevCount - 1);
+            }, 1000);
+        
+            return () => clearTimeout(timer);
+            }
+        }, [count, navigate]);
+
+    const endInterview = () => {
+        
+        
+        setShowLoader(true);
+        window.speechSynthesis.cancel();
+        cleanupResources();
+        
+        // End the interview via API
+        (async () => {
+            if (isSubmitting || interviewComplete) return;
+            
+            try {
+                setIsSubmitting(true);
+                const response = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        "action": "end_token_video", 
+                        "doc_id": docId, 
+                        "candidate_email": candidateEmail
+                    })
+                });
+        
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    setInterviewComplete(true);
+                    setQuestions(prev => [...prev, { question: "Thank you for completing the interview.", answer: "" }]);
+                    // setTimeout(getFeedback, 2000);
+                    setFeedback(data);
+                    setFeedbackTab(true);
+                    if (elapsedTime < 360){
+                        setremindLogInterview(true);
+                        setTimeout(()=>{
+                            setCount(5);
+                        }, 500);
+                        return;
+                    }
+                } else {
+                    console.error("Error ending interview", await response.text());
+                    alert("Failed to end the interview. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Network error. Please check your connection and try again.");
+            } finally {
+                setIsSubmitting(false);
+                if (elapsedTime < 360){
+                    setremindLogInterview(true);
+                    setTimeout(()=>{
+                        setCount(5);
+                    }, 500);
+                    return;
+                }
+            }
+        })();
+    };
 
     useEffect(() => {
         if (!isListening || transcript.trim().length === 0) return;
         lastTranscriptRef.current = transcript;
-
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
             timeoutRef.current = null;
         }
-
+        
         if (transcript.trim().length > 10) {
             timeoutRef.current = setTimeout(() => {
                 if (lastTranscriptRef.current === transcript) {
-                    const currentQuestion = questions.length > 0 ? questions[questions.length - 1].question : "";
+                    console.log("Transcript stable for 5 seconds, preparing submission");
+                    
+                    // Get the current question
+                    const currentQuestion = questions.length > 0 ? 
+                        questions[questions.length - 1].question : "";
+                    
+                    // Ensure we're not submitting something that looks like the question
                     if (!similarStrings(currentQuestion, transcript)) {
-                        const completeAnswer = accumulatedTranscript
-                            ? accumulatedTranscript +
-                            (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "")
-                            : transcript;
-
-                        setQuestions((prev) => {
+                        // Get complete answer (accumulated + current) with deduplication
+                        const completeAnswer = accumulatedTranscript ? 
+                            accumulatedTranscript + (transcript && !isDuplicate(accumulatedTranscript, transcript) ? " " + transcript : "") : 
+                            transcript;
+                            
+                        // First update the UI with the answer
+                        setQuestions(prev => {
                             const updated = [...prev];
                             if (updated.length > 0) {
                                 updated[updated.length - 1].answer = completeAnswer;
                             }
                             return updated;
                         });
-
+                        
+                        // Then submit to API after UI is updated
                         submitAnswers(completeAnswer.trim());
+                        
+                        // Reset everything
                         resetTranscript();
                         stopListeningFn();
+                    } else {
+                        console.log("Prevented submitting content similar to the question");
                     }
                 }
-            }, 5000);
+            }, 5000); 
         }
-
         return () => {
             if (timeoutRef.current) {
                 clearTimeout(timeoutRef.current);
@@ -1056,199 +902,92 @@ const InterviewVideo = () => {
         };
     }, [transcript, isListening, questions, accumulatedTranscript]);
 
+    // UI setup effects
     useEffect(() => {
+        // Hide popup after 10 seconds
         const timer = setTimeout(() => setShowPopup(false), 10000);
         return () => clearTimeout(timer);
     }, []);
 
+    // Fetch interviews when email is available
     useEffect(() => {
-        if (interviewToken !== "") {
-            const t = setTimeout(() => fetchInterviews(), 1000);
-            return () => clearTimeout(t);
-        }
+        if (interviewToken!==""){
+            setTimeout(()=>{
+                fetchInterviews();
+            },1000)
+        } 
     }, [interviewToken]);
 
+    // Scroll to bottom of messages
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [questions, transcript, accumulatedTranscript]);
 
+    // Question speaking effect
     useEffect(() => {
         if (!interviewStarted || feedbackTab) return;
+        
         if (questions.length > 0 && !interviewComplete) {
-            const lastIndex = questions.length - 1;
-            if (lastSpokenIndexRef.current === lastIndex) return;
-
-            const lastQuestion = questions[lastIndex].question;
-            if (
-                lastQuestion === "Thank you for completing the interview." ||
-                lastQuestion === "No more questions." ||
-                !lastQuestion
-            ) {
+            const lastQuestionIndex = questions.length - 1;
+            if (lastSpokenIndexRef.current === lastQuestionIndex) return;
+            
+            const lastQuestion = questions[lastQuestionIndex].question;
+            if (lastQuestion === "Thank you for completing the interview." || 
+                lastQuestion === "No more questions." || 
+                !lastQuestion) {
                 setInterviewComplete(true);
                 return;
             }
-
-            lastSpokenIndexRef.current = lastIndex;
-            setTimeout(() => speakQuestionFn(lastQuestion), 1000);
+                    
+            lastSpokenIndexRef.current = lastQuestionIndex;
+            setTimeout(() => speakQuestionFn(lastQuestion), 1000); // Reduced from 1500ms to 1000ms
         }
     }, [questions, interviewComplete, interviewStarted, feedbackTab]);
 
+    // Auto-end interview after 30 minutes
     useEffect(() => {
-        if (!interviewStarted) return;
-        const timer = setTimeout(() => endInterview(), 30 * 60 * 1000);
-        return () => clearTimeout(timer);
-    }, [interviewStarted]);
-
-    useEffect(() => {
-        window.addEventListener("beforeunload", cleanupResources);
-        return () => {
-            cleanupResources();
-            window.removeEventListener("beforeunload", cleanupResources);
-        };
-    }, []);
-
-    const [remindLogInterview, setremindLogInterview] = useState(false);
-    const [count, setCount] = useState(null);
-
-    useEffect(() => {
-        if (count === 0) {
-            window.location.href = "https://careersavvy.ai";
-            return;
-        }
-        if (count !== null) {
-            const timer = setTimeout(() => setCount((prev) => prev - 1), 1000);
+        if (interviewStarted) {
+            const timer = setTimeout(() => endInterview(), 31 * 60 * 1000);
             return () => clearTimeout(timer);
         }
-    }, [count, navigate]);
+    }, [interviewStarted]);
 
-    const finalizeUpload = async () => {
-        const formData = new FormData();
-
-        formData.append("action", "upload");
-        formData.append("job_id", interviewDetails?.interview_config?.job_id || "");
-        formData.append("candidate_email", candidateEmail || userEmail || "");
-        formData.append("is_final_chunk", "true");
-        formData.append("total_chunks", String(chunkCounterRef.current));
-
-        const randomSuffix = Math.random().toString(36).substring(2, 10);
-        const timestamp = Date.now();
-        const finalMarkerName = `final_marker_${timestamp}_${randomSuffix}.mp4`;
-
-        const minimalMp4 = new Blob([new Uint8Array(1)], { type: "video/mp4" });
-        formData.append("video_file", minimalMp4, finalMarkerName);
-
-        console.log(`📤 Finalizing upload with ${chunkCounterRef.current} total chunks`);
-
-        try {
-            const response = await fetch(API_URL_UPLOAD, {
-                method: "POST",
-                headers: { Accept: "application/json" },
-                body: formData,
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error("❌ Final marker upload failed:", errorText);
-                throw new Error(`Finalization failed: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log("✅ Final chunk marker uploaded successfully");
-            return result;
-        } catch (error) {
-            console.error("❌ Error finalizing upload:", error);
-            throw error;
-        }
-    };
-
-    const endInterview = () => {
-        setShowLoader(true);
-        window.speechSynthesis.cancel();
-        (async () => {
-            if (isSubmitting || interviewComplete) return;
-            try {
-                stopListeningFn();
-                isRecordingActiveRef.current = false;
-                isStoppingRef.current = true;
-                const mr = globalRecorderRef.current;
-                if (mr && mr.state !== "inactive") {
-                    try {
-                        if (mr.state === "recording") {
-                            mr.requestData();
-                            await new Promise(resolve => setTimeout(resolve, 500));
-                        }
-                        mr.stop();
-                        mr.ondataavailable = null;
-                        mr.onstop = null;
-                        mr.onerror = null;
-                    } catch (e) {
-                        console.warn("Error stopping recorder:", e);
-                    }
-                }
-                console.log("⏳ Waiting for pending uploads to complete...");
-                await pendingUploadsRef.current.catch(() => { });
-                console.log("✅ All pending uploads completed");
-                console.log(`📤 Sending final marker with ${chunkCounterRef.current} total chunks`);
-                await finalizeUpload();
-                setIsSubmitting(true);
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        action: "end_token_video",
-                        doc_id: docId,
-                        candidate_email: candidateEmail,
-                    }),
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setInterviewComplete(true);
-                    setQuestions((prev) => [...prev, { question: "Thank you for completing the interview.", answer: "" }]);
-                    setFeedback(data);
-                    setFeedbackTab(true);
-                    if (elapsedTime < 120) {
-                        setremindLogInterview(true);
-                        setTimeout(() => {
-                            setCount(5);
-                            setTimeout(() => {
-                                window.location.href = "https://careersavvy.ai";
-                            }, 4000);
-                        }, 500);
-                        return;
-                    }
-                } else {
-                    alert("Failed to end the interview. Please try again.");
-                }
-            } catch (error) {
-                console.error("Error ending interview:", error);
-                alert("Network error. Please check your connection and try again.");
-            } finally {
-                setIsSubmitting(false);
-                setShowPopup(true);
-                setTimeout(() => {
-                    window.location.href = "https://careersavvy.ai";
-                }, 3000);
-                if (elapsedTime < 120) {
-                    setremindLogInterview(true);
-                    setTimeout(() => setCount(5), 500);
-                }
-                cleanupResources();
-            }
-        })();
-    };
-
+    // Global cleanup
+    useEffect(() => {
+        window.addEventListener('beforeunload', cleanupResources);
+        return () => {
+            cleanupResources();
+            window.removeEventListener('beforeunload', cleanupResources);
+        };
+    }, []);
+    
+    // Render UI - Extracted components for readability
     const renderInstructions = () => (
         <>
-            <SystemCheckPopup
-                visible={systemCheck}
-                startInterview={startInterview}
-                textInterviewReady={textInterviewReady}
-                setTextInterviewReady={setTextInterviewReady}
-                onClose={() => setSystemCheck(false)}
-                setShowPopup={setShowPopup}
-            />
+            <SystemCheckPopup visible={systemCheck} startInterview={startInterview} onClose={() => setSystemCheck(false)} setShowPopup={setShowPopup} />
+            {/* <h2 className="mainHead">Welcome to the Video Interview</h2>
+            <p className="text">Click "Start Now" to begin your interview. Make sure your camera and microphone are working properly.</p>
+                        
+            <div className="instructionIcon">
+                <img src={InstuctionIcon} alt="icon" className="icon" />
+                <h4 className="pointHead">Instructions</h4>
+            </div>
+            <ul className="instructionList">
+                <li className="item"><div className="list"><span className="number">1</span>Ensure you're in a quiet Environment</div></li>
+                <li className="item"><div className="list"><span className="number">2</span>Test your Camera and Microphone</div></li>
+                <li className="item"><div className="list"><span className="number">3</span>Make sure your Camera and Microphone working properly</div></li>
+                <li className="item"><div className="list"><span className="number">4</span>This Interview Lasts up to 30 minutes</div></li>
+                <li className="item"><div className="list"><span className="number">5</span>Speak Clearly and Take your Time with Responses</div></li>
+            </ul>
+            <button 
+                className="start-button" 
+                onClick={startInterview}
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? "Starting..." : "Start Interview Now"}
+            </button> */}
         </>
     );
 
@@ -1258,31 +997,29 @@ const InterviewVideo = () => {
             <div className="messages-box">
                 {questions.map((q, index) => (
                     <React.Fragment key={index}>
-                        <div className="aimessage">
-                            Question : {index + 1}
+                        <div className="aimessage">Question : {index+1}
                             <span>{q.question}</span>
                         </div>
                         {(q.answer || index < questions.length - 1) && (
-                            <div className="usermessage">
-                                Your Answers : {index + 1}
+                            <div className="usermessage">Your Answers : {index+1}
                                 <span>{q.answer || (isRecording ? "Listening..." : "")}</span>
                             </div>
                         )}
                     </React.Fragment>
                 ))}
-
                 {isRecording && (
                     <div className="usermessage">
                         <div className="topRow">
                             <div className="dot"></div>Live Transcription
                         </div>
+                        {/* Show accumulated transcript with current transcript, avoiding duplication */}
                         <span>
                             {accumulatedTranscript ? accumulatedTranscript + " " : ""}
                             {transcript && !isDuplicate(accumulatedTranscript, transcript) ? transcript : ""}
                         </span>
                     </div>
                 )}
-
+                
                 {isSubmitting && (
                     <div className="aiThinking">
                         Preparing Question
@@ -1297,6 +1034,13 @@ const InterviewVideo = () => {
                 )}
                 <div ref={messagesEndRef} />
             </div>
+            {/* <button 
+                className="start-button end" 
+                onClick={endInterview}
+                disabled={isSubmitting}
+            >
+                End Interview
+            </button> */}
         </>
     );
 
@@ -1306,35 +1050,30 @@ const InterviewVideo = () => {
                 <>
                     <div className="interviewTopSection">
                         <div className="buttonRow">
-                            <div className="questionCount mob-w-ologin">Current Stage : {currentStage}</div>
+                            <div className="questionCount">
+                                Current Stage : {currentStage}
+                            </div>
                         </div>
                         <div className="buttonRow">
                             <button className="time">{formatTime(elapsedTime)}</button>
-                            <button className="endInterview" onClick={endInterview} disabled={isSubmitting}>
-                                <span>+</span> End Interview
-                            </button>
-                            {/* <span style={{ marginLeft: 12, fontSize: 12 }}>Chunks: {chunkCount}</span> */}
+                            <button className="endInterview" onClick={endInterview} disabled={isSubmitting}><span>+</span> End Interview</button>
                         </div>
                     </div>
-
                     <div className={`row-flex innerTabs ${interviewStarted ? "started" : ""}`}>
+                        {/* {interviewStarted && (
+                            <div className="topInfo row-flex">
+                                <div className="recordingIcon">
+                                    <div className="recordingDot"></div>
+                                    Recording
+                                </div>
+                                <div className="timer">{formatTime(elapsedTime)}</div>
+                            </div>
+                        )} */}
+                        
                         <div className="lhs">
-                            <Webcam
-                                ref={webcamRef}
-                                className="webcam-feed"
-                                audio={true}
-                                muted={true}
-                                playsInline
-                                audioConstraints={{
-                                    echoCancellation: true,
-                                    noiseSuppression: true,
-                                    autoGainControl: true,
-                                    channelCount: 1,
-                                    sampleRate: 48000,
-                                }}
-                            />
+                            <Webcam className="webcam-feed" />
                         </div>
-
+                        
                         <div className="rhs">
                             {showLoader ? (
                                 <div className="FeedbackShower">
@@ -1351,15 +1090,19 @@ const InterviewVideo = () => {
                     </div>
                 </>
             ) : (
-                <FeedbackComponent docId={docId} setDocId={setDocId} feedback={feedback} setFeedback={setFeedback} />
+                <FeedbackComponent 
+                    docId={docId} 
+                    setDocId={setDocId}
+                    feedback={feedback} 
+                    setFeedback={setFeedback} 
+                />
             )}
 
-            {errorPopup !== "" && (
+            {errorPopup!==""&&(<>
                 <div className="dashboard-container full-screen">
-                    <CsavvyContentLoader loaderText={errorPopup} />
+                <CsavvyContentLoader loaderText={errorPopup} />
                 </div>
-            )}
-
+            </>)}
             {showPopup && (
                 <div className="popup-overlay instructionPopup">
                     <div className="testingInstruction">
@@ -1370,86 +1113,66 @@ const InterviewVideo = () => {
                             <div className="iconbg showSecond">
                                 <img src={MicrophoneGif} alt="icon" className="cameraGif" />
                             </div>
-                            <span className="inst-text">
-                                Preparing your interview...
-                                <br />
-                                Ensuring microphone and camera are working properly
-                            </span>
+                            <span className="inst-text">Preparing your interview...<br></br>Ensuring microphone and camera are working properly</span>
                         </div>
                     </div>
                 </div>
             )}
-
             {remindLogInterview && (
                 <div className="popup-overlay instructionPopup">
                     <div className="testingInstruction">
                         <div className="instructionbox">
                             <div className="topHead">
                                 <h5 className="headlogo">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-clock h-5 w-5 text-[#5D23C0]" data-lov-id="src/components/MinDurationWarning.tsx:29:12" data-lov-name="Clock" data-component-path="src/components/MinDurationWarning.tsx" data-component-line="29" data-component-file="MinDurationWarning.tsx" data-component-name="Clock" data-component-content="%7B%22className%22%3A%22h-5%20w-5%20text-%5B%235D23C0%5D%22%7D"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                     Interview Duration Notice
                                 </h5>
                                 <div></div>
                             </div>
-                            <span className="inst-text" style={{ fontSize: "15px", fontWeight: "500" }}>
-                                Please take the interview for at least 6 minutes to receive proper feedback.
-                                <br />
-                                Currently, we don't have enough data to generate feedback for you for this interview.
-                                <br />
-                                <br />
-                                Redirecting you to a Aspire Quest Tab in {count}s
-                            </span>
+                        
+                            <span className="inst-text" style={{fontSize:"15px",fontWeight:"500"}}>Please take the interview for at least 6 minutes to receive proper feedback.<br></br>Currently, we don’t have enough data to generate feedback for you for this interview.<br></br><br></br>Redirecting you to a Aspire Quest Tab in {count}s</span>
                         </div>
                     </div>
                 </div>
             )}
-
             {interviewUnsuccessful && (
                 <div className="popup-overlay instructionPopup">
                     <div className="testingInstruction">
                         <div className="instructionbox">
                             <div className="topHead">
                                 <h5 className="headlogo">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <polyline points="12 6 12 12 16 14"></polyline>
-                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-clock h-5 w-5 text-[#5D23C0]" data-lov-id="src/components/MinDurationWarning.tsx:29:12" data-lov-name="Clock" data-component-path="src/components/MinDurationWarning.tsx" data-component-line="29" data-component-file="MinDurationWarning.tsx" data-component-name="Clock" data-component-content="%7B%22className%22%3A%22h-5%20w-5%20text-%5B%235D23C0%5D%22%7D"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                     Interview Duration Notice
                                 </h5>
                                 <div></div>
                             </div>
-                            <span className="inst-text" style={{ fontSize: "15px", fontWeight: "500" }}>
-                                Not enough conversation data to generate meaningful feedback. The interview should have multiple
-                                question-answer exchanges.
-                                <br />
-                                <br />
-                                Redirecting you to a Aspire Quest Tab in {count}s
-                            </span>
+                            {/* <div className="iconbg">
+                                <img src={MicrophoneGif} alt="icon" className="cameraGif" />
+                            </div> */}
+                            <span className="inst-text" style={{fontSize:"15px",fontWeight:"500"}}>Not enough conversation data to generate meaningful feedback. The interview should have multiple question-answer exchanges.<br></br><br></br>Redirecting you to a Aspire Quest Tab in {count}s</span>
                         </div>
                     </div>
+                </div>
+            )}
+            
+            {/* Add a debugging box to help diagnose transcript issues */}
+            {isRecording && (
+                <div style={{
+                    position: 'fixed',
+                    bottom: '20px',
+                    right: '20px',
+                    background: 'rgba(0,0,0,0.7)',
+                    color: 'white',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    fontSize: '12px',
+                    maxWidth: '300px',
+                    zIndex: 1000,
+                    display: 'none' // Set to 'block' for debugging, 'none' for production
+                }}>
+                    <div><strong>Transcript:</strong> {transcript.slice(0, 50)}...</div>
+                    <div><strong>Accumulated:</strong> {accumulatedTranscript.slice(-50)}...</div>
+                    <div><strong>Is Duplicate:</strong> {isDuplicate(accumulatedTranscript, transcript) ? 'Yes' : 'No'}</div>
                 </div>
             )}
         </div>

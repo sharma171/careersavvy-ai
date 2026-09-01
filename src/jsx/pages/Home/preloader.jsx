@@ -2,8 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "./style.css";
 import "./responsiveStyle.css";
-import { useNavigate } from 'react-router-dom';
-import CareerSavvyLogo from "../../../images/site_logo.jpg";
+import "./siiteHeader.css";
+import {setHomeLink} from "../../../store/actions/actions";
+import {useSelector,useDispatch} from "react-redux";
+import {ReactComponent as MenuIcon} from "./icons & images/menuIcon.svg";
+import {ReactComponent as SearchIcon} from "./icons & images/searchIcon.svg";
+import {ReactComponent as DropDown} from "./icons & images/siteDropdown.svg";
+import {ReactComponent as CSavvyLogo} from "./icons & images/CsavvySiteLogo.svg";
+import {ReactComponent as WhiteDropDown} from "./icons & images/wSiteDropdown.svg";
+import { useNavigate, useLocation } from 'react-router-dom';
+import CareerSavvyLogo from "../../../images/site_logo.svg";
 import TextAi from "./icons & images/textAiIcon.svg";
 import heroBgMesh from "./icons & images/heroBgMesh.svg";
 import AiGifIcon from "../../../jsx/components/Dashboard/SearchJobs/aiIcon.gif";
@@ -40,33 +48,50 @@ export default function Preloader() {
     
     const [activeCard, setActiveCard] = useState(1);
     const [querySubmit, setQuerySubmit] = useState('');
+     const { homeLink } = useSelector((state) => state.profile);
     const [footerPage, setFooterPage] = useState('');
-    const [showSection,setShowSection] = useState(false);
+    const dispatch =useDispatch();
+    // const [showSection,setShowSection] = useState(false);
     const [loaderAnimation,setLoaderAnimation] = useState(true);
+
+    useEffect(()=>{
+        if(homeLink!==""){
+            setTimeout(()=>{
+                handleNavWithScroll(homeLink);
+                scrollToElement(homeLink);
+                dispatch(setHomeLink(""));
+            },500);
+            
+        }
+    },[homeLink])
         
     useEffect(() => {
         setTimeout(()=>{
             setLoaderAnimation(false);
-        },1000)
-        setTimeout(()=>{
-            setShowSection(true);
-        },7000);
+        },300)
+        // setTimeout(()=>{
+        //     setShowSection(true);
+        // },7000);
     }, [])
+    function HomePage(){
+        navigate('/')
+    }
     
 
     const feedbackData = [
-        { id: 1, icon: SignupForgotIcon, text: "Unable to Signup or Forgot Your Password or Username" },
-        { id: 2, icon: TrialPlan, text: "Trial Plan Ask Queries & Question" },
-        { id: 3, icon: TutorialCareerSavvy, text: "Tutorials of Career Savvy" },
-        { id: 4, icon: TrialPlan, text: "Pricing plans Queries & Question" },
-        { id: 5, icon: QuestionAnswer, text: "Questions & Queries of App" },
-        { id: 6, icon: OtherQuery, text: "Do You have some Query, Ask Other Question" },
+        { id: 1, icon: SignupForgotIcon, text: "Unable to sign up, or forgot your password or username?" },
+        { id: 2, icon: TrialPlan, text: "Trial Plan – Ask Queries & Questions" },
+        { id: 3, icon: TutorialCareerSavvy, text: "CareerSavvy Tutorials" },
+        { id: 4, icon: TrialPlan, text: "Pricing Plan Queries & Questions" },
+        { id: 5, icon: QuestionAnswer, text: "App Questions & Queries" },
+        { id: 6, icon: OtherQuery, text: "Have a query? Ask another question" },
     ];
 
     const handleCardClick = (id) => {
         setActiveCard(id); // Set the clicked card as active
     };
     const [email, setEmail] = useState("");
+    const [mobNumber, setMobNumber] = useState("");
     const [feedback, setFeedback] = useState("");
     const handleSubmit = async () => {
         if (!email || !feedback || activeCard === null) {
@@ -74,13 +99,16 @@ export default function Preloader() {
             return;
         }
 
+        setLoaderAnimation(true);
+
         const selectedFeedbackText = feedbackData.find((card) => card.id === activeCard)?.text;
 
         const payload = {
-            email,
-            request_type: "Complaint",
+            "email": email,
+            "request_type": "Complaint",
+            "contact_number": mobNumber,
             feedback_text: `${selectedFeedbackText}: ${feedback}`,
-            app_name: "Career-Savvy",
+            "app_name": "Career-Savvy"
         };
 
         try {
@@ -96,7 +124,9 @@ export default function Preloader() {
                 setQuerySubmit("Your query or complaint has been submitted successfully.");
                 setEmail("");
                 setFeedback("");
+                setMobNumber("");
                 setActiveCard(null);
+                setLoaderAnimation(false);
             } else {
                 alert("Failed to submit the query. Please try again.");
             }
@@ -110,7 +140,7 @@ export default function Preloader() {
     const faqData = [
         {
             question: "Is CareerSavvy free?",
-            answer: "You’ll get a 3-day free trial as soon as you sign up. After that, you’ll need to upgrade to enjoy our premium features. Think of it as the VIP lounge for job seekers—free to peek inside, but you’ll want to stay and enjoy the perks! Plus, at $4.99, it’s cheaper than a fancy latte (and lasts longer too).",
+            answer: "You’ll get a 3-day free trial as soon as you sign up. After that, you’ll need to upgrade to enjoy our premium features. Think of it as the VIP lounge for job seekers—free to peek inside, but you’ll want to stay and enjoy the perks! Plus, at $9.99, it’s cheaper than a fancy latte (and lasts longer too).",
         },
         {
             question: "Do I need to upload a resume to use CareerSavvy?",
@@ -129,8 +159,8 @@ export default function Preloader() {
             answer: "Absolutely! Our Mock Interview tool is like a brutally honest friend—it tells you what’s working, what’s not, and helps you polish your answers until they shine brighter than your morning coffee.",
         },
         {
-            question: "Why is CareerSavvy’s subscription only $4.99?",
-            answer: "Because we believe finding a job shouldn’t cost a fortune! At just $4.99, it’s cheaper than your favorite snack—plus, it helps you land a job to afford all the snacks you want.",
+            question: "Why is CareerSavvy’s subscription only $9.99?",
+            answer: "Because we believe finding a job shouldn’t cost a fortune! At just $9.99, it’s cheaper than your favorite snack—plus, it helps you land a job to afford all the snacks you want.",
         },
         {
             question: "What happens if I don’t upgrade after the free trial?",
@@ -149,8 +179,8 @@ export default function Preloader() {
             answer: "Our job listings are updated every hour—because job opportunities don’t sleep, and neither do we (just kidding, we sleep... sometimes). Rest assured, you’ll always see fresh opportunities tailored to you.",
         },
         {
-            question: "Why is the subscription price $4.99 and not $5?",
-            answer: "Because we know every cent counts. Plus, we like to keep things interesting—$4.99 just sounds cooler, doesn’t it? Also, now you have an excuse to tell your friends, 'I got all this for less than $5!'",
+            question: "Why is the subscription price $9.99 and not $10?",
+            answer: "Because we know every cent counts. Plus, we like to keep things interesting—$9.99 just sounds cooler, doesn’t it? Also, now you have an excuse to tell your friends, 'I got all this for less than $10!'",
         },
     ];
 
@@ -161,6 +191,42 @@ export default function Preloader() {
     function SignUpPage() {
         navigate("/login");
     }
+
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const [menuOpen, setMenuOpen] = useState(false);
+    function togglemenu(){
+        setMenuOpen(!menuOpen);
+    }
+    const location = useLocation();
+    // helper to scroll after route change
+    const scrollToElement = (id) => {
+    setTimeout(() => {
+        const section = document.getElementById(id);
+        if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+        }
+    }, 100); // give time for the page to render
+    };
+
+    const handleNavWithScroll = (id) => {
+    if (location.pathname !== "/") {
+        navigate("/");
+        // useEffect will handle scroll after route change
+        setTimeout(() => scrollToElement(id), 200);
+    } else {
+        scrollToElement(id);
+    }
+    };
     
 
     return (
@@ -171,23 +237,68 @@ export default function Preloader() {
                                <img className="gptIcon" src={AiCompressIcon} alt="gptIcon"/>
                          </div>)}
             <div className="home-page">
-                <div className="mainHeader d-flex align-items-center justify-content-between p-3">
-                    <div className="d-flex align-items-center">
-                        <img
-                            src={CareerSavvyLogo}
+                <div className={`SiteHeader ${isScrolled ? 'active' : ''}`}>
+                    <div className="siteHeaderWrapper">
+                        <div className="siteHeaderRow">
+                            <div className="leftMenu row-flex innerSpacing">
+                                <div className="navMenuIcon" onClick={togglemenu}>
+                                    <MenuIcon/>
+                                </div>
+                                {/**
+                                <div className="navMenuIcon hideSearch">
+                                    <SearchIcon/>
+                                </div>
+                                    */}
+                                {menuOpen&&(<>
+                                    <div className="positionList">
+                                        <ul className="navMenu">
+                                            <li className="navItems" onClick={()=>{navigate("/")}}>Home <DropDown/></li>
+                                           
+                                            <li className="navItems" onClick={() => {dispatch(setHomeLink("features"));navigate("/")}}>
+                                                Key Features <DropDown/>
+                                            </li>
+                                            <li className="navItems" onClick={()=>navigate("/blog")}>Explore Our Journals<DropDown/></li>
+                                            {/* <li className="navItems" onClick={() => {
+                                                const section = document.getElementById("faqs");
+                                                if (section) {
+                                                section.scrollIntoView({ behavior: "smooth" });
+                                                }
+                                            }}>FAQ'S<DropDown/></li> */}
+                                            <li className="navItems" onClick={() => handleNavWithScroll("faqs")}>
+                                                FAQ's <DropDown/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </>)}
+                            </div>
+                            <div className="centerMenu row-flex innerSpacing">
+                                <ul className="navMenu">
+                                    <li className="navItems" onClick={()=>navigate("/")}>Home <DropDown/></li>
+                                    <li className="navItems" 
+                                        onClick={() => {dispatch(setHomeLink("features"));navigate("/")}}>Key Features <DropDown/></li>
+                                </ul>
+                                <div className="logoIcon">
+                                    <img
+                                        src={CareerSavvyLogo}
 
-                            alt="CareerSavvy Logo"
-                            className="rounded-circle logo"
-                        />
-                        <h5 className="m-0">CareerSavvy</h5>
+                                        alt="CareerSavvy Logo"
+                                        className="Site-Rounded-Logo"
+                                    />
+                                </div>
+                                <ul className="navMenu">
+                                    <li className="navItems" onClick={()=>navigate("/blog")}>Explore Our Journals<DropDown/></li>
+                                    <li className="navItems" onClick={() => {dispatch(setHomeLink("faqs"));navigate("/")}}>FAQ'S<DropDown/></li>
+                                </ul>
+                            </div>
+                            <div className="rightMenu row-flex innerSpacing">
+                                <button className="contactButton" onClick={()=>navigate("/login")}>Log In <span className='separateSymbol'>|</span> Create Account</button>
+                                <button className="mobileview contactButton" onClick={()=>navigate("/login")}>Log In <span className='separateSymbol'>|</span> Sign-up</button>
+                            </div>
+                        </div>
+
                     </div>
-                    <button className="btn btn-primary rounded-pill subcribe-button" onClick={SignUpPage}>
-                        <span className="text">Get Started</span><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8.08936 0.419117L16.105 8.43474L8.08936 16.4504L6.68311 15.0441L12.2612 9.41912L0.0737309 9.41912V7.45037L12.2612 7.45037L6.68311 1.82537L8.08936 0.419117Z" fill="#221EA9" />
-                        </svg>
-
-                    </button>
                 </div>
+                
                 <div className="hero">
                     <div className="square"></div>
                     <div className="circle"></div>
@@ -200,7 +311,7 @@ export default function Preloader() {
                             <h2 className="bigHeading">
                                 Personalised AI
                                 <span className='icon'>
-                                    <img src={TextAi} alt="icons" />
+                                    <img src={AiGifIcon} alt="icons" />
                                 </span>
                                 Powered <br></br><strong>Job Search Assistant</strong>
                             </h2>
@@ -225,7 +336,7 @@ export default function Preloader() {
                                         <div className="thumb">
                                             <div className="thumbInner"><img src={AbsoluteThree} alt="icons" /></div>
                                         </div>
-                                        <h3 className="heading">Interviews? Nailed It (With AI)</h3>
+                                        <h3 className="heading">Interviews? Nailed It (with AI)</h3>
                                     </div>
                                     <div className="info row-flex four">
                                         <div className="thumb">
@@ -256,18 +367,16 @@ export default function Preloader() {
                         </div>
                     </div>
                 </div>
-                {!showSection && (<>
-                <div style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent:"center"
-                }}>
-                    <img src={SectionLoad} alt="section" style={{width:"60px",margin:"20px auto", borderRadius:"100px"}} />
-                </div>
-                </>)}
-                {showSection ? (
-                    <>
-                    <div className="featuresSection">
+                {/* {!showSection && (<>
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent:"center"
+                    }}>
+                        <img src={SectionLoad} alt="section" style={{width:"60px",margin:"20px auto", borderRadius:"100px"}} />
+                    </div>
+                </>)} */}
+                <div className="featuresSection" id='features'>
                     <div className="container">
                         <div className="col-flex featuresInner">
                             <h3 className="mTopicHead">
@@ -301,7 +410,7 @@ export default function Preloader() {
                                     <span className='text'>Jobs Based Resume Insights</span>
                                 </div>
                             </div>
-                            <div className="widthDashDivider"></div>
+                            {/* <div className="widthDashDivider"></div> */}
                             <div className="botTimeLine"></div>
                             <h4 className="topicSubHead">
                                 AI Powered Mock Interviews
@@ -314,7 +423,7 @@ export default function Preloader() {
                                     <div className="featureThumb">
                                         <img src={AiSmartAudio} alt="resume profile" className='featureIcon' />
                                     </div>
-                                    <span className='text'>Ai Smart Audio Recognition</span>
+                                    <span className='text'>AI Smart Audio Recognition</span>
                                 </div>
                                 <div className="featuresCard">
                                     <div className="featureThumb">
@@ -342,7 +451,7 @@ export default function Preloader() {
                                     <div className="featureThumb">
                                         <img src={CuratedTips} alt="resume profile" className='featureIcon' />
                                     </div>
-                                    <span className='text'>Stay ahead with curated tips</span>
+                                    <span className='text'>Gain an edge with expert tips</span>
                                 </div>
                                 <div className="featuresCard">
                                     <div className="featureThumb">
@@ -351,7 +460,7 @@ export default function Preloader() {
                                     <span className='text'>Level-Up Career  with Insights</span>
                                 </div>
                             </div>
-                            <div className="widthDashDivider"></div>
+                            {/* <div className="widthDashDivider"></div> */}
                         </div>
                     </div>
                 </div>
@@ -359,7 +468,7 @@ export default function Preloader() {
                     <div className="container">
                         <div className="col-flex resultInner">
                             <h4 className="topicSubHead">
-                                CareerSavvy at a <strong>Glance</strong>
+                                CareerSavvy at a Glance
                             </h4>
                             <h5 className="subTopic">
                                 More opportunities, better offers, and a quicker journey to your dream job!
@@ -401,7 +510,7 @@ export default function Preloader() {
                     <div className="container">
                         <div className="journeyInner col-flex">
                             <h4 className="topicSubHead">
-                                Streamline your entire job search journey with <strong> CareerSavvy</strong>
+                                Streamline your entire job search journey with CareerSavvy
                             </h4>
                             <h5 className="subTopic">
                                 Your Journey with CareerSavvy Starts Here:
@@ -411,9 +520,9 @@ export default function Preloader() {
                                     <div className="JourneyInfo col-flex">
                                         <div className="row-flex topHead">
                                             <img src={TopHeadIcon} alt="Join us" className="icon" />
-                                            <span>Join Us and Register New Account</span>
+                                            <span>Join us and register a new account</span>
                                         </div>
-                                        <h3 className="infoHead">Start your career journey by <strong>creating New account</strong></h3>
+                                        <h3 className="infoHead">Start Your Career Journey by Creating a New Account</h3>
                                         <span className='info'>Unlock a 3-day free trial of premium features to explore our full potential.</span>
                                         <button className="btn btn-primary rounded-pill subcribe-button" onClick={SignUpPage}>
                                             <span className="text">Get Started</span><svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -430,14 +539,19 @@ export default function Preloader() {
                                     <div className="JourneyInfo col-flex">
                                         <div className="row-flex topHead">
                                             <img src={TopHeadIcon} alt="Join us" className="icon" />
-                                            <span>Grow and Track Your career Growth</span>
+                                            <span>Grow and Track Your Career Progress</span>
                                         </div>
-                                        <h3 className="infoHead">Elevate & track career growth <strong>CareerSavvy</strong></h3>
+                                        <h3 className="infoHead">Elevate & track career growth CareerSavvy</h3>
                                         <span className='info'>Streamline your journey by managing applications, honing interview skills, and tracking your progress toward professional success - all in one place.</span>
-                                        <button className='Product-Btn'>
-                                            <span>All @ just $4.99</span>
-                                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.86084 0.984375L16.8765 9L8.86084 17.0156L7.45459 15.6094L13.0327 9.98437H0.845215V8.01562H13.0327L7.45459 2.39062L8.86084 0.984375Z" fill="#221EA9" />
+                                        <button className='btn btn-primary rounded-pill subcribe-button'>
+                                            <span>All @ just $9.99</span>
+                                            <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            style={{
+                                                    width: "13px",
+                                                    marginLeft: "6px",
+                                                    marginTop: "-3px"
+                                            }}>
+                                                <path d="M8.86084 0.984375L16.8765 9L8.86084 17.0156L7.45459 15.6094L13.0327 9.98437H0.845215V8.01562H13.0327L7.45459 2.39062L8.86084 0.984375Z" fill="#fff" />
                                             </svg>
 
                                         </button>
@@ -465,7 +579,7 @@ export default function Preloader() {
                             <div className="feedbackBox row-flex">
                                 <div className="feedbackSelect col-flex">
                                     <div className="topHead">
-                                        Choose Your Queries and Issues
+                                        Choose Your Query or Issue
                                     </div>
                                     <div className="feedbackRow row-flex">
                                         {feedbackData.map((card) => (
@@ -489,10 +603,23 @@ export default function Preloader() {
                                     <div className="inputCard col-flex">
                                         <input
                                             type="email"
-                                            placeholder="Enter your Email Id"
+                                            placeholder="Enter your email ID"
                                             className="name"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
+                                        />
+                                        <input
+                                            type="tel"
+                                            placeholder="Contact Number"
+                                            className="name"
+                                            value={mobNumber}
+                                            onChange={(e) => {
+                                                const input = e.target.value;
+                                                // Allow only '+91' (optional) followed by exactly up to 10 digits
+                                                if (/^(\+)?\d{0,12}$/.test(input)) {
+                                                setMobNumber(input);
+                                                }
+                                            }}
                                         />
                                         <textarea
                                             type="text"
@@ -516,7 +643,7 @@ export default function Preloader() {
                         </div>
                     </div>
                 </div>
-                <div className="faqSection">
+                <div className="faqSection" id="faqs">
                     <div className="container">
                         <div className="faqInner col-flex">
                             <h3 className="mTopicHead">
@@ -565,18 +692,18 @@ export default function Preloader() {
                             </div>
                         </div>
                     </div>
-                    <div className="fone"></div>
+                    {/* <div className="fone"></div>
                     <div className="ftwo"></div>
                     <div className="fthree"></div>
                     <div className="ffour"></div>
                     <div className="ffive"></div>
-                    <div className="fsix"></div>
+                    <div className="fsix"></div> */}
                 </div>
                 <div className="footer">
                     <div className="container">
                         <div className="footer-col col-flex">
                             <div className="row-flex bottom-footer">
-                                <img src={CareerImage} alt="careersavvy" className='logo' />
+                                <img src={CareerImage} alt="CareerSavvy" className='logo' />
                                 <div className='row-flex'>
                                     <span className="text" onClick={() => { setFooterPage('terms&Conditions'); }}>
                                         Terms and Conditions
@@ -591,7 +718,7 @@ export default function Preloader() {
                                         flexDirection: "row",
                                         gap: "10px"
                                     }}>
-                                        <li><Link to={"https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe"}><i className="fab fa-facebook-f"
+                                        <li><Link to={"https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe"} target='blank'><i className="fab fa-facebook-f"
                                             style={{
                                                 padding: "4px",
                                                 border: "1px solid",
@@ -603,7 +730,7 @@ export default function Preloader() {
                                                 margin: "0 10px"
                                             }}></i></Link></li>
                                         {/* <li><Link to={"#"}><i className="fab fa-twitter"></i></Link></li> */}
-                                        <li><Link to={"https://www.linkedin.com/company/career-savvy-ai/"}><i className="fab fa-linkedin-in"
+                                        <li><Link to={"https://www.linkedin.com/company/career-savvy-ai/"} target='blank'><i className="fab fa-linkedin-in"
                                             style={{
                                                 padding: "4px",
                                                 border: "1px solid",
@@ -615,7 +742,7 @@ export default function Preloader() {
                                                 margin: "0 10px"
                                             }}></i></Link></li>
                                         <li>
-                                            <Link to={"https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0"}>
+                                            <Link to={"https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0"} target='blank'>
                                                 <i className="fab fa-instagram"
                                                     style={{
                                                         padding: "4px",
@@ -674,7 +801,7 @@ export default function Preloader() {
                             <div className="col-flex">
                                 {footerPage == 'terms&Conditions' ? (
                                     <>
-                                        <h3>Terms & Conditions Of Our Portal</h3>
+                                        <h3>Terms & Conditions of Our Portal</h3>
                                         <p>
                                             Welcome to Our Portal! These Terms and Conditions outline the rules and
                                             regulations for your use of our website and services. By accessing or using our site,
@@ -720,12 +847,12 @@ export default function Preloader() {
                                         <h5>7. Contact Information</h5>
                                         <p>
                                             If you have any questions about these Terms and Conditions, please contact us at
-                                            support@yolojobs.com.
+                                            contact@careersavvy.ai.
                                         </p>
                                     </>
                                 ) : (
                                     <>
-                                        <h3>Privacy Policy Of Our Portal</h3>
+                                        <h3>Privacy Policy of Our Portal</h3>
                                         <p>
                                             At Our Portal, we are committed to protecting your privacy. This Privacy Policy
                                             outlines how we collect, use, and protect your information when you use our
@@ -795,7 +922,7 @@ export default function Preloader() {
                                         <h5>10. Contact Us</h5>
                                         <p>
                                             If you have any questions about this Privacy Policy, please contact us at
-                                            support@yolojobs.com.
+                                            contact@careersavvy.ai
                                         </p>
                                     </>
                                 )}
@@ -804,8 +931,6 @@ export default function Preloader() {
                         </div>
                     </div>
                 )}
-                    </>
-                ):(<></>)}
                 
             </div>
         </>

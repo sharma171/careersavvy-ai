@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useRef, useEffect, useContext } from "react";
-import "./interviewExamNstyle.css";
+import "./interviewExamNstyle.css?ver0.1";
 import CSavvyPageLoader from "../CsavvyPageLoad";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
@@ -17,7 +17,7 @@ import DraftIcon from "./icons/DraftIcon.svg";
 import SubmitIcon from "./icons/submitIcon.svg";
 import LoadingIcon from "./icons/loaderGif.gif";
 import VoiceAi from "./icons/VoiceAi.svg";
-import "./banner.css?ver0.5";
+import "./banner.css";
 
 // Sun and Moon icons
 const SunIcon = () => (

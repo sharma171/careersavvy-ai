@@ -1,408 +1,303 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, {useState, useEffect } from "react";
+import logo from "../../images/site_logo.jpg";
+import "./css/login.css";
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import CareerSavvyLogo from "../../images/site_logo.svg";
+import "./register.css";
+import SuccesIcon from "../../images/succesIcon.svg";
+// import "../components/fScreenPopup/fScreenPopup.css";
+import FullSPopup from "../components/fScreenPopup/FullSPopup";
+import { ReactComponent as TopRightSvg } from "../../images/Login/TopRight.svg";
+import { ReactComponent as BotLeftSvg } from "../../images/Login/BotLeft.svg";
+import { ReactComponent as TopEclipse } from "../../images/Login/topEclipse.svg";
+import { ReactComponent as BotEclipse } from "../../images/Login/botEclipse.svg";
+import { ReactComponent as LogoIcon } from "../../images/Login/logoIcon.svg";
+import { ReactComponent as CloseIcon } from "../../images/Login/close.svg";
+import { ReactComponent as MailIcon } from "../../images/Login/mailIcon.svg";
+import { ReactComponent as PasswordIcon } from "../../images/Login/passwordIcon.svg";
+import { ReactComponent as BrandBottom } from "../../images/Login/BrandBottom.svg";
+import InstructionIcon from "./instruction.png";
+import CsLogo from "./Home/icons & images/careerSavvy.svg"
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useLocation} from "react-router-dom";
 
-import CsLogo from "./Home/icons & images/careerSavvy.svg";
-
-import styles from "./css/login.module.css";
-import { IoEyeOffOutline, IoEyeOutline, IoLockClosedOutline } from "react-icons/io5";
-import { VscKey } from "react-icons/vsc";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
-import { TbMail } from "react-icons/tb";
-import { FaArrowRight } from "react-icons/fa";
-import { jwtDecode } from "jwt-decode";
-
-const decodeToken = (token) => {
-  try {
-    return jwtDecode(token, { header: true });
-  } catch (e) {
-    return null;
-  }
-};
-
-function ResetPasswordModal({ isOpen, onClose }) {
-  const navigate = useNavigate();
-  if (!isOpen) return null;
-  return (
-    <>
-      <div className={`modal-backdrop fade show ${styles.backdrop}`} />
-      <div className="modal d-block" tabIndex="-1" role="dialog">
-        <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content position-relative">
-            {/* <button
-              type="button"
-              className={`btn-close position-absolute top-0 end-0 p-3 ${styles.closeButton}`}
-              aria-label="Close"
-              onClick={onClose}
-            /> */}
-            <div className="modal-header border-0 flex-column">
-              <div className={`mx-auto mb-3 ${styles.iconCircle}`}>🎉</div>
-
-              <h5 className="h3 ">Password Updated!</h5>
-              <p>Your new password has been set successfully. You can now sign in with your updated credentials.</p>
-
-              <button
-                type="button"
-                className={styles.actionBtn}
-                style={{ background: "#9333ea" }}
-                onClick={() => navigate("/login")}
-              >
-                Sign In
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function ForgotPassword() {
-  const [loaderAnimate, setLoaderAnimate] = useState(false);
-  const [formData, setFormData] = useState({});
-
-  const [showLoading, setShowLoading] = useState(false);
+const ForgotPassword = () => {
+  const [password, setPassword] = useState("");
   const [message, setMessage] = useState(""); //State to display success or error messages
+  const location = useLocation(); // Get the query parameters from the URL
+  const [token, setToken] = useState('');
+  const [showLoading, setShowLoading] = useState("");
+  const [popupData, setPopupData] = useState({});
   const [successModal, setSuccessModal] = useState(false);
-  const [token, setToken] = useState("");
-  const [showPassword, setShowPassword] = useState({});
-  const [email, setEmail] = useState("");
-
-  const [errors, seterrors] = useState({});
+  const [popupActive,setPopupActive] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
+  // Check if passwords match and both fields have values
+  const passwordsMatch = password === confirmPassword && password.length > 0 && confirmPassword.length > 0;
+  const isFormValid = passwordsMatch;
+
+  function closeSuccessModal() {
+    setSuccessModal(false); // Hide success modal
+    navigate("/login"); // Navigate to login page
+  }
+  
+  function goToLogin() {
+    navigate("/login"); // Navigate to login page
+  }
+
+   // Extract the token from the URL
+   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const tokenFromUrl = queryParams.get("token");
-    let email = decodeToken(tokenFromUrl);
-    if (!email) {
-      navigate("/login");
-    }
-    setEmail(email);
+    const tokenFromUrl = queryParams.get('token');
     setToken(tokenFromUrl);
   }, [location.search]);
 
-  useEffect(() => {
-    if (message) {
-      setTimeout(() => {
-        setMessage("");
-      }, 10000);
-    }
-  }, [message]);
-
-  const handleSubmit = async () => {
-    let newErrors = {};
-    if (!formData.password) {
-      newErrors.password = "Password is required";
-      return seterrors(newErrors);
-    }
-
-    if (formData.cpassword != formData.password) {
-      newErrors.cpassword = "Passwords do not match";
-
-      return seterrors(newErrors);
-    }
-
-    setLoaderAnimate(true);
+  const handleSubmit = async (e) => {
     setShowLoading(true);
+    e.preventDefault();  // Prevent page refresh
 
+    // Additional check to prevent submission if passwords don't match
+    if (!passwordsMatch) {
+      setMessage("Passwords do not match. Please try again.");
+      return;
+    }
+
+    // Payload to send in the POST request
     const payload = {
-      action: "update-password",
+      task: "verify_passwordtoken",
       token: token,
-      email: email,
-      new_password: formData.cpassword,
-    };
+      new_password: confirmPassword
+    }
 
     try {
       // Sending POST request
-      const response = await fetch("https://user-authentication-api-v10-737421501165.us-east1.run.app", {
+      const response = await fetch("https://us-east1-foursssolutions.cloudfunctions.net/send_activation_link_v2", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       });
 
       const result = await response.json();
-
-      setShowLoading(false);
-
+      
+      // Check if request was successful and update message
       if (response.ok) {
-        setMessage("Your new password has been updated");
-        setSuccessModal(true); // Show success modal when successful
+        // setMessage("Your new password has been updated");
+        setPopupActive(true);
+        setPopupData({
+          MainHeading: "Update Password Status",
+          Description: (
+            <>
+              Your new password has been updated. You can login with your new credentials.
+            </>
+          ),
+          strokeBtn: "Go To Login"
+        });
       } else {
-        setMessage(result.error || "Failed to update your password. Please try again.");
+        setPopupActive(true);
+        setPopupData({
+          MainHeading: "Update Password Status",
+          Description: (
+            <>
+              Failed to update your password. Please try again.
+            </>
+          ),
+          strokeBtn: "Go To Login"
+        });
       }
     } catch (error) {
-      setShowLoading(false);
       setMessage("Error: Something went wrong. Please try again later.");
+      setPopupActive(true);
+        setPopupData({
+          MainHeading: "Update Password Status",
+          Description: (
+            <>
+              Failed to update your password. Please try again.
+            </>
+          ),
+          strokeBtn: "Go To Login"
+        });
+    }
+    finally{
+      setShowLoading(false);
     }
   };
 
-  const renderLogo = (className) => {
-    return (
-      <div className={`d-flex align-items-center gap-2 ${className}`}>
-        <div>
-          <img src={CsLogo} alt="career Savvy" style={{ height: "40px" }} className="icon" />
-        </div>
-        <div className={`${styles.logoText} ${className} m-0 p-0`}>CareerSavvy.ai</div>
-      </div>
-    );
-  };
-
-  const handleChange = (key, val) => {
-    errors[key] = "";
-    formData[key] = val;
-    setFormData({ ...formData });
-  };
-
-  const renderLeftSection = () => {
-    return (
-      <div className={`d-none d-lg-block w-100 ${styles.leftcontainer} ${styles.purpleleft}`}>
-        <div className={`position-absolute ${styles.leftcontainerAnimations}`} style={{ zIndex: 1 }}></div>
-        <div className={styles.circleLarge} />
-        <div className={styles.circleMedium} />
-        <div className={styles.circleSmall} />
-
-        <div style={{ zIndex: 2, position: "relative" }} className="d-flex flex-column justify-content-center h-100">
-          <div className="pb-2 mb-4">{renderLogo(styles.logowhite)}</div>
-
-          <div className="mt-1">
-            <h1 className={`text-white fw-bold ${styles.headingText}`}>Reset Your Password</h1>
-          </div>
-          <div className={`mt-3 ${styles["text-lg"]} ${styles.mainText}`}>
-            You're almost there!
-            <br />
-            Create a new secure password for your account
-            <br />
-            and get back to managing your hiring process.
-          </div>
-
-          <div className="my-3">
-            <ul className={styles.customlist}>
-              <li>Enter your email address</li>
-              <li>Check your inbox for secure link</li>
-              <li>Create your new password</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderInput = (label, placeholder, key) => {
-    return (
-      <div className="mb-4">
-        <label htmlFor={key}>{label}</label>
-        <div className="d-flex align-items-center">
-          <input
-            onChange={(e) => {
-              handleChange(key, e.target.value);
-            }}
-            value={formData[key]}
-            className={`${styles.inputBox} form-control`}
-            id={key}
-            type={!showPassword[key] ? "password" : "text"}
-            placeholder={placeholder}
-          />
-          <div
-            style={{ cursor: "pointer", marginLeft: "-30px", color: "#a0a7b3" }}
-            onClick={() => setShowPassword({ ...showPassword, [key]: !showPassword[key] })}
-          >
-            {showPassword[key] ? <IoEyeOutline /> : <IoEyeOffOutline />}
-          </div>
-        </div>
-
-        {errors[key] ? <div className={`fw-300 mt-1 text-danger ${styles["text-sm"]}`}>{errors[key]}</div> : <></>}
-      </div>
-    );
-  };
-
-  const renderRightSection = () => {
-    return (
-      <div
-        className={`${styles.rightcontainer} d-flex flex-column align-items-center w-100 justify-content-center`}
-        style={{ zIndex: 9 }}
-      >
-        <div className={styles.innerRight}>
-          <div>
-            <div className="d-block d-lg-none d-flex flex-column align-items-center mb-4 pb-1">
-              <div className="mb-3">{renderLogo()}</div>
-            </div>
-
-            {message && <div className="alert alert-info">{message}</div>}
-
-            <h2
-              className={`h1 fw-bold ${styles.alignText} ${styles.headtext}`}
-              style={{ color: "#000", letterSpacing: "-.025em" }}
-            >
-              Reset Your Password
-            </h2>
-          </div>
-          <div style={{ fontSize: "18px", color: "#4b5563" }} className={`mb-4 mt-2 pt-1 ${styles.alignText}`}>
-            Enter your new password below
-          </div>
-
-          {renderInput("New Password", "Enter your new password", "password")}
-          {renderInput("Confirm New Password", "Confirm your new password", "cpassword")}
-
-          <button className={styles.actionBtn} style={{ background: "#9333ea" }} onClick={handleSubmit}>
-            Update Password
-            <FaArrowRight />
-          </button>
-
-          <div className={styles.anotherSimpleContainer}>
-            <div className={styles.anotherSimpleSection}>
-              <a className={styles.anotherSimpleLink} href="#" onClick={() => navigate("/login")}>
-                <MdOutlineKeyboardBackspace /> Back to Sign In
-              </a>
-            </div>
-
-            <div className={styles.anotherSimpleSection}>
-              <div className={styles.anotherSimpleSectionTitle}>Connect with us</div>
-              <div className={styles.anotherSimpleSocialContainer}>
-                <button
-                  onClick={() =>
-                    window.open(
-                      "https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe",
-                      "_blank",
-                      "noopener,noreferrer"
-                    )
-                  }
-                  style={{ color: "#3870ec" }}
-                  className={`${styles.anotherSimpleSocialButton} ${styles.anotherSimpleFacebook}`}
-                  type="button"
-                  aria-label="Follow us on Facebook"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={styles.anotherSimpleIcon}
-                  >
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                  </svg>
-                </button>
-
-                <button
-                  className={`${styles.anotherSimpleSocialButton} ${styles.anotherSimpleInstagram}`}
-                  type="button"
-                  style={{ color: "#dd3a83" }}
-                  aria-label="Follow us on Instagram"
-                  onClick={() =>
-                    window.open(
-                      "https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0",
-                      "_blank",
-                      "noopener,noreferrer"
-                    )
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={styles.anotherSimpleIcon}
-                  >
-                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                  </svg>
-                </button>
-
-                <button
-                  style={{ color: "#2857da" }}
-                  className={`${styles.anotherSimpleSocialButton} ${styles.anotherSimpleLinkedin}`}
-                  type="button"
-                  aria-label="Follow us on LinkedIn"
-                  onClick={() =>
-                    window.open("https://www.linkedin.com/company/career-savvy-ai/", "_blank", "noopener,noreferrer")
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={styles.anotherSimpleIcon}
-                  >
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                    <rect width="4" height="12" x="2" y="9" />
-                    <circle cx="4" cy="4" r="2" />
-                  </svg>
-                </button>
-
-                <button
-                  style={{ color: "#dc2626" }}
-                  className={`${styles.anotherSimpleSocialButton} ${styles.anotherSimpleYoutube}`}
-                  type="button"
-                  aria-label="Follow us on YouTube"
-                  onClick={() =>
-                    window.open("https://www.youtube.com/watch?v=Nkl5TiWo6Bs", "_blank", "noopener,noreferrer")
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={styles.anotherSimpleIcon}
-                  >
-                    <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />
-                    <path d="m10 15 5-3-5-3z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   return (
-    <div className={`d-flex ${styles.mainContainer} ${styles.mainPurple} position-relative`}>
-      <div
-        className="position-absolute top-0 start-0 w-100 h-100 overflow-hidden pointer-events-none"
-        style={{ zIndex: 1 }}
-      >
-        <div className={`position-absolute ${styles.shape1} ${styles.animatePulse}`} />
-        <div className={`position-absolute ${styles.shape2} ${styles.animateBounce}`} />
-        <div className={`position-absolute ${styles.shape3} ${styles.animatePulse}`} />
-      </div>
-
-      {renderLeftSection()}
-      {renderRightSection()}
-      {showLoading ? (
-        <div className="preloader container">
-          <div id="preloader">
-            <div className="sk-three-bounce">
-              <div className="sk-child sk-bounce1"></div>
-              <div className="sk-child sk-bounce2"></div>
-              <div className="sk-child sk-bounce3"></div>
+    <>
+    {popupActive&&(
+        <FullSPopup popupActive={popupActive} setPopupActive={setPopupActive} popupData={popupData} setPopupData={setPopupData} />
+    )}
+    <div className='CSavvyLogin'>
+        <div className="loginCard">
+            <div className="topRightBg">
+                <TopRightSvg />
             </div>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
+            <div className="botLeftBg">
+                <BotLeftSvg />
+            </div>
+            <div className="topEclipse">
+                <TopEclipse />
+            </div>
+            <div className="botEclipse">
+                <BotEclipse />
+            </div>
+            <div className="loginRow">
+                <div className="brand-col">
+                    <div className="BrandTop">
+                        <h3 className="TopHead">
+                            Welcome to CareerSavvy
+                        </h3>
+                        <p className="para">Where Al Meets Ambition</p>
+                        <div className="social">
+                            <ul>
+                                <li>
+                                    <Link to={"https://www.facebook.com/share/p/18Gv5rt2Lv/?mibextid=WC7FNe"} target='blank'>
+                                        <i className="fab fa-facebook-f icon"></i>    </Link>
+                                </li>
+                                <li>
+                                    <Link to={"https://www.instagram.com/p/DDYRi7XxGgv/?igsh=bHlla2s1cGwzdHo0"} target='blank'><i className="fab fa-instagram icon"></i></Link>
+                                </li>
+                                <li>
+                                    <Link to={"https://www.linkedin.com/company/career-savvy-ai/"} target='blank'><i className="fab fa-linkedin-in icon"></i></Link></li>
+                                <li>
+                                    <Link to={"https://www.youtube.com/watch?v=Nkl5TiWo6Bs"} target='blank'><i className="fab fa-youtube icon"></i></Link></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="BrandBottom">
+                        <BrandBottom/>
+                    </div>
+                </div>
+                <div className="form-col">
+                    <div className="logoClose">
+                        <div className="logoIcon"><img src={CareerSavvyLogo} alt="icon" className="Icon" /></div>
+                        <div className="close" onClick={()=>navigate("/")}><CloseIcon /></div>
+                    </div>
+                    <div className="AuthForm">
 
-      <ResetPasswordModal isOpen={successModal} onClose={() => setSuccessModal(false)} />
+                        <div className="mb-2">
+                            <h3 className="TopHead" >Update your Password ?</h3>
+                        </div>
+
+                        {message && <div className="alert alert-info">{message}</div>}
+                        
+                        {/* Show password mismatch warning */}
+                        {password.length > 0 && confirmPassword.length > 0 && !passwordsMatch && (
+                            <div className="alert alert-warning" style={{color: '#d63384', fontSize: '14px', marginBottom: '10px'}}>
+                                Passwords do not match
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            
+                            <div className="form-group" style={{ position: "relative" }}>
+                                <div className="inputouter">
+                                    <PasswordIcon />
+                                    <div className='passwordDiv' style={{ position: "relative" }}>
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            className="CSavvyInputs"
+                                            placeholder="New Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                        {/* Eye Icon to toggle visibility */}
+                                        <span
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            style={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                right: "0px",
+                                                cursor: "pointer",
+                                                transform: "translate(0, -50%)"
+                                            }}
+                                        >
+                                            {showPassword ? '👁️' : '👁️‍🗨️'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="form-group" style={{ position: "relative" }}>
+                                <div className="inputouter">
+                                    <PasswordIcon />
+                                    <div className='passwordDiv' style={{ position: "relative" }}>
+                                        <input
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            className="CSavvyInputs"
+                                            placeholder="Confirm New Password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                            required
+                                        />
+                                        {/* Eye Icon to toggle visibility */}
+                                        <span
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                            style={{
+                                                position: "absolute",
+                                                top: "50%",
+                                                right: "0px",
+                                                cursor: "pointer",
+                                                transform: "translate(0, -50%)"
+                                            }}
+                                        >
+                                            {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="text-center">
+                                <button 
+                                    type="submit" 
+                                    className="LoginButton" 
+                                    disabled={!isFormValid}
+                                    style={{
+                                        opacity: isFormValid ? 1 : 0.5,
+                                        cursor: isFormValid ? 'pointer' : 'not-allowed'
+                                    }}
+                                >
+                                    Update Your Password
+                                </button>
+                            </div>
+                        </form>
+                        {showLoading ? (<>
+                                    <div className="preloader container">
+                                    <div id="preloader">
+                                        <div className="sk-three-bounce">
+                                            <div className="sk-child sk-bounce1"></div>
+                                            <div className="sk-child sk-bounce2"></div>
+                                            <div className="sk-child sk-bounce3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                </>
+                            ) : (<></>)}
+                            <div className="RegisterButton mt-3">
+                                <p className="mb-0">Already have an account?{" "}
+                                    <Link className="text-black" to="/login">Log In</Link>
+                                </p>
+                            </div>
+                            <div className="ordivider"><div className="text">or</div></div>
+                        
+                        <Link className="backToHome" to="/">Back to Home</Link>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+    
+    </>
   );
-}
+};
 
 export default ForgotPassword;

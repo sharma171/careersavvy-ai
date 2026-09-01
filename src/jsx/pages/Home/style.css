@@ -13,6 +13,12 @@
 
 * .home-page {
   font-family: "Manrope", sans-serif;
+  max-height: 100vh;
+  scrollbar-width: none !important;
+  overflow: scroll;
+}
+.home-page .social-icons .fab{
+  filter: brightness(20);
 }
 .home-page .mainHeader {
     background: rgba(255, 255, 255, 0.55);
@@ -21,6 +27,26 @@
     top: 0;
     width: 100%;
     z-index: 100;
+}
+.home-page .mainHeader .Hnav-menu .nav-item:hover .nav-link::after {
+  content: "";
+    position: absolute;
+    top: 77%;
+    height: 0;
+    width: 100%;
+    left: -2%;
+    background: #96a1e1c2;
+    box-shadow: 1px 1px 51px 6px #002cc9b6;
+}
+.home-page .mainHeader .Hnav-menu .nav-item .nav-link {
+  position: relative;
+  font-weight: 600;
+  transition: all 0.5s;
+  font-size: 16px;
+}
+.home-page .mainHeader .Hnav-menu .nav-item:hover .nav-link {
+  font-weight: 600;
+  color: #1e0064;
 }
 .home-page .mainHeader .logo {
   border-radius: 100px;
@@ -36,12 +62,20 @@
   font-size: 18px;
   line-height: 24px;
 }
+.home-page .subcribe-button:hover {
+  transform: translateY(-10px);
+}
 .home-page .subcribe-button {
-  background: linear-gradient(90deg, #d3d2ff 0%, #d2b7fb 47.5%, #b1ecfa 100%);
-  border-radius: 40px;
+  background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+  mix-blend-mode: normal;
+  border-radius: 21px;
+  transition: all 0.2s;
   padding: 0.638rem 1.5rem;
   border: none;
   height: 46px;
+}
+.home-page .subcribe-button span.text + svg path {
+  fill: #fff;
 }
 .home-page .subcribe-button span.text {
   font-family: "Inter", sans-serif;
@@ -50,7 +84,7 @@
   font-size: 16.8px;
   line-height: 21px;
   letter-spacing: -0.6px;
-  background: linear-gradient(90deg, #3935c2 0%, #7624a5 47.5%, #1e1ea9 100%);
+  background: #fff;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -64,36 +98,37 @@
 .home-page .hero {
   min-height: 1000px;
   position: relative;
+  background: #fff;
 }
 .home-page .hero .square {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 280px;
+  height: 280px;
   left: 31%;
   top: 266px;
-  background: rgba(0, 26, 255, 0.6);
-  filter: blur(200px);
+  background: rgba(17, 105, 218, 0.15);
+  filter: blur(140px);
   transform: rotate(30.01deg);
 }
 .home-page .hero .circle {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   left: 50%;
   top: 305.14px;
 
-  background: rgba(0, 194, 255, 0.6);
-  filter: blur(200px);
+  background: rgba(17, 105, 218, 0.15);
+  filter: blur(140px);
 }
 .home-page .hero .star {
   position: absolute;
-  width: 350px;
-  height: 350px;
-  left: 24%;
+  width: 280px;
+  height: 280px;
+  left: 34%;
   top: 392.14px;
 
-  background: rgba(219, 0, 255, 0.6);
-  filter: blur(200px);
+  background: rgba(17, 105, 218, 0.15);
+  filter: blur(140px);
 }
 .home-page .hero .heroCenter {
   align-items: center;
@@ -103,10 +138,10 @@
   margin-top: 200px;
   font-style: normal;
   font-weight: 600;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 26px;
+  line-height: 36px;
   text-align: center;
-  color: #0058cc;
+  color: #333333;
 }
 .home-page .hero .heroCenter .bigHeading {
   font-style: normal;
@@ -114,11 +149,17 @@
   font-size: 60px;
   line-height: 84px;
   text-align: center;
-  background: linear-gradient(90deg, #443bc8 0%, #4dc2e6 100%);
+  background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+}
+.home-page .hero .heroCenter .bigHeading .icon img {
+    width: 55.52px;
+    margin-top: -10px;
+    height: 55.52px;
+    border-radius: 1000px;
 }
 .home-page .hero .heroCenter .bigHeading .icon {
   margin-top: -14px;
@@ -126,9 +167,9 @@
   margin-right: 10px;
 }
 .home-page .hero .heroCenter .bigHeading strong {
-    text-align: center;
-    background: linear-gradient(90deg, #3c00af 0%, #0092ac 70.5%);
-    -webkit-background-clip: text;
+  text-align: center;
+  background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
   background-clip: text;
@@ -198,6 +239,7 @@
     border-radius: 100px;
     justify-content: center;
     border: 0.5px dashed rgba(105, 115, 223, 0.43);
+    background: #fff;
     width: 100%;
     height: 100%;
 }
@@ -206,12 +248,12 @@
     left: 76%;
 }
 .home-page .hero .heroCenter .infographic .inabsolute .info.two {
-    top: 43%;
+    top: 48%;
     left: 91%;
 }
 .home-page .hero .heroCenter .infographic .inabsolute .info.three {
-    top: 78%;
-    left: 77%;
+    top: 87%;
+    left: 64%;
 }
 .home-page .hero .heroCenter .infographic .inabsolute .info.four .heading, .home-page .hero .heroCenter .infographic .inabsolute .info.five .heading, .home-page .hero .heroCenter .infographic .inabsolute .info.six .heading {
     background: linear-gradient(90deg, #2B98BA 0%, #2E27A3 100%);
@@ -228,20 +270,20 @@
     flex-direction: row-reverse;
 }
 .home-page .hero .heroCenter .infographic .inabsolute .info.five {
-    top: 40%;
-    right: 93%;
+    top: 36%;
+    right: 94%;
     flex-direction: row-reverse;
 }
 .home-page .hero .heroCenter .infographic .inabsolute .info.six {
-    top: 6%;
-    right: 78%;
+    top: -1.5%;
+    right: 72%;
     flex-direction: row-reverse;
 }
 .home-page .hero .heroCenter .subcribe-button {
     margin-bottom: 50px;
 }
 .home-page .featuresSection {
-  background: #F5F5F5;
+  background: linear-gradient(180deg, rgba(145, 65, 175, 0.05) 0%, rgba(67, 28, 159, 0.05) 100%);
 }
 .home-page .featuresSection .featuresInner {
   padding-top: 70px;
@@ -249,19 +291,18 @@
   align-items: center;
 }
 .home-page .mTopicHead {
-font-family: 'Manrope';
-font-style: normal;
-font-weight: 600;
-font-size: 50px;
-line-height: 70px;
-text-align: center;
-margin-bottom: 0;
-
-background: linear-gradient(90deg, #443BC8 0%, #4DC2E6 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-text-fill-color: transparent;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 55px;
+  line-height: 76px;
+  text-align: center;
+  margin-bottom: 0;
+  background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
 .home-page .featuresSection .featuresInner .TimeLine {
   position: relative;
@@ -300,15 +341,56 @@ text-fill-color: transparent;
   }
   .home-page .topicSubHead {
     font-style: normal;
-    font-weight: 800;
+    font-weight: 600;
     font-size: 36px;
     line-height: 42px;
     text-align: center;
-    background: linear-gradient(90deg, #3C00AF 0%, #0092AC 70.5%);
+    background: linear-gradient(90deg, #444444 0%, #444444 70.5%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-fill-color: transparent;
+    
+}
+.home-page .JourneySection .subTopic {
+  margin-top: 8px;
+}
+.home-page .JourneySection .topicSubHead {
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+  .home-page .resultSection .topicSubHead {
+    font-style: normal;
+    font-weight: 600;
+        font-style: normal;
+    font-weight: 600;
+    font-size: 45px;
+    line-height: 60px;
+    text-align: center;
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
+.home-page .contactUsSection .topicSubHead {
+    font-weight: 800;
+    font-size: 42px;
+    line-height: 57px;
+    text-align: center;
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+.home-page .resultSection .subTopic {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 20px;
 }
 .home-page .subTopic {
   font-style: normal;
@@ -316,7 +398,7 @@ text-fill-color: transparent;
   font-size: 16px;
     line-height: 24px;
     text-align: center;
-    background: linear-gradient(90deg, #3C00AF 0%, #0092AC 70.5%);
+    background: linear-gradient(90deg, #666666 0%, #666666 70.5%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -378,7 +460,8 @@ transform: rotate(0.18deg);
   align-items: center;
   justify-content: center;
   position: relative;
-  background: linear-gradient(141.05deg, #B5E7FA 14.39%, #D3CFFF 82.73%);
+  background: #FFFFFF;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
 }
 .home-page .featuresSection .featuresInner .featuresRows .featuresCard .featureThumb .featureIcon {
   width: 102px;
@@ -387,18 +470,19 @@ transform: rotate(0.18deg);
 .home-page .featuresSection .featuresInner .featuresRows .featuresCard .text {
   font-style: normal;
   font-weight: 600;
-  font-size: 16px;
-    line-height: 25px;
-    text-align: center;
-    color: #233DAE;
-    position: relative;
+  font-family: 'Manrope';
+  font-size: 15px;
+  line-height: 25px;
+  text-align: center;
+  color: #757575;
+  position: relative;
   }
   .home-page .featuresSection .featuresInner .featuresRows .featuresCard .text::after {
     content: "";
     position: absolute;
-    bottom: -10px;
+    bottom: -16px;
     left: 50%;
-    width: 70%;
+    width: 55%;
     height: 1px;
     max-width: 182px;
     background: #233DAE;
@@ -429,10 +513,15 @@ transform: rotate(0.18deg);
     margin: -2px 0 20px 0;
   }
 
+  .home-page .resultSection .container {
+    background: #fff;
+    padding: 54px 0  45px 0;
+    border-radius: 20px;
+  }
   .home-page .resultSection {
     position: relative;
-    background: linear-gradient(94.79deg, #E2F8FF 2.69%, #F3F3F3 51.07%, #D2F1FB 99.44%);
-    padding: 64px 0  45px 0;
+    padding: 24px 0 60px 0;
+    background: linear-gradient(180deg, rgb(233 231 237) 0%, rgba(67, 28, 159, 0.05) 100%);
   }
   .home-page .resultSection .blurOne {
     position: absolute;
@@ -453,32 +542,40 @@ transform: rotate(0.18deg);
     filter: blur(200px);
     }
   .home-page .resultSection .resultRow {
-    margin: 60px 0 40px 0;
+    margin: 40px 0 40px 0;
     justify-content: space-around;
   }
   .home-page .resultSection .resultRow .resultCard {
     background: #fff;
     border-radius: 36px;
-    padding: 30px;
-    gap: 16px;
+    padding: 28px 29px;
+    gap: 10px;
     margin-left: 10px;
+    width: 100%;
+    max-width: 310px;
     margin-right: 10px;
     box-shadow: 0px 12px 40px rgba(0, 0, 0, 0.0588235);
+    border: 1px solid #2240C3;
   }
   .home-page .resultSection .resultRow .resultCard .bigNumbers {
-    font-size: 48px;
-    line-height: 56px;
+    font-size: 45px;
+    line-height: 54px;
     font-weight: 900;
-    color: #233DAE;
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
     margin-bottom: 5px;
   }
   .home-page .resultSection .resultRow .resultCard .head span {
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: 'Manrope';
     font-size: 16px;
     line-height: 24px;
     text-align: center;
-    color: #192C81;
+    color: #444444;
 }
   .home-page .resultSection .resultRow .resultCard .head {
     gap: 8px;
@@ -486,6 +583,7 @@ transform: rotate(0.18deg);
   .home-page .resultSection .resultRow .resultCard .head .icons {
     width: 24px;
     height: 24px;
+    display: none;
   }
   .home-page .resultSection .subcribe-button {
     margin: 0 auto;
@@ -520,7 +618,7 @@ transform: rotate(0.18deg);
         font-weight: 600;
         font-size: 16px;
         line-height: 23px;
-        color: #192C81;
+        color: #444444;
     }
     .JourneySection .JColumns .journeyCards .JourneyInfo .topHead .icon {
       width: 26px;
@@ -533,15 +631,16 @@ transform: rotate(0.18deg);
     }
     .JourneySection .JColumns .journeyCards .JourneyInfo .info {
         font-style: normal;
-        font-weight: 600;
+        font-weight: 500;
         font-size: 18px;
         line-height: 26px;
         margin-top: 10px;
-        background: linear-gradient(90deg, #3C00AF 0%, #0092AC 70.5%);
+        background: #666666;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-fill-color: transparent;
+        margin-bottom: 10px;
     }
     .JourneySection .JColumns .journeyCards .JourneyInfo .infoHead {
       font-style: normal;
@@ -551,7 +650,7 @@ transform: rotate(0.18deg);
       /* or 124% */
       letter-spacing: 0.01em;
       text-transform: capitalize;
-      color: #192C81;
+      color: #072693;
       margin-top: 24px;
       strong {
         color: #1364AD;
@@ -580,6 +679,7 @@ transform: rotate(0.18deg);
       border: none;
       margin: 22px auto 0 0;  
     }
+    
       .JourneySection .JColumns .journeyCards .JourneyThumb .bigImage {
         width: 100%;
         height: auto;
@@ -589,7 +689,7 @@ transform: rotate(0.18deg);
     }
     .contactUsSection {
       padding: 60px 0;
-      background: #f1f1f1;
+      background: #F2F4F5;
     }
     .contactUsSection .contactInner {
       align-items: center;
@@ -605,7 +705,7 @@ transform: rotate(0.18deg);
       background: #3A05AF;
     }
   .contactUsSection .contactInner .feedbackBox {
-    background: linear-gradient(180deg, rgba(216, 213, 255, 0.65) 0%, rgba(221, 238, 254, 0.65) 100%);
+    background: #fff;
     border-radius: 30px;
     padding: 30px 40px 60px 40px;
     margin: 60px 0 0 0;
@@ -620,43 +720,68 @@ transform: rotate(0.18deg);
     line-height: 30px;
     text-align: center;
     margin-bottom: 22px;
-    color: #310092;
+    color: #072693;
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow {
     flex-wrap: wrap;
     gap: 25px;
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard.active {
-    background: #E5DEF3;
-    border: 1px solid #310092;
+    background: #fff;
+    border: 1px solid #072693;
     box-shadow: 0px 12px 40px rgba(65, 65, 65, 0.25);
+  }
+  .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard.active .thumb .icon {
+    filter: none;
+  }
+  .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard:first-child .thumb .icon {
+    filter: unset;
+  }
+  .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard .thumb .icon {
+    filter: brightness(20);
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard {
     width: calc(33.3% - 17px);
     padding: 16px;
+    cursor: pointer;
     min-height: 151px;
     align-items: center;
     background: #FFFFFF;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 37px;
     gap: 12px;
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 37px;
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard .thumb .icon {
     width: 45px;
     height: auto;
   }
+    .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard.active .text {
+      color: #444444;
+    }
     .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard .text {
       font-style: normal;
       font-weight: 600;
       font-size: 15px;
       line-height: 21px;
       text-align: center;
-      color: #310092;
+      color: #fff;
     }
 
     .contactUsSection .contactInner .feedbackBox .feedbackInputs {
-      margin-left: 20px;
+      margin-left: 35px;
+      position: relative;
       width: calc(35% - 17px);
+    }
+    .contactUsSection .contactInner .feedbackBox .feedbackInputs::after {
+      content: "";
+      position: absolute;
+      left: -20px;
+      top: 0;
+      height: 100%;
+      border-left: 1px solid #c3bdce9a;
     }
     .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard{
       margin: 0;
@@ -664,6 +789,9 @@ transform: rotate(0.18deg);
     }
     .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard textarea {
       height: 195px;
+    }
+    .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard textarea {
+          height: 130px;
     }
     .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard input,.contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard textarea {
       padding: 10px 20px;
@@ -677,19 +805,19 @@ transform: rotate(0.18deg);
         border: none;
       }
       .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard .submit-button span {
-          font-style: normal;
-          font-weight: 600;
-          margin-right: 8px;
-          font-size: 15.8px;
-          line-height: 21px;
-          background: linear-gradient(90deg, #3935C2 0%, #7624A5 63%, #1E1EA9 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
+        font-style: normal;
+        font-weight: 600;
+        margin-right: 8px;
+        font-size: 15.8px;
+        line-height: 21px;
+        background: linear-gradient(90deg, #ffffff 0%, #e5e5e5 63%, #ffffff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
       }
       .contactUsSection .contactInner .feedbackBox .feedbackInputs .inputCard .submit-button {
-        background: linear-gradient(90deg, #D3D2FF 0%, #D2B7FB 47.5%, #B1ECFA 100%);
+            background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
         mix-blend-mode: normal;
         border-radius: 21px;
         
@@ -698,6 +826,7 @@ transform: rotate(0.18deg);
         padding: 60px 0;
         position: relative;
         overflow: hidden;
+        background: #fff;
       }
       .faqSection .faqInner {
         align-items: center;
@@ -770,7 +899,7 @@ transform: rotate(0.18deg);
 
           }
           .faqSection .faqInner .faqBox {
-            background: #E4E2FF;
+            background: #F9F9F9;
             border-radius: 19px;
             z-index: 10;
             min-width: 75%;
@@ -794,7 +923,11 @@ transform: rotate(0.18deg);
               font-weight: 700;
               font-size: 20px;
               line-height: 31px;
-              color: #1923ad;
+              background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              text-fill-color: transparent;
           }
           .faqSection .faqInner .faqBox .faqCard .faqHead, .faqSection .faqInner .faqBox .faqCard .faqText {
             max-width: 95%;
@@ -802,9 +935,9 @@ transform: rotate(0.18deg);
           .faqSection .faqInner .faqBox .faqCard .faqText {
               font-style: normal;
               font-weight: 500;
-              font-size: 15px;
-              line-height: 22px;
-              color: rgba(44, 34, 180, 0.79);
+              font-size: 14px;
+              line-height: 20px;
+              color: #666666;
           }
           .faqSection .faqInner .faqBox .faqCard .faqText {
             display: none;
@@ -829,7 +962,8 @@ transform: rotate(0.18deg);
 
             .home-page .footer {
               padding: 20px 0 20px 0;
-              background: #0A142F;
+              background: #000068;
+              
             }
 
             .home-page .footer .linksSubscribe {
@@ -883,7 +1017,9 @@ transform: rotate(0.18deg);
               .text {
                 margin-left: 10px;
                 margin-right: 10px;
-                color: #ffffff85;
+                font-weight: 300;
+                cursor: pointer;
+                color: #fff;
               }
             }
             .home-page .footer .linksSubscribe .list {
@@ -947,8 +1083,25 @@ transform: rotate(0.18deg);
   justify-content: center;
   backdrop-filter: blur(20px);
 }
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home-page .featuresSection .featuresInner .featuresRows .featuresCard {
+  width: 350px;
+  animation: fadeInUp 0.6s ease forwards;
+}
 
 @media (max-width: 998px) {
+  .home-page .featuresSection .featuresInner .featuresRows .featuresCard {
+    width: unset;
+  }
     .home-page .hero .heroCenter .introductory.heading1 {
       margin-top: 151px;
       font-style: normal;
@@ -969,6 +1122,25 @@ transform: rotate(0.18deg);
       width: 40px;
       margin-top: -10px;
     }
+  }
+  .home-page .resultSection .container {
+    padding: 54px 25px 45px 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    width: calc(100% - 20px);
+  }
+  .home-page .contactUsSection .topicSubHead {
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1.4em;
+  }
+  .contactUsSection .contactInner .TwinHead {
+    flex-direction: column;
+    gap: 0;
+  }
+  .contactUsSection .contactInner .TwinHead .divider{
+    display: none;
   }
   .home-page .hero .heroCenter .infographic {
     width: 100%;
@@ -1052,9 +1224,10 @@ transform: rotate(0.18deg);
   .home-page .featuresSection .featuresInner .TimeLine::before {
     left: -2.7px;
   }
-  home-page .featuresSection .featuresInner .TimeLine::after {
+  .home-page .featuresSection .featuresInner .TimeLine::after {
     right: -3px;
   }
+  
   .home-page .topicSubHead {
     font-style: normal;
     font-weight: 800;
@@ -1065,6 +1238,7 @@ transform: rotate(0.18deg);
     font-size: 14px;
     line-height: 20px;
   }
+  
   .home-page .featuresSection .featuresInner .featuresRows {
     margin: 25px 0 50px 0;
   }
@@ -1124,7 +1298,7 @@ transform: rotate(0.18deg);
     gap: 10px;
   }
   .home-page .subcribe-button {
-    background: linear-gradient(90deg, #d3d2ff 0%, #d2b7fb 47.5%, #b1ecfa 100%);
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
     border-radius: 40px;
     padding: 0.538rem 1.5rem;
     border: none;
@@ -1225,7 +1399,7 @@ transform: rotate(0.18deg);
     width: 100%;
   }
   .faqSection .faqInner .faqBox {
-    background: #E4E2FF;
+    /* background: #E4E2FF; */
     border-radius: 19px;
     z-index: 10;
     min-width: 75%;
@@ -1251,6 +1425,7 @@ transform: rotate(0.18deg);
   }
   .home-page .hero .heroCenter .bigHeading .icon img {
     width: 26px;
+    height: auto;
     margin-top: -7px;
   }
   .home-page .hero .heroCenter .infographic {
@@ -1333,7 +1508,7 @@ transform: rotate(0.18deg);
     line-height: 15px;
   }
   .home-page .subcribe-button {
-    background: linear-gradient(90deg, #d3d2ff 0%, #d2b7fb 47.5%, #b1ecfa 100%);
+    background: linear-gradient(113.7deg, #0780E6 0%, #3D009F 100%);
     border-radius: 40px;
     padding: 0.638rem 1rem;
     border: none;
@@ -1365,6 +1540,7 @@ transform: rotate(0.18deg);
   .home-page .resultSection .resultRow {
     flex-direction: column;
     gap: 20px;
+    align-items: center;
   }
   .home-page .featuresSection {
     background: #f5f5f500;
@@ -1439,7 +1615,7 @@ transform: rotate(0.18deg);
     background: #f1f1f1;
   }
   .contactUsSection .contactInner .feedbackBox {
-    background: linear-gradient(180deg, rgba(216, 213, 255, 0.65) 0%, rgba(221, 238, 254, 0.65) 100%);
+    /* background: linear-gradient(180deg, rgba(216, 213, 255, 0.65) 0%, rgba(221, 238, 254, 0.65) 100%); */
     border-radius: 30px;
     padding: 20px 20px 20px 20px;
     margin: 28px 0 0 0;
@@ -1464,13 +1640,15 @@ transform: rotate(0.18deg);
     font-size: 12px;
     line-height: 16px;
     text-align: center;
-    color: #310092;
+    /* color: #310092; */
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard .thumb .icon {
     width: 36px;
   }
   .contactUsSection .contactInner .feedbackBox .feedbackSelect .feedbackRow .feedbackCard {
-    padding: 7px;
+    padding: 18px;
+    width: calc(50% - 8px);
+    min-height: auto;
   }
   .home-page .footer .bottom-footer {
     padding-bottom: 0;

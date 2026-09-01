@@ -19,14 +19,7 @@ export const setProductCode = (data) => ({
     type: "SET_PRODUCT_CODE",
     payload: data,
   });
-  export const setJobId = (data) => ({
-    type: "SET_JOB_ID",
-    payload: data,
-  });
-  export const setDetailedJobData = (data) => ({
-    type: "SETDETAILEDJOBDATA",
-    payload: data,
-  });
+  
   export const setTechSkills = (skills) => ({
     type: "SET_TECH_SKILLS",
     payload: skills,
@@ -83,11 +76,23 @@ export const setProductCode = (data) => ({
     type: "ACTIVE_JOB_ID",
     payload: data,
   });
-  export const setOverviewPost = (data)=>({
-    type: "SET_OVERVIEW_POST",
+  export const setControlFeatures = (data)=>({
+    type: "CONTROL_FEATURES",
     payload: data,
   });
-    export const setIndustryInterview = (data)=>({
+  export const setSignUpActive = (data)=>({
+    type: "SIGNUP_ACTIVE",
+    payload: data,
+  });
+  export const setScenarioBased = (data)=>({
+    type: "SET_SCENARIO_QUESTIONS",
+    payload: data,
+  });
+  export const setInterviewLevel = (data)=>({
+    type: "SET_INTERVIEW_LEVEL",
+    payload: data,
+  });
+  export const setIndustryInterview = (data)=>({
     type: "SET_INDUSTRY_INTERVIEW",
     payload: data,
   });
@@ -95,19 +100,15 @@ export const setProductCode = (data) => ({
     type: "SET_LINK_INTERVIEW_QUESTION",
     payload: data,
   });
-  export const setUserInterviewList = (data)=>({
-    type: "SET_USER_INTERVIEW_LIST",
+  export const setHomeLink = (data)=>({
+    type: "SET_HOME_LINK",
     payload: data,
   });
-  export const setOrgName = (data)=>({
-    type: "SET_ORGANISATION_NAME",
+  export const setJobResumeUpload = (data)=>({
+    type: "SET_JOB_RESUME_UPLOAD",
     payload: data,
   });
-  export const setCreateJobStatus = (data)=>({
-    type: "SET_CREATE_JOB_STATUS",
-    payload: data,
-  });
-  export const setSidebarPopupType = (data)=>({
-    type: "SET_SIDEBAR_POPUP_TYPE",
+  export const setProfileUpdateStatus = (data)=>({
+    type: "SET_PROFILE_UPDATE_STATUS",
     payload: data,
   });

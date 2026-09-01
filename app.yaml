@@ -1,5 +1,5 @@
 runtime: nodejs20
-service: cs-employerportal
+service: jobsearch-portal
 
 env_variables:
   NODE_ENV: production

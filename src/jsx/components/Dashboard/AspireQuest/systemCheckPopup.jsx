@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Webcam from "react-webcam";
 import "./SystemCheckPopup.css";
 
-const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterviewReady, setTextInterviewReady }) => {
+const SystemCheckPopup = ({ visible, startInterview, setShowPopup }) => {
   const [progress, setProgress] = useState(0);
 
   const [micTestStarted, setMicTestStarted] = useState(false);
@@ -30,7 +30,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
         stopMicTest();
         stopCameraTest();
       }
-      if(location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam"){
+      if(location.pathname === "/videoInterview"){
         TriggerAudVideo();
         stopMicTest();
         stopCameraTest();
@@ -64,7 +64,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
   useEffect(() => {
     if (!visible) return;
     const interval = setInterval(() => {
-      setProgress((prev) => (prev < 100 ? prev + 10 : 100));
+      setProgress((prev) => (prev < 100 ? prev + 1 : 100));
     }, 139);
     return () => clearInterval(interval);
   }, [visible]);
@@ -188,7 +188,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
         <h2 className="system-check-heading">System Check</h2>
         <p className="system-check-text">
           {/* We're checking your {location.pathname === "/videoInterview" && (<>camera and</>)} microphone to ensure everything is ready for your interview. */}
-          We’re checking your microphone{location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam" && (<> and camera</>)} to ensure everything is set up correctly for your interview.
+          We’re checking your microphone{location.pathname === "/videoInterview" && (<> and camera</>)} to ensure everything is set up correctly for your interview.
         </p>
 
         <div className="system-check-progress-container">
@@ -200,7 +200,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
 
         {progress === 100 && (
           <>
-            {location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam"&& (
+            {location.pathname === "/videoInterview"&& (
               <div className="system-check-mic-container">
                 <div className="system-check-mic-row">
                   <span>
@@ -272,22 +272,12 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
             </div>
             <div className="system-check-row-flex">
 
-            {textInterviewReady?(
-                <>
-                <button className="system-check-continue-button" onClick={handleCancel}>
-                  Cancel
-                </button>
-                <button className="system-check-continue-button" onClick={handleContinue}>
-                  Continue
-                </button>
-                </>
-                ):(
-                <>
-                <button className="system-check-continue-button" >
-                  Preparing Interview
-                </button>
-                </>
-              )}
+            <button className="system-check-continue-button" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button className="system-check-continue-button" onClick={handleContinue}>
+              Continue
+            </button>
             </div>
           </>
         )}

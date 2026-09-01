@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./feedback.css";
+import "./feedback.css?ver0.1";
 import CsavvyContentLoader from "../CsavvyPageLoad";
 import ClipTick from "./ClipTick"; // If used for the chart's XAxis ticks
 import {
@@ -213,20 +213,23 @@ export default function FeedbackComponent({ docId, feedback, setFeedback }) {
               <div className="content">
                 <ul>
                   {Object.entries(feedback.ratings || {}).map(([key, value]) => {
-                    const scoreOutOfTen = Math.round((value / 100) * 10);
-                    return (
-                      <li key={key} style={{ marginBottom: "15px" }}>
-                        <div className="scorehead">
-                          <p className="metric-name">{key.replace(/_/g, " ")}</p>
-                          <span className="score-label">{scoreOutOfTen}/10</span>
-                        </div>
+                      const scoreOutOfTen = value; // Already on a 0–10 scale
+                      return (
+                        <li key={key} style={{ marginBottom: "15px" }}>
+                          <div className="scorehead">
+                            <p className="metric-name">{key.replace(/_/g, " ")}</p>
+                            <span className="score-label">{scoreOutOfTen}/10</span>
+                          </div>
 
-                        <div className="metric-bar">
-                          <div className="metric-fill" style={{ width: `${scoreOutOfTen * 10}%` }}></div>
-                        </div>
-                      </li>
-                    );
-                  })}
+                          <div className="metric-bar">
+                            <div
+                              className="metric-fill"
+                              style={{ width: `${(scoreOutOfTen / 10) * 100}%` }}
+                            ></div>
+                          </div>
+                        </li>
+                      );
+                    })}
                 </ul>
               </div>
             </div>

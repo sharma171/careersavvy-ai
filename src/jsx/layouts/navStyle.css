@@ -24,15 +24,6 @@
 .deznav.side-open .deznav-scroll .metismenu .menu-title.mm-active a i {
     filter: brightness(0.1);
 }
-#main-wrapper .content-body.jobPostingBg {
-    background: #f8fafc;
-}
-.header {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-}
-.header .header-content.jobPostingBg {
-    background: #f8fafc;
-}
 .footer-Links .active p {
     color: #ffffff !important;
     font-weight: bold;
@@ -105,6 +96,19 @@
     transform: rotate(45deg);
     padding: 10px;
 }
+.footerContact {
+    label.text-label {
+        color: #020817;
+    }
+    input.form-control {
+        color: #020817;
+
+    }
+    textarea.form-control {
+        color: #020817;
+
+    }
+}
  .pro-header img.icon {
     background: linear-gradient(136.42deg, #9140ae 1.13%, #421b9e 97.31%) !important;
     border-radius: 100px;
@@ -149,7 +153,7 @@
     line-height: 1.4em;
     margin-top: 9px;
     font-weight: 600;
-    text-transform: capitalize;
+    text-transform: math-auto;
 }
 .pro-bg .pro-products .card .card-body {
     padding: 16px 15px;
@@ -292,7 +296,7 @@
 
 .join-now-filled .rArrIcon {
     width: 15px;
-    height: auto;
+    height: 15px;
     margin-top: 4px;
     transition: transform 0.3s ease-in-out;
 }
@@ -407,28 +411,6 @@
     transition: all 0.3s !important;
 }
 .footer.LayoutFooter.sticky {
-    /* position: relative; */
-    .CloseBtn {
-        background: #f5f5f5;
-        border-radius: 1000px;
-        width: 40px;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        height: 40px;
-        border: none;
-        font-size: 18px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.017);
-        transform: rotate(45deg);
-        color: #020817;
-        transition: all 0.5s;
-        &:hover{
-            background: blue;
-            color: #fff;
-        }
-    }
-}
-.footer.LayoutFooter.sticky {
     z-index: 999999;
     max-height: 100vh;
     box-sizing: border-box;
@@ -439,7 +421,8 @@
     position: absolute;
     top: -6px;
     border-radius: 10px;
-    left: calc(50% - 75px);
+    left: 50%;
+    transform: translate(-50%, 0);
     width: 150px;
     height: 10px;
     background-color: rgb(64 24 157);
@@ -447,47 +430,20 @@
 }
 .footer.sticky:hover {
     position: fixed;
-    top:unset;
-    bottom: 0;
-    width: 100%;
-    transition: all 0.3s !important;
-}
-.footer.sticky.active {
-    position: fixed;
     top: unset;
     bottom: 0;
+    padding: 0;
     width: 100%;
-    height: 100vh;
     transition: all 0.3s !important;
-}
-.footer.sticky .row .col p .text-light {
-    color: #535353 !important;
 }
 .footer.sticky .row .col p{
     margin-bottom: 5px;
     font-size: 14px;
-    color: #020817 !important;
-}
-.footer .height-adjust .card.customCard {
-    background: transparent;
-    box-shadow: none;
-    padding-left: 0;
-    padding-right: 0;
-    .card-body {
-        padding-left: 0;
-        padding-right: 0;
-        h4 {
-                    font-size: 1.5rem;
-        }
-        h5 {
-            font-size: 1rem;
-        }
-    }
+    color: #505050;
 }
 .footer .height-adjust {
-    height: calc(100vh);
+    height: calc(100vh - 80px);
     overflow: scroll;
-    scrollbar-width: none;
     padding-left: 1rem;
 }
 .payment-redirection-gif{

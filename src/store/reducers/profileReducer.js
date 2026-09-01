@@ -7,38 +7,9 @@ const initialState = {
   techSkills: [],
   productCode: "",
   fileResume: "",
-  jobId: "",
   activities: [],
   jobsApplied: [],
   jobsList: [],
-  overviewPost:{
-        "employer_name": "",
-        "employer_website": "",
-        "employer_company_type": "",
-        "employer_linkedin": "",
-        "job_publisher": "",
-        "job_employment_type": "",
-        "job_title": "",
-        "job_apply_link": "",
-        "job_apply_quality_score": "",
-        "job_city": "",
-        "job_state": "",
-        "job_country": "",
-        "job_highlights": {
-            "Qualifications": [""],
-            "Responsibilities": [""],
-            "Benefits": [""]
-        },
-        "job_is_remote": null,
-        "job_description": {
-            "overview": "",
-            "requirements": "",
-            "compensation": "",
-            "additional_info": ""
-        },
-        "job_posted_by": "",
-        "job_status": ""
-  },
   questionAnswer: JSON.parse(localStorage.getItem("questionAnswer")) || "",
   docId: localStorage.getItem("docId") || "",
   answers: JSON.parse(localStorage.getItem("answers")) || [],
@@ -48,13 +19,15 @@ const initialState = {
   membershipData: [],
   isDarkMode: false,
   detailedJob: '',
-  detailedJobData:[],
+  controlFeatures:false,
+  signUpActive: false,
+  scenarioBased: false,
+  interviewLevel :"",
   industryInterview :"",
   linkInterviewQuestions:"",
-  userInterviewList:[],
-  orgName:[],
-  createJobStatus:"",
-  sidebarPopupType:"",
+  homeLink:"",
+  jobResumeUpload:"false",
+  profileUpdateStatus:false,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -88,16 +61,6 @@ const profileReducer = (state = initialState, action) => {
       return {
         ...state,
         productCode: action.payload
-      };
-      case 'SET_JOB_ID':
-      return {
-        ...state,
-        jobId: action.payload
-      };
-      case 'SETDETAILEDJOBDATA':
-      return {
-        ...state,
-        detailedJobData: action.payload
       };
     case 'SET_FILE_RESUME':
       return {
@@ -164,12 +127,27 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         detailedJob: action.payload
       };
-    case 'SET_OVERVIEW_POST':
+    case 'CONTROL_FEATURES':
       return {
         ...state,
-        overviewPost: action.payload
+        controlFeatures: action.payload
       };
-      case 'SET_INDUSTRY_INTERVIEW':
+    case 'SIGNUP_ACTIVE':
+      return {
+        ...state,
+        signUpActive: action.payload
+      };
+    case 'SET_SCENARIO_QUESTIONS':
+      return {
+        ...state,
+        scenarioBased: action.payload
+      };
+    case 'SET_INTERVIEW_LEVEL':
+      return {
+        ...state,
+        interviewLevel: action.payload
+      };
+    case 'SET_INDUSTRY_INTERVIEW':
       return {
         ...state,
         industryInterview: action.payload
@@ -179,25 +157,20 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         linkInterviewQuestions: action.payload
       };
-    case 'SET_USER_INTERVIEW_LIST':
+    case 'SET_HOME_LINK':
       return {
         ...state,
-        userInterviewList: action.payload
+        homeLink: action.payload
       };
-    case 'SET_ORGANISATION_NAME':
+    case 'SET_JOB_RESUME_UPLOAD':
       return {
         ...state,
-        orgName: action.payload
+        jobResumeUpload: action.payload
       };
-    case 'SET_CREATE_JOB_STATUS':
+    case 'SET_PROFILE_UPDATE_STATUS':
       return {
         ...state,
-        createJobStatus: action.payload
-      };
-    case 'SET_SIDEBAR_POPUP_TYPE':
-      return {
-        ...state,
-        sidebarPopupType: action.payload
+        profileUpdateStatus: action.payload
       };
     default:
       return state;

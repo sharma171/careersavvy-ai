@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Modal } from 'react-bootstrap'; // Assuming you're using react-bootstrap
 import { Link } from "react-router-dom";
 import GptIcon from "../SearchJobs/aiIcon.gif";
-import "./banner.css?ver0.5";
+import "./banner.css";
 import Feedback from "./feedbackInterviewList";
 
 import LoaderIcon from "../../Dashboard/Home/loading-gif.gif";
@@ -1025,7 +1025,7 @@ const DashboardDark = () => {
                      <div className="close" onClick={() => setUpgradeReminder(false)}>+</div>
                   </div>
                   <div className="upgrade-description">
-                     {featuresToBlock.includes("block_preptests_free") ? "Upgrade to Pro to access these features and reach your career goals faster with the help of CareerSavvy." : "You have used the allowable tests for this month. New tests will reset at the beginning of the next subscription cycle."}
+                     {featuresToBlock.includes("block_preptests_free") ? "Upgrade to Pro to access these features and reach your career goals faster with the help of Career Savvy." : "You have used the allowable tests for this month. New tests will reset at the beginning of the next subscription cycle."}
 
                   </div>
                   {featuresToBlock.includes("block_preptests_free") ? (

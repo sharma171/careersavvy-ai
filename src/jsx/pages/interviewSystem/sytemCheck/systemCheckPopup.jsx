@@ -5,7 +5,7 @@ import Webcam from "react-webcam";
 import "./SystemCheckPopup.css";
 import { setDocId, setLinkInterviewQuestions } from "../../../../store/actions/actions";
 
-const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterviewReady, setTextInterviewReady, interviewType, interviewDetails, token }) => {
+const SystemCheckPopup = ({ visible, startInterview, setShowPopup, interviewType, interviewDetails, token }) => {
   const [progress, setProgress] = useState(0);
   const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
 
   useEffect(()=>{
     if(visible){
-      if(location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam"){
+      if(location.pathname === "/videoInterview"){
         TriggerAudVideo();
         stopMicTest();
         stopCameraTest();
@@ -64,7 +64,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
   useEffect(() => {
     if (!visible) return;
     const interval = setInterval(() => {
-      setProgress((prev) => (prev < 100 ? prev + 5 : 100));
+      setProgress((prev) => (prev < 100 ? prev + 1 : 100));
     }, 139);
     return () => clearInterval(interval);
   }, [visible]);
@@ -191,7 +191,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
       <div className="system-check-popup">
         <h2 className="system-check-heading">System Check</h2>
         <p className="system-check-text">
-          We're checking your {location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam" && (<>camera and</>)} microphone to ensure everything is ready for your interview.
+          We're checking your {location.pathname === "/videoInterview" && (<>camera and</>)} microphone to ensure everything is ready for your interview.
         </p>
 
         <div className="system-check-progress-container">
@@ -203,7 +203,7 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
 
         {progress === 100 && (
           <>
-            {location.pathname === "/videoInterview"||location.pathname === "/interview-Video-exam" && (
+            {location.pathname === "/videoInterview" && (
               <div className="system-check-mic-container">
                 <div className="system-check-mic-row">
                   <span>
@@ -276,51 +276,12 @@ const SystemCheckPopup = ({ visible, startInterview, setShowPopup, textInterview
             </div>
             <div className="system-check-row-flex">
 
-            
-            {location.pathname=='/interview'?(
-              <>
-              {textInterviewReady?(
-                <>
-                <button className="system-check-continue-button" onClick={handleCancel}>
-                  Cancel
-                </button>
-                <button className="system-check-continue-button" onClick={handleContinue}>
-                  Continue
-                </button>
-                </>
-                ):(
-                <>
-                <button className="system-check-continue-button" >
-                  Preparing Interview
-                </button>
-                </>
-              )}
-              
-              </>
-              ):(
-              <>
-              {textInterviewReady?(
-                <>
-                <button className="system-check-continue-button" onClick={handleCancel}>
-                  Cancel
-                </button>
-                <button className="system-check-continue-button" onClick={handleContinue}>
-                  Continue
-                </button>
-                </>
-                ):(
-                <>
-                <button className="system-check-continue-button" >
-                  Preparing Interview
-                </button>
-                </>
-              )}
-              
-              </>
-            )}
-            {/* <button className="system-check-continue-button" onClick={handleContinue}>
+            <button className="system-check-continue-button" onClick={handleCancel}>
+              Cancel
+            </button>
+            <button className="system-check-continue-button" onClick={handleContinue}>
               Continue
-            </button> */}
+            </button>
             </div>
           </>
         )}

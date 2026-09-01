@@ -1,0 +1,225 @@
+.filtersContainer{
+    margin-top:0;
+    position: relative;
+}
+.filtersContainer .filterButton {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #443E9A;
+}
+.filtersContainer .filterButton img {
+    width: 18px;
+    height: 18px;
+    filter: contrast(1.3) brightness(1.2) saturate(1);
+}
+.filtersContainer .inputFilters .form-check-input[disabled] ~ .form-check-label, .form-check-input:disabled ~ .form-check-label {
+    opacity: 0.5;
+}
+.filtersContainer .inputFilters .form-check-input {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+    margin-right:8px;
+    border-color: #544c9a;
+}
+.filtersContainer .inputFilters {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    min-width: 380px;
+    max-width: 520px;
+    /* max-width: 380px; */
+    justify-content: space-between;
+}
+@media (min-width:1200px) and (max-width:1580px) {
+    .filtersContainer .inputFilters {
+        display: flex;
+        flex-direction: row;
+        width: 60%;
+        min-width: 370px;
+        max-width: 380px;
+        justify-content: space-between;
+    }
+}
+.filtersContainer .inputFilters label {
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.5px;
+    color: #443E9A;
+}
+.filtersContainer .jobPagination .currentPage {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 32px;
+    letter-spacing: 0.5px;
+    background: none;
+    color: #443E9A;
+}
+.filtersContainer .jobPagination li:hover {
+    background: #443e9a11;
+    box-shadow: 1px 1px 20px #00000015;
+}
+.filtersContainer .jobPagination li {
+    background: #fff;
+    transition: all 0.5s;
+    border-radius: 100px;
+}
+.filtersContainer .jobPagination {
+    display: flex;
+    flex-direction: row;
+    transition: all 0.5s;
+    justify-content: space-between;
+    width: 20%;
+}
+.filtersContainer .JobCount .JobCountIcon {
+    width: 18px;
+    height: 20px;
+}
+.filtersContainer .JobCount {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.5px;
+    color: #443E9A;
+}
+
+.filtersContainer .widthDivider {
+border: 1px solid rgba(68, 62, 154, 0.38);
+width: 1px;
+height: 16px;
+}
+.topFilters {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.topFilters .searchFilter {
+    width: calc(100% - 130px);
+    position: relative;
+}
+.topFilters .searchFilter .searchIcon {
+    position: absolute;
+    left: calc(100% - 25px);
+    top: 50%;
+    display: none;
+    width: 30px;
+    transform: translate(0%, -50%);
+}
+.topFilters .searchFilter .search-Input::placeholder {
+    color: #443E9A;
+}
+.topFilters .searchFilter .search-Input {
+    width: 100%;
+    padding: 0px 30px 5px 1px;
+    border: none;
+    border-bottom: 1px solid #544C9A;
+    background: transparent;
+    color: #443E9A;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0;
+}
+.topFilters .sortFilters {
+    width: 130px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.topFilters .sortFilters label {
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.5px;
+    color: #443E9A;
+}
+.topFilters .sortFilters .form-check-input {
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+    margin-top: 2px;
+    margin-right: 8px;
+    border-color: #544c9a;
+}
+.topFilters .widthDivider {
+    border: 1px solid rgba(68, 62, 154, 0.38);
+    width: 1px;
+    height: 16px;
+}
+.filtersContainer .dataFilter {
+    position: absolute;
+    z-index: 10;
+    gap: 16px;
+    animation: flowUp 0.5s ;
+    padding: 16px;
+    top: calc(100% + 10px);
+    width: 100%;
+    box-shadow: 1px 4px 10px #00000024;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background: #ffffff;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.filtersContainer .dataFilter .filter {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: #544c9a;
+    font-size: 14px;
+    font-weight: 600;
+    width: calc(33% - 10px);
+}
+
+.filtersContainer .dataFilter .filter .dataDrop {
+    width: 100%;
+    padding: 0px 30px 5px 1px;
+    border: none;
+    border-bottom: 1px solid #544C9A;
+    background: transparent;
+    color: #443E9A;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0;
+}
+.filtersContainer .dataFilter .continue svg {
+    width: 24px;
+}
+.filtersContainer .dataFilter .continue {
+    background: linear-gradient(45deg, #441c981f, #7632a621);
+    padding: 6px 16px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    gap: 8px;
+    color: #2d0094;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px auto;
+}
+@keyframes flowUp {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

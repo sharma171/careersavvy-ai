@@ -1,0 +1,221 @@
+/* Container */
+.resume-container {
+  display: flex;
+  flex-direction: column;
+}
+.resume-container .customResumeButton .icon {
+  width: 25px;
+  height: 25px;
+  filter: brightness(11.5);
+}
+.resume-container .customResumeButton {
+  background: linear-gradient(45deg, #0215ab, #0079dd);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 19px;
+  border: none;
+  font-weight: 600;
+  margin-top: -8px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 10px;
+}
+.resume-container .topHead {
+    flex-wrap: wrap;
+}
+  
+  /* Header */
+  .resume-header {
+    background: linear-gradient(90deg, #3d1c97, #4e25c1);
+    color: white;
+    text-align: center;
+    padding: 20px 44px;
+    border-radius: 12px;
+    /* margin-bottom: 20px; */
+    min-width: 42%;
+    gap: 8px;
+    width: 100%;
+    max-width: 42%;
+    margin-right: 25px;
+    display: flex
+;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .resume-header .icon {
+    width: 65px;
+    height: 65px;
+    margin-bottom: 4px;
+  }
+  .resume-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0;
+  }
+  
+  .resume-header p {
+    font-size: 16px;
+    opacity: 0.8;
+    margin-bottom: 0;
+  }
+  
+
+    .match-card {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0px 7px rgb(0 0 0 / 20%);
+        text-align: center;
+        max-width: calc(100% - 42% - 26px);    
+    }
+  
+  .match-card h3 {
+    color: #3d1c97;
+    font-size: 18px;
+  }
+  
+  .chart-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .match-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .match-high {
+    color: green;
+  }
+  
+  .match-low {
+    color: red;
+  }
+  
+  .match-reason {
+    font-size: 14px;
+    color: #282828;
+    margin-top: 5px;
+  }
+  
+  /* Resume Cards */
+  .resume-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .resume-card h3 {
+    color: #3d1c97;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .resume-card p {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .resume-card ul {
+    list-style: disc;
+    margin-left: 20px;
+    color: #555;
+  }
+  
+  .resume-card li {
+    margin-bottom: 5px;
+  }
+  
+  /* Experience Enhancements */
+  .exp-item {
+    margin-top: 10px;
+    padding: 10px;
+    border-left: 4px solid #3d1c97;
+    background: #f9f9ff;
+    border-radius: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 450px) {
+    .customResumeComp .animation-box {
+      max-width: 300px;
+    }
+    .customResumeComp .animation-box .resume-upload-animation .local-animation {
+      padding: 18px;
+    }
+    .customResumeComp .animation-box .resume-upload-animation .local-animation .local-img {
+      width: 40px;
+  }
+  .customResumeComp .animation-box .resume-upload-animation .ai-animation .ai-img {
+    width: 30px;
+    height: 30px;
+  }
+  .customResumeComp .animation-box .resume-upload-animation .ai-animation::after, .t-jobsContent .customResumeComp .animation-box .resume-upload-animation .ai-animation::after {
+    height: 40px;
+    width: 40px;
+  }
+  }
+  @media (max-width: 768px) {
+    .resume-container {
+      padding: 10px;
+    }
+    .resume-container .topHead {
+      flex-direction: column !important;
+    }
+    .resume-header {
+      margin-bottom: 20px;
+      min-width: 100%;
+    }
+    .match-card {
+      max-width: 100%;
+      min-width: 100%;
+    }
+    .match-card h3 {
+      color: #3d1c97;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+    .customResumeComp .animation-box .resume-upload-animation .ai-server .server-img {
+      width: 40px;
+    }
+    .customResumeComp .animation-box .resume-upload-animation .ai-server {
+      padding: 18px;
+    }
+    .customResumeComp .animation-box .resume-upload-animation {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      gap: 28px;
+  }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animated-item {
+    opacity: 0; /* Initially hidden */
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  

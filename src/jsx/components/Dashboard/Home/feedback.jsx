@@ -64,8 +64,9 @@ export default function Feedback({userEmail, feedbackPopup, setFeedbackPopup}) {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
-            <label htmlFor="feedbackInput" className="fs-20 form-label">we value your feedback</label>
+            <label htmlFor="feedbackInput" className="fs-20 form-label">We value your Feedback</label>
             <textarea
+            style={{color:"#020817"}}
               id="feedbackInput"
               className="form-control"
               value={feedback}
